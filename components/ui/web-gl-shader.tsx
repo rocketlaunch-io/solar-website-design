@@ -57,26 +57,23 @@ export function WebGLShader() {
         // Mix Spark Orange (#ff8f00) and Spark Yellow (#ffb300) along the screen horizontal coordinates
         float gradientT = clamp((p.x + 1.2) / 2.4, 0.0, 1.0);
         
-        // Color 1 goes from Orange to Yellow
-        vec3 color1 = mix(vec3(1.0, 0.56, 0.0), vec3(1.0, 0.78, 0.0), gradientT);
-        // Color 2 goes from Yellow to Orange
-        vec3 color2 = mix(vec3(1.0, 0.78, 0.0), vec3(1.0, 0.56, 0.0), gradientT);
+        // Optimize vector maths: since Red is always 1.0 and Blue is always 0.0,
+        // we can mix the Green channel as a scalar and build the vectors directly.
+        float g1 = mix(0.56, 0.78, gradientT);
+        float g2 = 1.34 - g1; // 0.56 + 0.78 = 1.34 (identical to mix(0.78, 0.56, gradientT))
 
-        vec3 orangeSide = color1 * intensity1;
-        vec3 yellowSide = color2 * intensity2;
-
-        vec3 finalColor = orangeSide + yellowSide;
+        float r = intensity1 + intensity2;
+        float g = g1 * intensity1 + g2 * intensity2;
         
-        // Calculate transparent alpha based on line brightness
-        float alpha = clamp(max(finalColor.r, max(finalColor.g, finalColor.b)), 0.0, 1.0);
-        gl_FragColor = vec4(finalColor, alpha);
+        gl_FragColor = vec4(r, g, 0.0, clamp(r, 0.0, 1.0));
       }
     `
 
     const initScene = () => {
       refs.scene = new THREE.Scene()
       refs.renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true })
-      refs.renderer.setPixelRatio(window.devicePixelRatio)
+      // Optimize: limit device pixel ratio to 1.5 to reduce fragment shader invocations on high-DPI/Retina screens
+      refs.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
 
       refs.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1)
 
@@ -115,7 +112,9 @@ export function WebGLShader() {
       handleResize()
     }
 
+    let isVisible = true
     const animate = () => {
+      if (!isVisible) return
       if (refs.uniforms) refs.uniforms.time.value += 0.01
       if (refs.renderer && refs.scene && refs.camera) {
         refs.renderer.render(refs.scene, refs.camera)
@@ -143,9 +142,25 @@ export function WebGLShader() {
       resizeObserver.observe(canvas.parentElement)
     }
 
+    // Optimize: throttle render loop when component is scrolled out of view
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        const nextVisible = entry.isIntersecting
+        if (nextVisible && !isVisible) {
+          isVisible = true
+          animate()
+        } else {
+          isVisible = nextVisible
+        }
+      },
+      { threshold: 0.01 }
+    )
+    visibilityObserver.observe(canvas)
+
     return () => {
       if (refs.animationId) cancelAnimationFrame(refs.animationId)
       resizeObserver.disconnect()
+      visibilityObserver.disconnect()
       if (refs.mesh) {
         refs.scene?.remove(refs.mesh)
         refs.mesh.geometry.dispose()
