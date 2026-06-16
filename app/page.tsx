@@ -46,19 +46,17 @@ export default function Home() {
           <WebGLShader />
           <div className="max-w-[1400px] mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div className="flex flex-col gap-6">
-              <div className="inline-flex items-center gap-2 bg-energy-emerald/10 border border-energy-emerald/30 rounded-full px-4 py-1.5 w-fit">
-                <span className="material-symbols-outlined text-energy-emerald text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                <span className="text-sm font-semibold text-energy-emerald tracking-wide">2025 INCENTIVES ACTIVE</span>
+              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-4 py-1.5 w-fit shadow-sm">
+                <span className="material-symbols-outlined text-accent text-sm animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-accent">AI Solar Savings Calculator</span>
               </div>
 
-              <h1 className="font-heading text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-foreground leading-[1.05] tracking-tight text-balance">
-                The Presence of a{" "}
-                <span className="text-secondary">$100M Brand.</span>
-                {" "}The Power of a Growth Engine.
+              <h1 className="font-heading text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-foreground leading-[1.1] tracking-tight text-balance">
+                Stunning Solar Websites. <span className="text-secondary">Automated Growth.</span>
               </h1>
 
               <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Stop building websites. Start automating growth. Spark Website is a high-performance platform built on React and Edge Cloud infrastructure to help you outperform the competition.
+                Spark builds ultra-fast, high-converting websites for solar installers. Capture qualified leads automatically and sync them directly with your CRM.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
