@@ -1003,7 +1003,7 @@ export function SolarSavingsCalculator({
       <div className={`flex-grow flex items-center justify-center p-6 md:p-10 relative bg-white ${step === 4 ? 'overflow-y-auto' : ''}`}>
         
         {/* Wizard Form Wrapper Card */}
-        <div className={`w-full flex flex-col gap-6 text-[#112240] ${step === 4 ? 'max-w-5xl' : 'max-w-xl'}`}>
+        <div className={`w-full flex flex-col gap-6 text-[#112240] ${step === 4 ? 'max-w-5xl' : 'max-w-2xl'}`}>
           
           {/* Loading Overlay */}
           {loading && (

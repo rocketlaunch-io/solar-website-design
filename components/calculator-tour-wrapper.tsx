@@ -143,7 +143,7 @@ export function CalculatorTourWrapper() {
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto w-full">
+    <div className="relative max-w-5xl mx-auto w-full">
       
       {/* Main Calculator Component */}
       <SolarSavingsCalculator
