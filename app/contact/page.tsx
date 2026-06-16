@@ -75,7 +75,7 @@ export default function Contact() {
                         Email Us
                       </h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        hello@sparkwebsite.com
+                        hello@solarwebsitedesign.com
                       </p>
                     </div>
                   </div>

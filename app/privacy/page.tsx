@@ -52,7 +52,7 @@ export default function Privacy() {
               </h2>
               <p className="mt-4">
                 If you have any questions about this Privacy Policy, please contact us at 
-                privacy@sparkwebsite.com.
+                privacy@solarwebsitedesign.com.
               </p>
             </section>
           </div>

@@ -63,7 +63,7 @@ export default function Terms() {
               </h2>
               <p className="mt-4">
                 If you have any questions about these Terms of Service, please contact us at 
-                legal@sparkwebsite.com.
+                legal@solarwebsitedesign.com.
               </p>
             </section>
           </div>
