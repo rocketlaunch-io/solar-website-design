@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Inter, Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { LeadCaptureWrapper } from '@/components/lead-capture-wrapper'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -64,7 +65,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased selection:bg-secondary selection:text-primary">
-        {children}
+        <LeadCaptureWrapper>
+          {children}
+        </LeadCaptureWrapper>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
