@@ -247,14 +247,37 @@ export default function Pricing() {
                     {plan.featureHeading}
                   </p>
                   <ul className="mt-4 space-y-3">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3 text-sm text-foreground">
-                        <span className="material-symbols-outlined mt-0.5 text-base text-energy-emerald">
-                          check_circle
-                        </span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
+                    {plan.features.map((f) => {
+                      const match = f.match(/^(.*?)\s*\((.*?)\)$/)
+                      if (match) {
+                        const name = match[1]
+                        const desc = match[2]
+                        return (
+                          <li key={f} className="flex items-start gap-3 text-sm text-foreground">
+                            <span className="material-symbols-outlined mt-0.5 text-base text-energy-emerald">
+                              check_circle
+                            </span>
+                            <span className="inline-flex items-center gap-1.5">
+                              <span>{name}</span>
+                              <div className="relative group/tooltip inline-flex cursor-help">
+                                <span className="material-symbols-outlined text-[14px] text-muted-foreground/60 hover:text-foreground transition-colors">info</span>
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-xs rounded-xl py-2 px-3.5 shadow-xl border border-border w-52 z-50 text-center font-normal leading-normal">
+                                  <span className="text-foreground leading-normal">{desc}</span>
+                                </div>
+                              </div>
+                            </span>
+                          </li>
+                        )
+                      }
+                      return (
+                        <li key={f} className="flex items-start gap-3 text-sm text-foreground">
+                          <span className="material-symbols-outlined mt-0.5 text-base text-energy-emerald">
+                            check_circle
+                          </span>
+                          <span>{f}</span>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </div>
 
@@ -342,12 +365,33 @@ export default function Pricing() {
                   {enterprisePlan.featureHeading}
                 </p>
                 <ul className="mt-3 space-y-2">
-                  {enterprisePlan.features.slice(0, 3).map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-xs text-foreground">
-                      <span className="material-symbols-outlined text-sm text-energy-emerald">check_circle</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
+                  {enterprisePlan.features.slice(0, 3).map((f) => {
+                    const match = f.match(/^(.*?)\s*\((.*?)\)$/)
+                    if (match) {
+                      const name = match[1]
+                      const desc = match[2]
+                      return (
+                        <li key={f} className="flex items-start gap-2.5 text-xs text-foreground">
+                          <span className="material-symbols-outlined text-sm text-energy-emerald">check_circle</span>
+                          <span className="inline-flex items-center gap-1.5">
+                            <span>{name}</span>
+                            <div className="relative group/tooltip inline-flex cursor-help">
+                              <span className="material-symbols-outlined text-[13px] text-muted-foreground/60 hover:text-foreground transition-colors">info</span>
+                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-xs rounded-xl py-2 px-3 shadow-xl border border-border w-52 z-50 text-center font-normal leading-normal">
+                                <span className="text-foreground leading-normal">{desc}</span>
+                              </div>
+                            </div>
+                          </span>
+                        </li>
+                      )
+                    }
+                    return (
+                      <li key={f} className="flex items-start gap-2.5 text-xs text-foreground">
+                        <span className="material-symbols-outlined text-sm text-energy-emerald">check_circle</span>
+                        <span>{f}</span>
+                      </li>
+                    )
+                  })}
                   <li className="text-xs text-muted-foreground italic pl-6">And more custom developer integrations...</li>
                 </ul>
               </div>
