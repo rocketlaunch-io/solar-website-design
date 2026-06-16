@@ -5,6 +5,7 @@ interface SparkLogoProps {
   iconClassName?: string
   textClassName?: string
   monochrome?: boolean
+  hoverColorize?: boolean
 }
 
 export function SparkLogo({
@@ -12,14 +13,19 @@ export function SparkLogo({
   iconClassName,
   textClassName,
   monochrome = false,
+  hoverColorize = false,
 }: SparkLogoProps) {
   return (
     <div className={cn('flex items-center gap-2 group', className)}>
       <svg
         viewBox="0 0 192 170"
         className={cn(
-          'w-6 h-6 object-contain transition-transform duration-300 group-hover:scale-110 fill-current',
-          monochrome ? 'text-current' : 'text-secondary',
+          'w-6 h-6 object-contain transition-all duration-300 group-hover:scale-110 fill-current',
+          monochrome 
+            ? hoverColorize 
+              ? 'text-current group-hover:text-secondary' 
+              : 'text-current' 
+            : 'text-secondary',
           iconClassName
         )}
         aria-hidden="true"

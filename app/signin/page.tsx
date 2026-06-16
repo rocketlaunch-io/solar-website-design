@@ -46,7 +46,7 @@ export default function SignInPage() {
         {/* Top Logo */}
         <div className="relative z-20">
           <Link href="/" className="inline-block">
-            <SparkLogo />
+            <SparkLogo monochrome hoverColorize textClassName="text-white" />
           </Link>
         </div>
 
