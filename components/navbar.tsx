@@ -1,91 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { SparkLogo } from './spark-logo'
-
-function HoverDropdown({
-  label,
-  href,
-  align = 'center',
-  panelClassName,
-  children,
-}: {
-  label: string
-  href?: string
-  align?: 'center' | 'left'
-  panelClassName: string
-  children: React.ReactNode
-}) {
-  const [open, setOpen] = useState(false)
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const handleEnter = useCallback(() => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current)
-      closeTimer.current = null
-    }
-    setOpen(true)
-  }, [])
-
-  const handleLeave = useCallback(() => {
-    closeTimer.current = setTimeout(() => setOpen(false), 180)
-  }, [])
-
-  const triggerClass =
-    'text-foreground/80 font-medium hover:text-foreground transition-colors duration-300 flex items-center gap-1'
-
-  return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-      {href ? (
-        <Link href={href} onFocus={handleEnter} className={triggerClass}>
-          {label}
-          <span
-            className={`material-symbols-outlined text-sm transition-transform duration-200 ${
-              open ? 'rotate-180' : ''
-            }`}
-          >
-            expand_more
-          </span>
-        </Link>
-      ) : (
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-haspopup="true"
-          onFocus={handleEnter}
-          className={triggerClass}
-        >
-          {label}
-          <span
-            className={`material-symbols-outlined text-sm transition-transform duration-200 ${
-              open ? 'rotate-180' : ''
-            }`}
-          >
-            expand_more
-          </span>
-        </button>
-      )}
-
-      {/* Wrapper uses top-full + pt to keep the hover bridge gap-free */}
-      <div
-        className={`absolute top-full ${
-          align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0'
-        } pt-2 z-50 transition-all duration-150 ${
-          open
-            ? 'opacity-100 translate-y-0 visible'
-            : 'opacity-0 -translate-y-1 invisible pointer-events-none'
-        }`}
-      >
-        <div
-          className={`bg-surface-container-lowest border border-outline-variant/40 rounded-xl shadow-xl p-2 ${panelClassName}`}
-        >
-          {children}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export const platformFeatures = [
   { name: 'Spark AI', href: '/platform/spark-ai', icon: 'psychology', desc: 'Core intelligence layer' },
@@ -130,12 +47,72 @@ const resources = [
   { name: 'Solutions Overview', href: '/solutions', desc: 'All solar solutions' },
 ]
 
+interface MenuLink {
+  name: string
+  href: string
+  icon?: string
+  desc?: string
+}
+
+interface MegaMenu {
+  label: string
+  links: MenuLink[]
+  featured: {
+    title: string
+    desc: string
+    href: string
+    image?: string
+  }
+}
+
+const MENU_DATA: Record<string, MegaMenu> = {
+  'Platform': {
+    label: 'Platform',
+    links: platformFeatures,
+    featured: {
+      title: 'Spark AI Platform',
+      desc: 'The next-generation intelligence layer powering your automated solar growth engine.',
+      href: '/platform/spark-ai',
+      image: '/images/solar-hero.png',
+    }
+  },
+  'Spark Grow': {
+    label: 'Spark Grow',
+    links: growServices,
+    featured: {
+      title: 'Custom Grow Campaigns',
+      desc: 'High-conversion digital advertising and lifecycle nurture campaigns built for solar volume.',
+      href: '/grow/content-design',
+      image: '/images/solar-residential.png',
+    }
+  },
+  'Solutions': {
+    label: 'Solutions',
+    links: solutionTypes.map(s => ({ name: s.name, href: s.href, desc: s.desc })),
+    featured: {
+      title: 'Solar Company Solutions',
+      desc: 'Scale your solar dealership, installer operations, or manufacturer brand.',
+      href: '/solutions/solar-companies',
+      image: '/images/solar-residential.png',
+    }
+  },
+  'Resources': {
+    label: 'Resources',
+    links: resources.map(r => ({ name: r.name, href: r.href, desc: r.desc })),
+    featured: {
+      title: 'Competitor Comparison',
+      desc: 'See why Spark outpaces WordPress, custom builds, and traditional agencies.',
+      href: '/comparison',
+      image: '/images/solar-hero.png',
+    }
+  }
+}
+
 export function Navbar() {
+  const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [platformOpen, setPlatformOpen] = useState(false)
-  const [growOpen, setGrowOpen] = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
-  const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [activeMobileAccordion, setActiveMobileAccordion] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState('(888) 555-0199')
 
   useEffect(() => {
@@ -144,112 +121,75 @@ export function Navbar() {
     setPhoneNumber(`(888) ${exchange}-${line}`)
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <header className="bg-surface/80 backdrop-blur-md fixed top-0 w-full z-50 transition-all duration-300 border-b border-outline-variant/40">
-      <div className="flex justify-between items-center px-4 md:px-12 py-3.5 max-w-[1400px] mx-auto">
+    <header 
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-surface/95 backdrop-blur-md shadow-lg border-b border-outline-variant/30 py-2.5' 
+          : 'bg-surface/80 backdrop-blur-md border-b border-outline-variant/40 py-4'
+      }`}
+      onMouseLeave={() => setActiveMenu(null)}
+    >
+      <div className="flex justify-between items-center px-4 md:px-12 max-w-[1400px] mx-auto relative z-50">
         {/* Logo */}
-        <Link href="/" className="inline-flex">
+        <Link href="/" className="inline-flex focus:outline-none" onClick={() => setMobileMenuOpen(false)}>
           <SparkLogo />
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-7">
-          {/* Platform Dropdown */}
-          <HoverDropdown label="Platform" href="/platform" align="center" panelClassName="w-[560px]">
-            <div className="px-3 py-2 mb-1">
-              <Link
-                href="/platform"
-                className="text-sm font-semibold text-secondary hover:underline flex items-center gap-2"
+          {Object.keys(MENU_DATA).map((item) => (
+            <div
+              key={item}
+              className="py-1"
+              onMouseEnter={() => setActiveMenu(item)}
+            >
+              <button
+                className={`flex items-center gap-1 font-medium text-sm transition-colors focus:outline-none cursor-pointer ${
+                  activeMenu === item ? 'text-secondary' : 'text-foreground/80 hover:text-foreground'
+                }`}
+                aria-expanded={activeMenu === item}
               >
-                <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>hub</span>
-                Platform Overview
-              </Link>
+                {item}
+                <span className={`material-symbols-outlined text-xs transition-transform duration-200 ${
+                  activeMenu === item ? 'rotate-180' : ''
+                }`}>
+                  expand_more
+                </span>
+              </button>
             </div>
-            <div className="grid grid-cols-2 gap-1">
-              {platformFeatures.map((feature) => (
-                <Link
-                  key={feature.name}
-                  href={feature.href}
-                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground/80 hover:bg-surface-container-high transition-colors group"
-                >
-                  <span className="material-symbols-outlined text-lg text-secondary mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>{feature.icon}</span>
-                  <span>
-                    <span className="block font-medium text-foreground group-hover:text-primary">{feature.name}</span>
-                    <span className="block text-xs text-muted-foreground">{feature.desc}</span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </HoverDropdown>
+          ))}
 
-          {/* Spark Grow Dropdown */}
-          <HoverDropdown label="Spark Grow" href="/grow" align="center" panelClassName="w-[560px]">
-            <div className="px-3 py-2 mb-1">
-              <Link
-                href="/grow"
-                className="text-sm font-semibold text-secondary hover:underline flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>diversity_3</span>
-                Spark Grow Overview
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-1">
-              {growServices.map((service) => (
-                <Link
-                  key={service.name}
-                  href={service.href}
-                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground/80 hover:bg-surface-container-high transition-colors group"
-                >
-                  <span className="material-symbols-outlined text-lg text-secondary mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>{service.icon}</span>
-                  <span>
-                    <span className="block font-medium text-foreground group-hover:text-primary">{service.name}</span>
-                    <span className="block text-xs text-muted-foreground">{service.desc}</span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </HoverDropdown>
-
-          {/* Solutions Dropdown */}
-          <HoverDropdown label="Solutions" href="/solutions" align="left" panelClassName="w-64">
-            {solutionTypes.map((type) => (
-              <Link
-                key={type.name}
-                href={type.href}
-                className="block px-3 py-2.5 rounded-lg text-sm text-foreground/80 hover:bg-surface-container-high transition-colors"
-              >
-                <span className="block font-medium text-foreground">{type.name}</span>
-                <span className="block text-xs text-muted-foreground">{type.desc}</span>
-              </Link>
-            ))}
-          </HoverDropdown>
-
-          <Link href="/pricing" className="text-foreground/80 font-medium hover:text-foreground transition-colors duration-300">
+          {/* Pricing Link */}
+          <Link 
+            href="/pricing" 
+            className="text-foreground/80 font-medium text-sm hover:text-foreground transition-colors"
+          >
             Pricing
           </Link>
-
-          {/* Resources Dropdown */}
-          <HoverDropdown label="Resources" href="/resources" align="left" panelClassName="w-64">
-            {resources.map((type) => (
-              <Link
-                key={type.name}
-                href={type.href}
-                className="block px-3 py-2.5 rounded-lg text-sm text-foreground/80 hover:bg-surface-container-high transition-colors"
-              >
-                <span className="block font-medium text-foreground">{type.name}</span>
-                <span className="block text-xs text-muted-foreground">{type.desc}</span>
-              </Link>
-            ))}
-          </HoverDropdown>
         </nav>
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-5">
-          <a href={`tel:${phoneNumber.replace(/\D/g, '')}`} className="flex items-center gap-1.5 text-foreground/80 font-medium hover:text-foreground transition-colors mr-2">
+          <a 
+            href={`tel:${phoneNumber.replace(/\D/g, '')}`} 
+            className="flex items-center gap-1.5 text-foreground/80 font-medium text-sm hover:text-foreground transition-colors mr-2"
+          >
             <span className="material-symbols-outlined text-base">phone</span>
             <span>{phoneNumber}</span>
           </a>
-          <Link href="/signin" className="text-foreground/80 font-medium hover:text-foreground transition-colors">
+          <Link 
+            href="/signin" 
+            className="text-foreground/80 font-medium text-sm hover:text-foreground transition-colors"
+          >
             Sign in
           </Link>
           <Link
@@ -264,7 +204,7 @@ export function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden text-foreground p-2"
+          className="lg:hidden text-foreground p-2 focus:outline-none"
           aria-label="Toggle menu"
         >
           <span className="material-symbols-outlined">
@@ -273,136 +213,142 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mega Menu Dropdowns Panel (Desktop) */}
+      {activeMenu && (
+        <div
+          className="hidden lg:block absolute top-full left-0 w-full bg-surface-container-lowest border-b border-outline-variant/40 shadow-xl z-40 transition-all duration-300"
+          onMouseEnter={() => setActiveMenu(activeMenu)}
+          onMouseLeave={() => setActiveMenu(null)}
+        >
+          <div className="max-w-[1400px] mx-auto px-12 py-8 grid grid-cols-3 gap-8">
+            {/* Columns grid for links */}
+            <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-4">
+              {MENU_DATA[activeMenu].links.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setActiveMenu(null)}
+                  className="group flex flex-col gap-0.5 p-3 rounded-xl hover:bg-surface-container transition-all duration-200 border border-transparent hover:border-outline-variant/30"
+                >
+                  <span className="font-semibold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    {link.icon && (
+                      <span className="material-symbols-outlined text-lg text-secondary group-hover:scale-105 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        {link.icon}
+                      </span>
+                    )}
+                    {link.name}
+                  </span>
+                  {link.desc && (
+                    <span className={`text-xs text-muted-foreground leading-relaxed pl-${link.icon ? '7' : '0'}`}>
+                      {link.desc}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+
+            {/* Featured Section Card */}
+            {MENU_DATA[activeMenu].featured && (
+              <div className="bg-primary text-primary-foreground p-6 rounded-2xl flex flex-col justify-between shadow-md relative overflow-hidden group min-h-[220px]">
+                {MENU_DATA[activeMenu].featured.image && (
+                  <>
+                    <div 
+                      className="absolute inset-0 z-0 bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-500"
+                      style={{ backgroundImage: `url(${MENU_DATA[activeMenu].featured.image})` }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-edge-navy-deep via-primary/80 to-transparent z-0 pointer-events-none" />
+                  </>
+                )}
+                <div className="relative z-10">
+                  <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">
+                    Featured Highlight
+                  </span>
+                  <h4 className="text-base font-bold mt-1.5 line-clamp-2">
+                    {MENU_DATA[activeMenu].featured.title}
+                  </h4>
+                  <p className="text-xs text-primary-foreground/75 mt-1.5 leading-relaxed line-clamp-3">
+                    {MENU_DATA[activeMenu].featured.desc}
+                  </p>
+                </div>
+                <Link
+                  href={MENU_DATA[activeMenu].featured.href}
+                  onClick={() => setActiveMenu(null)}
+                  className="relative z-10 inline-flex items-center gap-1 text-xs font-bold text-secondary hover:text-white mt-4 transition-colors"
+                >
+                  Explore &rarr;
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Drawer Navigation overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-surface-container-lowest border-t border-outline-variant/40 max-h-[80vh] overflow-y-auto">
-          <nav className="flex flex-col px-4 py-4 gap-2">
-            {/* Mobile Platform Submenu */}
-            <div className="py-2">
-              <button
-                onClick={() => setPlatformOpen(!platformOpen)}
-                className="text-foreground font-medium flex items-center gap-1 w-full"
-              >
-                Platform
-                <span className={`material-symbols-outlined text-sm transition-transform ${platformOpen ? 'rotate-180' : ''}`}>expand_more</span>
-              </button>
-              {platformOpen && (
-                <div className="pl-4 mt-2 flex flex-col gap-1 border-l border-outline-variant/40">
-                  <Link
-                    href="/platform"
-                    className="text-sm text-secondary font-medium py-1.5"
-                    onClick={() => setMobileMenuOpen(false)}
+        <div className="lg:hidden absolute top-full left-0 w-full bg-surface border-t border-outline-variant/40 shadow-xl max-h-[85vh] overflow-y-auto">
+          <nav className="flex flex-col px-6 py-6 gap-2">
+            {Object.keys(MENU_DATA).map((category) => {
+              const isAccordionOpen = activeMobileAccordion === category
+              return (
+                <div key={category} className="border-b border-outline-variant/30 pb-2">
+                  <button
+                    onClick={() => setActiveMobileAccordion(isAccordionOpen ? null : category)}
+                    className="w-full flex justify-between items-center text-base font-bold py-3 text-left focus:outline-none"
                   >
-                    Platform Overview
-                  </Link>
-                  {platformFeatures.map((feature) => (
-                    <Link
-                      key={feature.name}
-                      href={feature.href}
-                      className="text-sm text-foreground/70 py-1.5 hover:text-primary transition-colors flex items-center gap-2"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <span className="material-symbols-outlined text-sm text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>{feature.icon}</span>
-                      {feature.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <span>{category}</span>
+                    <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${
+                      isAccordionOpen ? 'rotate-180 text-secondary' : ''
+                    }`}>
+                      expand_more
+                    </span>
+                  </button>
 
-            {/* Mobile Spark Grow Submenu */}
-            <div className="py-2">
-              <button
-                onClick={() => setGrowOpen(!growOpen)}
-                className="text-foreground font-medium flex items-center gap-1 w-full"
-              >
-                Spark Grow
-                <span className={`material-symbols-outlined text-sm transition-transform ${growOpen ? 'rotate-180' : ''}`}>expand_more</span>
-              </button>
-              {growOpen && (
-                <div className="pl-4 mt-2 flex flex-col gap-1 border-l border-outline-variant/40">
-                  <Link
-                    href="/grow"
-                    className="text-sm text-secondary font-medium py-1.5"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Spark Grow Overview
-                  </Link>
-                  {growServices.map((service) => (
-                    <Link
-                      key={service.name}
-                      href={service.href}
-                      className="text-sm text-foreground/70 py-1.5 hover:text-primary transition-colors flex items-center gap-2"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <span className="material-symbols-outlined text-sm text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>{service.icon}</span>
-                      {service.name}
-                    </Link>
-                  ))}
+                  {isAccordionOpen && (
+                    <div className="mt-1 pl-4 flex flex-col gap-2 border-l border-outline-variant/30">
+                      {MENU_DATA[category].links.map((link) => (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2.5 text-sm text-foreground/80 hover:text-secondary transition-colors flex items-center gap-2"
+                        >
+                          {link.icon && (
+                            <span className="material-symbols-outlined text-base text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                              {link.icon}
+                            </span>
+                          )}
+                          <span>{link.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              )
+            })}
 
-            {/* Mobile Solutions Submenu */}
-            <div className="py-2">
-              <button
-                onClick={() => setSolutionsOpen(!solutionsOpen)}
-                className="text-foreground font-medium flex items-center gap-1 w-full"
-              >
-                Solutions
-                <span className={`material-symbols-outlined text-sm transition-transform ${solutionsOpen ? 'rotate-180' : ''}`}>expand_more</span>
-              </button>
-              {solutionsOpen && (
-                <div className="pl-4 mt-2 flex flex-col gap-1 border-l border-outline-variant/40">
-                  {solutionTypes.map((type) => (
-                    <Link
-                      key={type.name}
-                      href={type.href}
-                      className="text-sm text-foreground/70 py-1.5 hover:text-primary transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {type.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <Link href="/pricing" className="text-foreground font-medium py-2 hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+            {/* Pricing direct mobile link */}
+            <Link 
+              href="/pricing" 
+              className="text-base font-bold py-3 border-b border-outline-variant/30 hover:text-secondary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Pricing
             </Link>
 
-            {/* Mobile Resources Submenu */}
-            <div className="py-2">
-              <button
-                onClick={() => setResourcesOpen(!resourcesOpen)}
-                className="text-foreground font-medium flex items-center gap-1 w-full"
+            {/* Mobile Actions */}
+            <div className="flex flex-col gap-2 mt-4 pt-4">
+              <a 
+                href={`tel:${phoneNumber.replace(/\D/g, '')}`} 
+                className="flex items-center gap-1.5 text-foreground/80 font-medium py-2 hover:text-secondary transition-colors"
               >
-                Resources
-                <span className={`material-symbols-outlined text-sm transition-transform ${resourcesOpen ? 'rotate-180' : ''}`}>expand_more</span>
-              </button>
-              {resourcesOpen && (
-                <div className="pl-4 mt-2 flex flex-col gap-1 border-l border-outline-variant/40">
-                  {resources.map((type) => (
-                    <Link
-                      key={type.name}
-                      href={type.href}
-                      className="text-sm text-foreground/70 py-1.5 hover:text-primary transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {type.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-outline-variant/40">
-              <a href={`tel:${phoneNumber.replace(/\D/g, '')}`} className="flex items-center gap-1.5 text-foreground/80 font-medium py-2 hover:text-primary transition-colors">
                 <span className="material-symbols-outlined text-base">phone</span>
                 <span>{phoneNumber}</span>
               </a>
-              <Link href="/signin" className="text-foreground/80 font-medium py-2 hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <Link 
+                href="/signin" 
+                className="text-foreground/80 font-medium py-2 hover:text-secondary transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 Sign in
               </Link>
               <Link
