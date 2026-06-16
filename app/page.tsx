@@ -42,9 +42,9 @@ export default function Home() {
 
       <main className="pt-20">
         {/* Hero */}
-        <section className="relative overflow-hidden px-4 md:px-12 max-w-[1400px] mx-auto py-12 md:py-20 rounded-3xl border border-outline-variant/20 bg-surface-container-low/30 my-4">
+        <section className="relative overflow-hidden py-12 md:py-20 border-b border-outline-variant/20 bg-surface-container-low/30">
           <WebGLShader />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div className="flex flex-col gap-6">
               <div className="inline-flex items-center gap-2 bg-energy-emerald/10 border border-energy-emerald/30 rounded-full px-4 py-1.5 w-fit">
                 <span className="material-symbols-outlined text-energy-emerald text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
