@@ -313,10 +313,10 @@ export default function Pricing() {
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </Link>
               <Link
-                href="/contact"
+                href="/demo"
                 className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-7 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-white/10"
               >
-                Solar Strategy Call
+                Schedule a Demo
               </Link>
             </div>
             <p className="mt-6 text-xs text-primary-foreground/50">

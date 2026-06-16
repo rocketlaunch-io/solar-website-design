@@ -189,7 +189,7 @@ export default function Comparison() {
               Stop maintaining a website. Start running a growth engine.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-white/60">
-              See exactly how Spark would outperform your current site on a free Solar Strategy Call.
+              See exactly how Spark would outperform your current site with a live product walkthrough.
             </p>
             <Link
               href="/contact"

@@ -104,13 +104,13 @@ export default function PlatformPage() {
                   Ready to Transform Your Business?
                 </h2>
                 <p className="text-lg text-white/60 mb-8">
-                  Book a free strategy call and see how these modules work together for your solar company.
+                  Book a free live demo and see how these modules work together for your solar company.
                 </p>
                 <Link
-                  href="/contact"
+                  href="/demo"
                   className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-lg shadow-secondary/30"
                 >
-                  Book Your Solar Strategy Call
+                  Schedule a Demo
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </Link>
               </div>

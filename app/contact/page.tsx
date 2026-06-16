@@ -50,19 +50,16 @@ export default function Contact() {
                     <span className="material-symbols-outlined text-primary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_month</span>
                   </div>
                   <h2 className="font-heading text-2xl font-semibold text-foreground">
-                    Schedule Your Consultation
+                    Schedule Your Demo
                   </h2>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    Book a complimentary 30-minute consultation with our team. We will understand your vision, 
-                    answer your questions, and demonstrate how Spark can power your solar growth.
+                    Book a complimentary 1-on-1 walkthrough with our engineers. We will show you how Spark Website’s high-performance edge platform can multiply your conversion rate.
                   </p>
                   <Link 
-                    href="https://cal.com/rocketlaunch/free-strategy-call"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/demo"
                     className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground py-3.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 group"
                   >
-                    Schedule Consultation
+                    Schedule a Demo
                     <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </Link>
                 </div>

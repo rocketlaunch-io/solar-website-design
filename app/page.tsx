@@ -68,10 +68,10 @@ export default function Home() {
                   <span className="material-symbols-outlined text-lg">bolt</span>
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/demo"
                   className="inline-flex items-center gap-2 bg-surface-container-lowest text-foreground px-7 py-3.5 rounded-lg text-base font-semibold hover:bg-surface-container transition-all duration-300 border border-outline-variant/50"
                 >
-                  Solar Strategy Call
+                  Schedule a Demo
                 </Link>
               </div>
 
@@ -267,10 +267,10 @@ export default function Home() {
                 <span className="material-symbols-outlined text-lg">bolt</span>
               </Link>
               <Link
-                href="/contact"
+                href="/demo"
                 className="inline-flex items-center gap-2 bg-surface-container text-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-surface-container-high transition-all duration-300 border border-outline-variant/50"
               >
-                Solar Strategy Call
+                Schedule a Demo
               </Link>
             </div>
           </div>

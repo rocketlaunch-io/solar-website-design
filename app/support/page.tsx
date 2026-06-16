@@ -34,7 +34,7 @@ export default function Support() {
   const faqs = [
     {
       question: "How long does it take to launch my site?",
-      answer: "Most Spark sites go live within 1 to 2 weeks. Our team handles the React architecture, edge deployment, and lead engine setup so you can focus on selling. For enterprise builds we provide a detailed timeline during your strategy call."
+      answer: "Most Spark sites go live within 1 to 2 weeks. Our team handles the React architecture, edge deployment, and lead engine setup so you can focus on selling. For enterprise builds we provide a detailed timeline during your live demo."
     },
     {
       question: "Can I migrate my existing leads and content?",
