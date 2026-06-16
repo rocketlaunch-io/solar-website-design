@@ -684,7 +684,7 @@ export function FeatureDemo({ slug }: { slug: string }) {
       return <SparkAIDemo />
     case "edge-architecture":
       return <EdgeDemo />
-    case "solar-calculator":
+    case "solar-savings-calculator":
       return <CalculatorDemo />
     case "lead-engine":
       return <LeadEngineDemo />

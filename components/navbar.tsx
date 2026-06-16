@@ -7,7 +7,7 @@ import { SparkLogo } from './spark-logo'
 export const platformFeatures = [
   { name: 'Spark AI', href: '/platform/spark-ai', icon: 'psychology', desc: 'Core intelligence layer' },
   { name: 'Edge Architecture', href: '/platform/edge-architecture', icon: 'bolt', desc: 'React 19 + global edge' },
-  { name: 'Solar Calculator', href: '/platform/solar-calculator', icon: 'calculate', desc: 'Interactive savings widget' },
+  { name: 'Solar Savings Calculator', href: '/platform/solar-savings-calculator', icon: 'calculate', desc: 'Interactive savings widget' },
   { name: 'Lead Gen Engine', href: '/platform/lead-engine', icon: 'dynamic_form', desc: 'Multi-step quote wizard' },
   { name: 'AI-First SEO', href: '/platform/ai-seo', icon: 'travel_explore', desc: 'Win the AI search era' },
   { name: 'Local SEO Engine', href: '/platform/local-seo', icon: 'location_city', desc: 'Programmatic geo pages' },

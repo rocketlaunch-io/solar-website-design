@@ -14,7 +14,7 @@ const footerColumns = [
   {
     heading: 'Features',
     links: [
-      { name: 'Solar Calculator', href: '/platform/solar-calculator' },
+      { name: 'Solar Savings Calculator', href: '/platform/solar-savings-calculator' },
       { name: 'Lead Gen Engine', href: '/platform/lead-engine' },
       { name: 'AI-First SEO', href: '/platform/ai-seo' },
       { name: 'CRM Bridge', href: '/platform/crm-bridge' },

@@ -47,21 +47,22 @@ export const platformFeaturesData: PlatformFeature[] = [
     ],
   },
   {
-    slug: "solar-calculator",
+    slug: "solar-savings-calculator",
     icon: "calculate",
-    title: "Solar Calculator",
-    tagline: "Interactive Widget",
-    shortDescription: "Dynamic savings projections that hook users instantly.",
+    title: "Solar Savings Calculator",
+    tagline: "AI Powered Roof Modeling",
+    shortDescription: "Dynamic roof satellite mapping and electric bill savings simulation.",
     fullDescription:
-      "The centerpiece of the lead capture experience. Instead of a boring \"Contact Us\" form, users enter their utility bill info to see an immediate estimated savings projection. The calculator provides real, math-based estimates that create instant gratification.",
+      "We leverage Spark AI and Solar Satellite data (Google Solar API) to model your roof angle, shadow patterns, and system production capacity in seconds. Homeowners enter their address, see their actual roof via satellite, and interact with a live savings simulation.",
     benefit:
-      "Users get a real estimate that hooks them instantly, increasing conversion rates by 40% over static forms. It also segments leads by roof type, bill amount, and motivation before you even call them.",
+      "Instead of a static contact form, homeowners see their actual rooftop panel layouts and interactive utility savings. This interactive value increases lead conversion rates by up to 40%.",
     detailedBenefits: [
-      "Dynamic, math-based savings quotes",
-      "Lead segmentation by roof, bill, and goal",
-      "+40% conversion vs. static forms",
-      "Roof-type and motivation capture",
-      "Instant CRM sync of qualified data",
+      "Google Solar API rooftop satellite scanning",
+      "Dynamic solar panel layout simulation",
+      "Real-time monthly utility bill offset calculations",
+      "Cash vs. Loan vs. PPA financial ROI comparison",
+      "Instant SMS & Email proposal delivery webhook",
+      "Direct calendar appointment booking interface",
     ],
   },
   {
