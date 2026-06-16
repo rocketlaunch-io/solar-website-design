@@ -166,7 +166,7 @@ export default function Pricing() {
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                   <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                  <div className="text-[10px] font-mono ml-4 tracking-wider text-slate-400/75">spark-growth-platform.io</div>
+                  <div className="text-[10px] font-mono ml-4 tracking-wider text-slate-400/75">solarwebsite.design</div>
                 </div>
                 <Image
                   src="/images/pricing-hero.png"
