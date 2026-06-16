@@ -56,6 +56,7 @@ interface MenuLink {
 
 interface MegaMenu {
   label: string
+  href: string
   links: MenuLink[]
   featured: {
     title: string
@@ -68,41 +69,45 @@ interface MegaMenu {
 const MENU_DATA: Record<string, MegaMenu> = {
   'Platform': {
     label: 'Platform',
+    href: '/platform',
     links: platformFeatures,
     featured: {
       title: 'Spark AI Platform',
       desc: 'The next-generation intelligence layer powering your automated solar growth engine.',
-      href: '/platform/spark-ai',
+      href: '/platform',
       image: '/images/solar-hero.png',
     }
   },
   'Spark Grow': {
     label: 'Spark Grow',
+    href: '/grow',
     links: growServices,
     featured: {
       title: 'Custom Grow Campaigns',
       desc: 'High-conversion digital advertising and lifecycle nurture campaigns built for solar volume.',
-      href: '/grow/content-design',
+      href: '/grow',
       image: '/images/solar-residential.png',
     }
   },
   'Solutions': {
     label: 'Solutions',
+    href: '/solutions',
     links: solutionTypes.map(s => ({ name: s.name, href: s.href, desc: s.desc })),
     featured: {
       title: 'Solar Company Solutions',
       desc: 'Scale your solar dealership, installer operations, or manufacturer brand.',
-      href: '/solutions/solar-companies',
+      href: '/solutions',
       image: '/images/solar-residential.png',
     }
   },
   'Resources': {
     label: 'Resources',
+    href: '/resources',
     links: resources.map(r => ({ name: r.name, href: r.href, desc: r.desc })),
     featured: {
       title: 'Competitor Comparison',
       desc: 'See why Spark outpaces WordPress, custom builds, and traditional agencies.',
-      href: '/comparison',
+      href: '/resources',
       image: '/images/solar-hero.png',
     }
   }
@@ -152,7 +157,9 @@ export function Navbar() {
               className="py-1"
               onMouseEnter={() => setActiveMenu(item)}
             >
-              <button
+              <Link
+                href={MENU_DATA[item].href}
+                onClick={() => setActiveMenu(null)}
                 className={`flex items-center gap-1 font-medium text-sm transition-colors focus:outline-none cursor-pointer ${
                   activeMenu === item ? 'text-secondary' : 'text-foreground/80 hover:text-foreground'
                 }`}
@@ -164,7 +171,7 @@ export function Navbar() {
                 }`}>
                   expand_more
                 </span>
-              </button>
+              </Link>
             </div>
           ))}
 
@@ -249,7 +256,11 @@ export function Navbar() {
 
             {/* Featured Section Card */}
             {MENU_DATA[activeMenu].featured && (
-              <div className="bg-primary text-primary-foreground p-6 rounded-2xl flex flex-col justify-between shadow-md relative overflow-hidden group min-h-[220px]">
+              <Link
+                href={MENU_DATA[activeMenu].featured.href}
+                onClick={() => setActiveMenu(null)}
+                className="bg-primary text-primary-foreground p-6 rounded-2xl flex flex-col justify-between shadow-md relative overflow-hidden group min-h-[220px] cursor-pointer"
+              >
                 {MENU_DATA[activeMenu].featured.image && (
                   <>
                     <div 
@@ -270,14 +281,12 @@ export function Navbar() {
                     {MENU_DATA[activeMenu].featured.desc}
                   </p>
                 </div>
-                <Link
-                  href={MENU_DATA[activeMenu].featured.href}
-                  onClick={() => setActiveMenu(null)}
-                  className="relative z-10 inline-flex items-center gap-1 text-xs font-bold text-secondary hover:text-white mt-4 transition-colors"
+                <div
+                  className="relative z-10 inline-flex items-center gap-1 text-xs font-bold text-secondary group-hover:text-white mt-4 transition-colors"
                 >
                   Explore &rarr;
-                </Link>
-              </div>
+                </div>
+              </Link>
             )}
           </div>
         </div>
@@ -305,6 +314,16 @@ export function Navbar() {
 
                   {isAccordionOpen && (
                     <div className="mt-1 pl-4 flex flex-col gap-2 border-l border-outline-variant/30">
+                      <Link
+                        href={MENU_DATA[category].href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="py-2.5 text-sm font-semibold text-primary hover:text-secondary transition-colors flex items-center gap-2"
+                      >
+                        <span className="material-symbols-outlined text-base text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          overview
+                        </span>
+                        <span>{category} Overview</span>
+                      </Link>
                       {MENU_DATA[category].links.map((link) => (
                         <Link
                           key={link.name}
