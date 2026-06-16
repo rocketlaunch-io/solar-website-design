@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { PlatformFeatureLayout } from "@/components/platform-feature-layout"
 import { FeatureHeroDemo } from "@/components/feature-hero-demos"
 import { platformFeaturesData } from "@/lib/platform-features"
-import { SolarSavingsCalculator } from "@/components/solar-savings-calculator"
+import { CalculatorTourWrapper } from "@/components/calculator-tour-wrapper"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -41,11 +41,11 @@ export default async function PlatformFeaturePage({
         <Navbar />
         <main className="pt-24 flex-grow px-4 md:px-12 max-w-[1400px] mx-auto w-full pb-24">
           <div className="text-center py-10 max-w-4xl mx-auto px-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full">AI Powered Savings</span>
-            <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-foreground mt-4 mb-4">Solar Savings Calculator</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">Instantly map your roof&apos;s solar potential, estimate utility bill offset, and simulate your 25-year financial returns using Google Solar satellite data.</p>
+            <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full">B2B Platform Showcase</span>
+            <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-foreground mt-4 mb-4">Solar Savings Calculator Tour</h1>
+            <p className="text-lg text-muted-foreground leading-relaxed">Experience the customer solar funnel and explore the B2B insights panel showing backend geocoding coordinates, offset logic, and CRM payloads.</p>
           </div>
-          <SolarSavingsCalculator />
+          <CalculatorTourWrapper />
         </main>
         <Footer />
       </div>

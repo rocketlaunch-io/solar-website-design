@@ -65,16 +65,59 @@ const PROPOSAL_LOADER_STEPS = [
   "Generating secure PDF document & dispatching digital alerts..."
 ];
 
-export function SolarSavingsCalculator() {
-  const [step, setStep] = useState(1);
-  const [addressInput, setAddressInput] = useState('');
-  
-  // Custom Autocomplete Fallback states
-  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<typeof MOCK_ADDRESSES>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+export interface SolarSavingsCalculatorProps {
+  step?: number;
+  setStep?: React.Dispatch<React.SetStateAction<number>>;
+  addressInput?: string;
+  setAddressInput?: React.Dispatch<React.SetStateAction<string>>;
+  solarInsights?: SolarInsights | null;
+  setSolarInsights?: React.Dispatch<React.SetStateAction<SolarInsights | null>>;
+  customPanelCount?: number;
+  setCustomPanelCount?: React.Dispatch<React.SetStateAction<number>>;
+  formData?: {
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    billRange: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    prefChannel: string;
+  };
+  setFormData?: React.Dispatch<React.SetStateAction<{
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    billRange: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    prefChannel: string;
+  }>>;
+}
 
-  // Form lead details
-  const [formData, setFormData] = useState({
+export function SolarSavingsCalculator({
+  step: propStep,
+  setStep: propSetStep,
+  addressInput: propAddressInput,
+  setAddressInput: propSetAddressInput,
+  solarInsights: propSolarInsights,
+  setSolarInsights: propSetSolarInsights,
+  customPanelCount: propCustomPanelCount,
+  setCustomPanelCount: propSetCustomPanelCount,
+  formData: propFormData,
+  setFormData: propSetFormData,
+}: SolarSavingsCalculatorProps) {
+  // Local fallback states if not controlled via props
+  const [internalStep, internalSetStep] = useState(1);
+  const [internalAddressInput, internalSetAddressInput] = useState('');
+  const [internalSolarInsights, internalSetSolarInsights] = useState<SolarInsights | null>(null);
+  const [internalCustomPanelCount, internalSetCustomPanelCount] = useState<number>(0);
+  const [internalFormData, internalSetFormData] = useState({
     streetAddress: '',
     city: '',
     state: '',
@@ -87,13 +130,24 @@ export function SolarSavingsCalculator() {
     prefChannel: 'both', // 'email' | 'sms' | 'both'
   });
 
+  const step = propStep !== undefined ? propStep : internalStep;
+  const setStep = propSetStep !== undefined ? propSetStep : internalSetStep;
+  const addressInput = propAddressInput !== undefined ? propAddressInput : internalAddressInput;
+  const setAddressInput = propSetAddressInput !== undefined ? propSetAddressInput : internalSetAddressInput;
+  const solarInsights = propSolarInsights !== undefined ? propSolarInsights : internalSolarInsights;
+  const setSolarInsights = propSetSolarInsights !== undefined ? propSetSolarInsights : internalSetSolarInsights;
+  const customPanelCount = propCustomPanelCount !== undefined ? propCustomPanelCount : internalCustomPanelCount;
+  const setCustomPanelCount = propSetCustomPanelCount !== undefined ? propSetCustomPanelCount : internalSetCustomPanelCount;
+  const formData = propFormData !== undefined ? propFormData : internalFormData;
+  const setFormData = propSetFormData !== undefined ? propSetFormData : internalSetFormData;
+
+  // Custom Autocomplete Fallback states
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<typeof MOCK_ADDRESSES>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   // Google Solar insights state
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [solarInsights, setSolarInsights] = useState<SolarInsights | null>(null);
-  
-  // Interactive panel count override
-  const [customPanelCount, setCustomPanelCount] = useState<number>(0);
   
   // Financial Model Selection
   const [financialTab, setFinancialTab] = useState<'cash' | 'loan' | 'ppa'>('loan');
