@@ -6,11 +6,13 @@ import { SparkLogo } from './spark-logo'
 
 function HoverDropdown({
   label,
+  href,
   align = 'center',
   panelClassName,
   children,
 }: {
   label: string
+  href?: string
   align?: 'center' | 'left'
   panelClassName: string
   children: React.ReactNode
@@ -30,26 +32,54 @@ function HoverDropdown({
     closeTimer.current = setTimeout(() => setOpen(false), 180)
   }, [])
 
+  const triggerClass =
+    'text-foreground/80 font-medium hover:text-foreground transition-colors duration-300 flex items-center gap-1'
+
   return (
     <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        onFocus={handleEnter}
-        className="text-foreground/80 font-medium hover:text-foreground transition-colors duration-300 flex items-center gap-1"
-      >
-        {label}
-        <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>expand_more</span>
-      </button>
+      {href ? (
+        <Link href={href} onFocus={handleEnter} className={triggerClass}>
+          {label}
+          <span
+            className={`material-symbols-outlined text-sm transition-transform duration-200 ${
+              open ? 'rotate-180' : ''
+            }`}
+          >
+            expand_more
+          </span>
+        </Link>
+      ) : (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-haspopup="true"
+          onFocus={handleEnter}
+          className={triggerClass}
+        >
+          {label}
+          <span
+            className={`material-symbols-outlined text-sm transition-transform duration-200 ${
+              open ? 'rotate-180' : ''
+            }`}
+          >
+            expand_more
+          </span>
+        </button>
+      )}
 
       {/* Wrapper uses top-full + pt to keep the hover bridge gap-free */}
       <div
-        className={`absolute top-full ${align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0'} pt-2 z-50 transition-all duration-150 ${
-          open ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-1 invisible pointer-events-none'
+        className={`absolute top-full ${
+          align === 'center' ? 'left-1/2 -translate-x-1/2' : 'left-0'
+        } pt-2 z-50 transition-all duration-150 ${
+          open
+            ? 'opacity-100 translate-y-0 visible'
+            : 'opacity-0 -translate-y-1 invisible pointer-events-none'
         }`}
       >
-        <div className={`bg-surface-container-lowest border border-outline-variant/40 rounded-xl shadow-xl p-2 ${panelClassName}`}>
+        <div
+          className={`bg-surface-container-lowest border border-outline-variant/40 rounded-xl shadow-xl p-2 ${panelClassName}`}
+        >
           {children}
         </div>
       </div>
@@ -118,7 +148,7 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-7">
           {/* Platform Dropdown */}
-          <HoverDropdown label="Platform" align="center" panelClassName="w-[560px]">
+          <HoverDropdown label="Platform" href="/platform" align="center" panelClassName="w-[560px]">
             <div className="px-3 py-2 mb-1">
               <Link
                 href="/platform"
@@ -146,7 +176,7 @@ export function Navbar() {
           </HoverDropdown>
 
           {/* Spark Grow Dropdown */}
-          <HoverDropdown label="Spark Grow" align="center" panelClassName="w-[560px]">
+          <HoverDropdown label="Spark Grow" href="/grow" align="center" panelClassName="w-[560px]">
             <div className="px-3 py-2 mb-1">
               <Link
                 href="/grow"
@@ -174,7 +204,7 @@ export function Navbar() {
           </HoverDropdown>
 
           {/* Solutions Dropdown */}
-          <HoverDropdown label="Solutions" align="left" panelClassName="w-64">
+          <HoverDropdown label="Solutions" href="/solutions" align="left" panelClassName="w-64">
             {solutionTypes.map((type) => (
               <Link
                 key={type.name}
@@ -192,7 +222,7 @@ export function Navbar() {
           </Link>
 
           {/* Resources Dropdown */}
-          <HoverDropdown label="Resources" align="left" panelClassName="w-64">
+          <HoverDropdown label="Resources" href="/resources" align="left" panelClassName="w-64">
             {resources.map((type) => (
               <Link
                 key={type.name}
