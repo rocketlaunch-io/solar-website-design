@@ -143,27 +143,46 @@ export function CalculatorTourWrapper() {
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+    <div className="relative max-w-4xl mx-auto w-full">
       
-      {/* Calculator Main Section */}
-      <div className={`${tourMode ? 'xl:col-span-8' : 'xl:col-span-12'} w-full transition-all duration-300`}>
-        <SolarSavingsCalculator
-          step={step}
-          setStep={setStep}
-          addressInput={addressInput}
-          setAddressInput={setAddressInput}
-          solarInsights={solarInsights}
-          setSolarInsights={setSolarInsights}
-          customPanelCount={customPanelCount}
-          setCustomPanelCount={setCustomPanelCount}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      </div>
+      {/* Main Calculator Component */}
+      <SolarSavingsCalculator
+        step={step}
+        setStep={setStep}
+        addressInput={addressInput}
+        setAddressInput={setAddressInput}
+        solarInsights={solarInsights}
+        setSolarInsights={setSolarInsights}
+        customPanelCount={customPanelCount}
+        setCustomPanelCount={setCustomPanelCount}
+        formData={formData}
+        setFormData={setFormData}
+      />
 
-      {/* Tour Side panel Insights */}
+      {/* Floating Overlay Tour Guide for Desktop */}
+      {tourMode ? (
+        <div className="absolute top-0 -right-86 hidden xl:block w-80 z-40">
+          <CalculatorTourGuide
+            step={step}
+            setStep={setStep}
+            onSimulateStep={handleSimulateStep}
+            tourMode={tourMode}
+            setTourMode={setTourMode}
+          />
+        </div>
+      ) : (
+        /* Floating Show Guide Pill when collapsed */
+        <button
+          onClick={() => setTourMode(true)}
+          className="absolute -top-3.5 -right-3.5 z-45 bg-[#ffb300] hover:bg-[#ffc23d] text-[#112240] font-black text-[11px] px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105 border border-white/20 select-none animate-in fade-in"
+        >
+          <span>💡 Guide</span>
+        </button>
+      )}
+
+      {/* Mobile/Tablet Tour Guide (Renders below the calculator card on smaller screens) */}
       {tourMode && (
-        <div className="xl:col-span-4 w-full sticky top-28 animate-in slide-in-from-right-6 duration-350">
+        <div className="mt-6 xl:hidden w-full">
           <CalculatorTourGuide
             step={step}
             setStep={setStep}
@@ -174,14 +193,16 @@ export function CalculatorTourWrapper() {
         </div>
       )}
 
-      {/* Sticky float button if tourMode is closed to quickly open it back */}
+      {/* Mobile/Tablet Collapsed Guide Button */}
       {!tourMode && (
-        <button
-          onClick={() => setTourMode(true)}
-          className="fixed bottom-8 right-8 z-40 bg-[#ffb300] hover:bg-[#ffc23d] text-[#112240] font-black text-xs px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-2 cursor-pointer transition-all hover:scale-105 border border-white/10"
-        >
-          <span>Show Tour Guide</span>
-        </button>
+        <div className="xl:hidden flex justify-center mt-4 animate-in fade-in">
+          <button
+            onClick={() => setTourMode(true)}
+            className="bg-[#ffb300] hover:bg-[#ffc23d] text-[#112240] font-extrabold text-xs px-4 py-2 rounded-full shadow border border-white/25 cursor-pointer flex items-center gap-1.5"
+          >
+            <span>💡 Show Guide</span>
+          </button>
+        </div>
       )}
 
     </div>
