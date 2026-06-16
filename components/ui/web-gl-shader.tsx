@@ -47,17 +47,29 @@ export function WebGLShader() {
         
         float d = length(p) * distortion;
         
-        float rx = p.x * (1.0 + d);
-        float gx = p.x;
-        float bx = p.x * (1.0 - d);
+        // Compute two offset paths for orange and yellow waves to create depth
+        float x1 = p.x * (1.0 + d);
+        float x2 = p.x * (1.0 - d);
 
-        float r = 0.05 / abs(p.y + sin((rx + time) * xScale) * yScale);
-        float g = 0.05 / abs(p.y + sin((gx + time) * xScale) * yScale);
-        float b = 0.05 / abs(p.y + sin((bx + time) * xScale) * yScale);
+        float intensity1 = 0.05 / abs(p.y + sin((x1 + time) * xScale) * yScale);
+        float intensity2 = 0.05 / abs(p.y + sin((x2 + time) * xScale) * yScale);
+
+        // Mix Spark Orange (#ff8f00) and Spark Yellow (#ffb300) along the screen horizontal coordinates
+        float gradientT = clamp((p.x + 1.2) / 2.4, 0.0, 1.0);
         
-        // Use maximum brightness for alpha channel to make the background transparent
-        float alpha = max(max(r, g), b);
-        gl_FragColor = vec4(r, g, b, alpha);
+        // Color 1 goes from Orange to Yellow
+        vec3 color1 = mix(vec3(1.0, 0.56, 0.0), vec3(1.0, 0.78, 0.0), gradientT);
+        // Color 2 goes from Yellow to Orange
+        vec3 color2 = mix(vec3(1.0, 0.78, 0.0), vec3(1.0, 0.56, 0.0), gradientT);
+
+        vec3 orangeSide = color1 * intensity1;
+        vec3 yellowSide = color2 * intensity2;
+
+        vec3 finalColor = orangeSide + yellowSide;
+        
+        // Calculate transparent alpha based on line brightness
+        float alpha = clamp(max(finalColor.r, max(finalColor.g, finalColor.b)), 0.0, 1.0);
+        gl_FragColor = vec4(finalColor, alpha);
       }
     `
 
