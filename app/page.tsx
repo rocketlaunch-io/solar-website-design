@@ -61,11 +61,11 @@ export default function Home() {
 
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
-                  href="/contact"
+                  href="/pricing"
                   className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-7 py-3.5 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-all duration-300 shadow-lg shadow-secondary/30 hover:-translate-y-0.5"
                 >
-                  Get Started
-                  <span className="material-symbols-outlined text-lg">bolt</span>
+                  Pricing
+                  <span className="material-symbols-outlined text-lg">payments</span>
                 </Link>
                 <Link
                   href="/demo"
