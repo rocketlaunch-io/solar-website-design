@@ -69,7 +69,7 @@ export function PlatformFeatureLayout({
                     href="/contact"
                     className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-lg shadow-secondary/30"
                   >
-                    Launch Your Spark
+                    Get Started
                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                   </Link>
                   <Link
@@ -138,7 +138,7 @@ export function PlatformFeatureLayout({
                     href="/contact"
                     className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-lg shadow-secondary/30"
                   >
-                    Launch Your Spark
+                    Get Started
                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                   </Link>
                   <Link

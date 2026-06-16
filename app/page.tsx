@@ -64,7 +64,7 @@ export default function Home() {
                   href="/contact"
                   className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-7 py-3.5 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-all duration-300 shadow-lg shadow-secondary/30 hover:-translate-y-0.5"
                 >
-                  Launch Your Spark
+                  Get Started
                   <span className="material-symbols-outlined text-lg">bolt</span>
                 </Link>
                 <Link
@@ -263,7 +263,7 @@ export default function Home() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-all duration-300 shadow-lg shadow-secondary/30 hover:-translate-y-0.5"
               >
-                Launch Your Spark Website
+                Get Started
                 <span className="material-symbols-outlined text-lg">bolt</span>
               </Link>
               <Link

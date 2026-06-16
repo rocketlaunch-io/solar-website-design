@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { SparkLogo } from './spark-logo'
 
 function HoverDropdown({
@@ -136,6 +136,13 @@ export function Navbar() {
   const [growOpen, setGrowOpen] = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState('(888) 555-0199')
+
+  useEffect(() => {
+    const exchange = Math.floor(200 + Math.random() * 800)
+    const line = Math.floor(1000 + Math.random() * 9000)
+    setPhoneNumber(`(888) ${exchange}-${line}`)
+  }, [])
 
   return (
     <header className="bg-surface/80 backdrop-blur-md fixed top-0 w-full z-50 transition-all duration-300 border-b border-outline-variant/40">
@@ -238,6 +245,10 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-5">
+          <a href={`tel:${phoneNumber.replace(/\D/g, '')}`} className="flex items-center gap-1.5 text-foreground/80 font-medium hover:text-foreground transition-colors mr-2">
+            <span className="material-symbols-outlined text-base">phone</span>
+            <span>{phoneNumber}</span>
+          </a>
           <Link href="/login" className="text-foreground/80 font-medium hover:text-foreground transition-colors">
             Login
           </Link>
@@ -245,7 +256,7 @@ export function Navbar() {
             href="/contact"
             className="bg-secondary text-secondary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-sm shadow-secondary/30 inline-flex items-center gap-1.5"
           >
-            Launch Your Spark
+            Get Started
             <span className="material-symbols-outlined text-base">bolt</span>
           </Link>
         </div>
@@ -387,6 +398,10 @@ export function Navbar() {
             </div>
 
             <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-outline-variant/40">
+              <a href={`tel:${phoneNumber.replace(/\D/g, '')}`} className="flex items-center gap-1.5 text-foreground/80 font-medium py-2 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-base">phone</span>
+                <span>{phoneNumber}</span>
+              </a>
               <Link href="/login" className="text-foreground/80 font-medium py-2 hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 Login
               </Link>
@@ -395,7 +410,7 @@ export function Navbar() {
                 className="bg-secondary text-secondary-foreground px-6 py-3 rounded-lg text-sm font-semibold text-center mt-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Launch Your Spark
+                Get Started
               </Link>
             </div>
           </nav>

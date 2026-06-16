@@ -66,7 +66,7 @@ export default function AIPage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
               >
-                Launch Your Spark
+                Get Started
                 <span className="material-symbols-outlined text-base">arrow_forward</span>
               </Link>
             </div>
@@ -130,7 +130,7 @@ export default function AIPage() {
               href="/contact"
               className="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
             >
-              Launch Your Spark
+              Get Started
               <span className="material-symbols-outlined text-base">arrow_forward</span>
             </Link>
           </div>

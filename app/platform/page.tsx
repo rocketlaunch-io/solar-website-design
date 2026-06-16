@@ -44,7 +44,7 @@ export default function PlatformPage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-4 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-lg shadow-secondary/30"
               >
-                Launch Your Spark
+                Get Started
                 <span className="material-symbols-outlined text-lg">bolt</span>
               </Link>
               <Link
@@ -196,7 +196,7 @@ export default function PlatformPage() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-solar-amber-bright transition-colors"
               >
-                Launch Your Spark
+                Get Started
               </Link>
             </div>
           </DialogContent>

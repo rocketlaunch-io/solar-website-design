@@ -195,7 +195,7 @@ export default function Comparison() {
               href="/contact"
               className="mt-8 inline-flex items-center gap-2 rounded-lg bg-secondary px-7 py-3 text-sm font-semibold text-secondary-foreground transition hover:bg-solar-amber-bright"
             >
-              Launch Your Spark
+              Get Started
               <span className="material-symbols-outlined text-base">bolt</span>
             </Link>
           </div>
