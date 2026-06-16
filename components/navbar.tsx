@@ -249,8 +249,8 @@ export function Navbar() {
             <span className="material-symbols-outlined text-base">phone</span>
             <span>{phoneNumber}</span>
           </a>
-          <Link href="/login" className="text-foreground/80 font-medium hover:text-foreground transition-colors">
-            Login
+          <Link href="/signin" className="text-foreground/80 font-medium hover:text-foreground transition-colors">
+            Sign in
           </Link>
           <Link
             href="/contact"
@@ -402,8 +402,8 @@ export function Navbar() {
                 <span className="material-symbols-outlined text-base">phone</span>
                 <span>{phoneNumber}</span>
               </a>
-              <Link href="/login" className="text-foreground/80 font-medium py-2 hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                Login
+              <Link href="/signin" className="text-foreground/80 font-medium py-2 hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                Sign in
               </Link>
               <Link
                 href="/contact"
