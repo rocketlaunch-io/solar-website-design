@@ -3,6 +3,8 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Image from "next/image"
 import Link from "next/link"
+import { WebGLShader } from "@/components/ui/web-gl-shader"
+import { PricingRoiCalculator } from "@/components/pricing-roi-calculator"
 
 export const metadata: Metadata = {
   title: "Pricing | Spark Website",
@@ -126,58 +128,55 @@ export default function Pricing() {
       <Navbar />
       <main>
         {/* Hero Section */}
-        <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-edge-navy-deep to-primary py-20 md:py-32">
-          {/* Background decorative glow */}
-          <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-solar-amber/10 rounded-full blur-3xl -z-10" />
-          <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-energy-emerald/15 rounded-full blur-3xl -z-10" />
-          
-          <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-12">
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-solar-amber-bright uppercase tracking-wider">
-                <span className="material-symbols-outlined text-sm animate-pulse">payments</span>
-                Performance-First Pricing
-              </span>
-              <h1 className="text-balance font-heading text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
-                Simple Plans. <span className="bg-gradient-to-r from-solar-amber-bright to-energy-emerald bg-clip-text text-transparent">Exponential Growth.</span>
+        <section className="relative overflow-hidden py-12 md:py-20 border-b border-outline-variant/20 bg-surface-container-low/30">
+          <WebGLShader />
+          <div className="max-w-[1400px] mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div className="flex flex-col gap-6">
+              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 rounded-full px-4 py-1.5 w-fit shadow-sm">
+                <span className="material-symbols-outlined text-accent text-sm animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>smart_toy</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-accent">Performance-First Pricing</span>
+              </div>
+
+              <h1 className="font-heading text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-foreground leading-[1.1] tracking-tight text-balance">
+                Simple Plans. <span className="text-secondary">Exponential Growth.</span>
               </h1>
-              <p className="max-w-xl text-pretty text-lg leading-relaxed text-slate-300">
+
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
                 Deploy a world-class solar digital ecosystem. Pay a predictable platform fee plus performance fees tied strictly to high-quality, verified leads. No long-term contracts.
               </p>
+
               <div className="flex flex-wrap gap-4 pt-2">
-                <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200">
-                  <span className="material-symbols-outlined text-base text-energy-emerald">check_circle</span>
-                  No Long-Term Contracts
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200">
-                  <span className="material-symbols-outlined text-base text-energy-emerald">bolt</span>
-                  Rapid Implementation
-                </span>
+                <Link
+                  href="#plans"
+                  className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-7 py-3.5 rounded-lg text-base font-semibold hover:bg-solar-amber-bright transition-all duration-300 shadow-lg shadow-secondary/30 hover:-translate-y-0.5"
+                >
+                  View Tiers
+                  <span className="material-symbols-outlined text-lg">arrow_downward</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-surface-container-lowest text-foreground px-7 py-3.5 rounded-lg text-base font-semibold hover:bg-surface-container transition-all duration-300 border border-outline-variant/50"
+                >
+                  Talk to an Engineer
+                </Link>
               </div>
-            </div>
-            
-            <div className="lg:col-span-6 relative">
-              {/* Image Frame with premium mockup styling */}
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-white/5 p-2 backdrop-blur-sm">
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-white/0 pointer-events-none" />
-                <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10 bg-white/5 text-slate-400">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                  <div className="text-[10px] font-mono ml-4 tracking-wider text-slate-400/75">solarwebsite.design</div>
+
+              <div className="flex flex-wrap items-center gap-6 pt-4">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex text-secondary">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium text-foreground ml-1">4.9/5 close-rate rating</span>
                 </div>
-                <Image
-                  src="/images/pricing-hero.png"
-                  alt="Spark Solar growth investment and pricing ROI analytics dashboard mockup"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-cover rounded-b-xl"
-                  priority
-                />
+                <div className="h-4 w-px bg-outline-variant/50" />
+                <span className="text-sm text-muted-foreground">Trusted by 500+ installers</span>
               </div>
-              {/* Outer decorative elements */}
-              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-solar-amber/20 rounded-full blur-2xl -z-10" />
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-energy-emerald/20 rounded-full blur-2xl -z-10" />
             </div>
+
+            {/* Interactive ROI Calculator */}
+            <PricingRoiCalculator />
           </div>
         </section>
 
