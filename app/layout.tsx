@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter, Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { LeadCaptureWrapper } from '@/components/lead-capture-wrapper'
+import ElevenLabsVoiceWidget from '@/components/elevenlabs-voice-widget'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -67,6 +68,7 @@ export default function RootLayout({
       <body className="font-sans antialiased selection:bg-secondary selection:text-primary">
         <LeadCaptureWrapper>
           {children}
+          <ElevenLabsVoiceWidget />
         </LeadCaptureWrapper>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
