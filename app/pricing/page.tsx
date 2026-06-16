@@ -152,8 +152,8 @@ export default function Pricing() {
                   No Long-Term Contracts
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200">
-                  <span className="material-symbols-outlined text-base text-energy-emerald">security</span>
-                  30-Day Risk-Free Trial
+                  <span className="material-symbols-outlined text-base text-energy-emerald">bolt</span>
+                  Rapid Implementation
                 </span>
               </div>
             </div>
@@ -189,7 +189,7 @@ export default function Pricing() {
           <div className="mx-auto max-w-2xl text-center space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full">Scale Your Revenue</span>
             <h2 className="text-balance font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              The Architecture of Scale
+              Flexible Plans Engineered to Scale
             </h2>
             <p className="text-pretty leading-relaxed text-muted-foreground">
               Predictable baseline pricing engineered to align with your sales volume. As your volume scales, your per-lead costs decrease.
@@ -200,9 +200,9 @@ export default function Pricing() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative flex flex-col rounded-3xl border p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
+                className={`relative flex flex-col rounded-3xl border-2 p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
                   plan.popular 
-                    ? "border-accent bg-gradient-to-b from-card to-accent/5 shadow-xl ring-2 ring-accent/20 lg:-mt-4 lg:mb-4" 
+                    ? "border-accent bg-gradient-to-b from-card via-card to-accent/5 shadow-xl ring-4 ring-accent/10 lg:-mt-4 lg:mb-4" 
                     : "border-border bg-card shadow-sm hover:border-muted-foreground/30"
                 }`}
               >
@@ -317,9 +317,9 @@ export default function Pricing() {
         {/* Global Platform Add-ons */}
         <section className="mx-auto max-w-6xl px-6 py-24">
           <div className="mx-auto max-w-2xl text-center space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full">Optional Extensions</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full">Optional Add-Ons</span>
             <h2 className="text-balance font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-              Supercharge Your Infrastructure
+              Supercharge Your Growth Platform
             </h2>
             <p className="text-pretty leading-relaxed text-muted-foreground">
               Integrate performance modules seamlessly into your core architecture to scale conversion rates and search authority.
