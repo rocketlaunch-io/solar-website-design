@@ -35,23 +35,6 @@ export default async function PlatformFeaturePage({
 
   if (!feature) notFound()
 
-  if (slug === "solar-savings-calculator") {
-    return (
-      <div className="flex min-h-screen flex-col bg-surface">
-        <Navbar />
-        <main className="pt-24 flex-grow px-4 md:px-12 max-w-[1400px] mx-auto w-full pb-24">
-          <div className="text-center py-10 max-w-4xl mx-auto px-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full">B2B Platform Showcase</span>
-            <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-foreground mt-4 mb-4">Solar Savings Calculator Tour</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">Experience the customer solar funnel and explore the B2B insights panel showing backend geocoding coordinates, offset logic, and CRM payloads.</p>
-          </div>
-          <CalculatorTourWrapper />
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
   const capabilityIcons = ["check_circle", "verified", "speed", "insights", "auto_awesome", "hub"]
   const capabilities = feature.detailedBenefits.map((b, i) => ({
     icon: capabilityIcons[i % capabilityIcons.length],
@@ -68,6 +51,23 @@ export default async function PlatformFeaturePage({
       features={capabilities}
       heroVisual={<FeatureHeroDemo slug={feature.slug} />}
     >
+      {slug === "solar-savings-calculator" && (
+        <section className="py-16 px-4 md:px-12 max-w-[1400px] mx-auto border-t border-outline-variant/30">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full">
+              Interactive Feature Tour
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-extrabold text-foreground mt-4 mb-4">
+              Explore the Homeowner Experience
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Take an interactive guided tour of the Solar Savings Calculator to see how it scans properties, models utility offsets, and maximizes lead generation value.
+            </p>
+          </div>
+          <CalculatorTourWrapper />
+        </section>
+      )}
+
       <section className="py-16 px-4 md:px-12 max-w-[1400px] mx-auto">
         <div className="rounded-3xl bg-edge-navy p-10 md:p-14 text-white">
           <div className="max-w-3xl">
