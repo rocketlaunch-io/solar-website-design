@@ -1,11 +1,13 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Cal from '@calcom/embed-react'
 
 interface SparkLeadWizardProps {
   theme?: 'light' | 'dark'
   onSuccess?: (formData: Record<string, string>) => void
   onClose?: () => void
+  onStepChange?: (step: number) => void
 }
 
 const businessTypes = [
@@ -33,10 +35,17 @@ export function SparkLeadWizard({
   theme = 'light',
   onSuccess,
   onClose,
+  onStepChange,
 }: SparkLeadWizardProps) {
   const [step, setStep] = useState(1)
   const [loadingMessage, setLoadingMessage] = useState('')
   const [loadingProgress, setLoadingProgress] = useState(0)
+
+  useEffect(() => {
+    if (onStepChange) {
+      onStepChange(step)
+    }
+  }, [step, onStepChange])
 
   const [formData, setFormData] = useState({
     businessType: '',
@@ -494,18 +503,75 @@ export function SparkLeadWizard({
             </p>
           </div>
 
-          <div className="mt-4">
+          <div className="flex flex-col gap-2 mt-4">
+            <button
+              onClick={() => setStep(8)}
+              className={primaryButtonClasses}
+            >
+              <span>Schedule Live Demo & Review</span>
+              <span className="material-symbols-outlined text-base">calendar_month</span>
+            </button>
             {onClose ? (
               <button
                 onClick={onClose}
-                className={primaryButtonClasses}
+                className="text-xs text-muted-foreground hover:text-foreground hover:underline py-2 font-semibold cursor-pointer"
               >
-                Done & Continue Browsing
+                Or Continue Browsing
               </button>
             ) : (
               <a
                 href="/"
-                className={primaryButtonClasses}
+                className="text-xs text-muted-foreground hover:text-foreground hover:underline py-2 font-semibold text-center block"
+              >
+                Or Return Home
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Step 8: Cal.com Scheduling */}
+      {step === 8 && (
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col gap-4 flex-grow">
+            <div className="flex items-center justify-between pb-2 border-b border-outline-variant/30">
+              <div className="text-left">
+                <h2 className={headingClasses}>Select a Time for Your Live Demo</h2>
+                <p className={subtextClasses + ' mt-1'}>
+                  Pick a convenient slot with a solar growth architect to review your audit.
+                </p>
+              </div>
+              <button
+                onClick={() => setStep(7)}
+                className="text-xs font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-sm">arrow_back</span>
+                <span>Back</span>
+              </button>
+            </div>
+            
+            {/* Cal.com Embed Container */}
+            <div className="flex-grow rounded-2xl border border-outline-variant/50 bg-white p-1 overflow-hidden h-[410px] sm:h-[430px]">
+              <Cal
+                calLink="rocketlaunch/free-strategy-call"
+                style={{ width: '100%', height: '100%', minHeight: '390px', overflow: 'scroll' }}
+                config={{ layout: 'month_view' }}
+              />
+            </div>
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-outline-variant/30 flex justify-end">
+            {onClose ? (
+              <button
+                onClick={onClose}
+                className="text-xs text-muted-foreground hover:text-foreground hover:underline font-semibold cursor-pointer"
+              >
+                Close & Continue Browsing
+              </button>
+            ) : (
+              <a
+                href="/"
+                className="text-xs text-muted-foreground hover:text-foreground hover:underline font-semibold"
               >
                 Return Home
               </a>

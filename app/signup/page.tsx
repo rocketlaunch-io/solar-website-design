@@ -47,7 +47,7 @@ export default function SignUpPage() {
         {/* Top Logo */}
         <div className="relative z-20">
           <Link href="/" className="inline-block">
-            <SparkLogo monochrome hoverColorize textClassName="text-white" />
+            <SparkLogo monochrome hoverColorize className="text-white" />
           </Link>
         </div>
 

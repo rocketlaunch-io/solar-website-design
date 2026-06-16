@@ -23,7 +23,7 @@ export function SparkLogo({
           'w-6 h-6 object-contain transition-all duration-300 group-hover:scale-110 fill-current',
           monochrome 
             ? hoverColorize 
-              ? 'text-current group-hover:text-secondary' 
+              ? 'text-white group-hover:text-secondary' 
               : 'text-current' 
             : 'text-secondary',
           iconClassName
