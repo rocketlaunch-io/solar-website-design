@@ -7,6 +7,7 @@ import { ProcessSection } from "@/components/process-section"
 import { FeatureSpotlights } from "@/components/feature-spotlights"
 import { Testimonials } from "@/components/testimonials"
 import Link from "next/link"
+import { WebGLShader } from "@/components/ui/web-gl-shader"
 
 const featuredIn = ["Forbes", "Bloomberg", "CNBC", "WSJ"]
 
@@ -41,8 +42,9 @@ export default function Home() {
 
       <main className="pt-20">
         {/* Hero */}
-        <section className="px-4 md:px-12 max-w-[1400px] mx-auto py-12 md:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section className="relative overflow-hidden px-4 md:px-12 max-w-[1400px] mx-auto py-12 md:py-20 rounded-3xl border border-outline-variant/20 bg-surface-container-low/30 my-4">
+          <WebGLShader />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <div className="flex flex-col gap-6">
               <div className="inline-flex items-center gap-2 bg-energy-emerald/10 border border-energy-emerald/30 rounded-full px-4 py-1.5 w-fit">
                 <span className="material-symbols-outlined text-energy-emerald text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
