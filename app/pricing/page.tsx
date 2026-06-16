@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "ROI-focused, performance-based pricing for a high-performance solar growth platform. Pay a flat platform fee plus a fee per verified lead. No long-term contracts.",
 }
 
-const plans = [
+const standardPlans = [
   {
     name: "Foundation",
     architecture: "Custom 5-Page React Architecture",
@@ -18,7 +18,6 @@ const plans = [
     monthly: "$1,000",
     perLead: "$20",
     setup: "$5,000 (One-time)",
-    popular: false,
     cta: "Deploy Foundation",
     ctaNote: "Launch a world-class brand in under 7 days.",
     featureHeading: "All Core Features",
@@ -53,27 +52,27 @@ const plans = [
       "Priority Growth Support",
     ],
   },
-  {
-    name: "Enterprise Scale",
-    architecture: "Unlimited React Architecture",
-    audience: "Perfect for multi-state dealers and installers.",
-    monthly: "Custom",
-    perLead: "$10",
-    setup: "Starts at $20,000 (One-time)",
-    popular: false,
-    cta: "Contact for Enterprise",
-    ctaNote: "Custom integrations & dedicated SLA.",
-    featureHeading: "All Velocity Features, plus",
-    features: [
-      "Full Ecosystem Integration",
-      "Multi-State SEO Engine",
-      "Custom API Development",
-      "Dedicated Growth Engineer",
-      "24/7 Critical Response Team",
-      "Custom SLA",
-    ],
-  },
 ]
+
+const enterprisePlan = {
+  name: "Enterprise Scale",
+  architecture: "Unlimited React Architecture",
+  audience: "Perfect for multi-state dealers and installers.",
+  monthly: "Custom",
+  perLead: "$10",
+  setup: "Starts at $20,000 (One-time)",
+  cta: "Contact for Enterprise",
+  ctaNote: "Custom integrations & dedicated SLA.",
+  featureHeading: "All Velocity Features, plus",
+  features: [
+    "Full Ecosystem Integration",
+    "Multi-State SEO Engine",
+    "Custom API Development",
+    "Dedicated Growth Engineer",
+    "24/7 Critical Response Team",
+    "Custom SLA",
+  ],
+}
 
 const verificationSteps = [
   { 
@@ -185,7 +184,7 @@ export default function Pricing() {
         </section>
 
         {/* Plans */}
-        <section className="mx-auto max-w-6xl px-6 py-24">
+        <section className="mx-auto max-w-5xl px-6 py-24">
           <div className="mx-auto max-w-2xl text-center space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full">Scale Your Revenue</span>
             <h2 className="text-balance font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
@@ -196,13 +195,14 @@ export default function Pricing() {
             </p>
           </div>
 
-          <div className="mt-16 grid items-stretch gap-8 lg:grid-cols-3">
-            {plans.map((plan) => (
+          {/* 2 Tiers Standard Grid */}
+          <div className="mt-16 grid items-stretch gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+            {standardPlans.map((plan) => (
               <div
                 key={plan.name}
                 className={`relative flex flex-col rounded-3xl border-2 p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
                   plan.popular 
-                    ? "border-accent bg-gradient-to-b from-card via-card to-accent/5 shadow-xl ring-4 ring-accent/10 lg:-mt-4 lg:mb-4" 
+                    ? "border-accent bg-gradient-to-b from-card via-card to-accent/5 shadow-xl ring-4 ring-accent/10" 
                     : "border-border bg-card shadow-sm hover:border-muted-foreground/30"
                 }`}
               >
@@ -219,7 +219,7 @@ export default function Pricing() {
                 
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground min-h-[40px]">{plan.audience}</p>
 
-                <div className="mt-6 border-t border-border/80 pt-6 space-y-3">
+                <div className="mt-6 border-t border-border/80 pt-6 space-y-2">
                   <div className="flex items-baseline gap-1">
                     <span className="font-heading text-5xl font-black text-foreground tracking-tight">{plan.monthly}</span>
                     <span className="text-sm font-medium text-muted-foreground">/month</span>
@@ -230,21 +230,18 @@ export default function Pricing() {
                       + {plan.perLead} <span className="font-normal text-muted-foreground">per Verified Lead</span>
                     </p>
                   </div>
-                </div>
-
-                <div className="mt-6 rounded-2xl bg-muted/60 p-4 border border-border/50">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base text-accent">verified</span>
-                    <p className="text-xs font-bold text-foreground">Pay-For-Performance Guarantee</p>
+                  
+                  {/* Onboarding & Setup Tooltip */}
+                  <div className="text-xs text-muted-foreground flex items-center gap-1.5 pt-1">
+                    <span>One-time setup fee applies</span>
+                    <div className="relative group/tooltip inline-flex cursor-help">
+                      <span className="material-symbols-outlined text-[15px] text-muted-foreground/60 hover:text-foreground transition-colors">info</span>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-xs rounded-xl py-2 px-3.5 shadow-xl border border-border w-52 z-50 text-center font-normal leading-normal">
+                        <span className="font-bold text-foreground">Setup &amp; Onboarding</span>
+                        <div className="mt-1 text-accent font-semibold">{plan.setup}</div>
+                      </div>
+                    </div>
                   </div>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
-                    Zero payment for invalid details, bots, or out-of-market submissions. Checked via 4-Point Lead Verification.
-                  </p>
-                </div>
-
-                <div className="mt-5 text-xs text-muted-foreground flex items-center justify-between">
-                  <span className="font-medium text-foreground">Onboarding &amp; Setup:</span>
-                  <span className="font-semibold text-foreground">{plan.setup}</span>
                 </div>
 
                 <div className="mt-6 border-t border-border/80 pt-6 flex-grow">
@@ -278,6 +275,94 @@ export default function Pricing() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Lower Tier Grid: Guarantee & Enterprise */}
+          <div className="mt-12 grid items-stretch gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+            {/* Pay-For-Performance Guarantee Card */}
+            <div className="flex flex-col rounded-3xl border border-border bg-gradient-to-br from-card via-card to-energy-emerald/5 p-8 shadow-sm">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-energy-emerald/10 text-energy-emerald">
+                  <span className="material-symbols-outlined text-2xl">verified</span>
+                </span>
+                <span className="text-xs font-bold uppercase tracking-wider text-energy-emerald">Performance Assured</span>
+              </div>
+              
+              <h3 className="mt-4 font-heading text-2xl font-bold text-foreground">Pay-For-Performance Guarantee</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground flex-grow">
+                Zero payment for invalid details, bots, spam, or out-of-market submissions. We verify every single lead in real-time through our proprietary 4-point protocol. You only pay for real, qualified homeowners who pass the checks.
+              </p>
+              
+              <div className="mt-6 border-t border-border pt-6 flex items-center justify-between text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-base text-energy-emerald">check</span>
+                  Real-time validation
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-base text-energy-emerald">check</span>
+                  Zero waste ad-spend
+                </span>
+              </div>
+            </div>
+
+            {/* Enterprise Scale Card */}
+            <div className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:border-muted-foreground/30 hover:shadow-lg">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-widest text-accent">{enterprisePlan.architecture}</span>
+                <span className="rounded-full border border-border bg-muted/50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Bespoke Pack
+                </span>
+              </div>
+              
+              <h3 className="mt-4 font-heading text-2xl font-bold text-foreground">{enterprisePlan.name}</h3>
+              <p className="mt-2 text-xs text-muted-foreground leading-relaxed">{enterprisePlan.audience}</p>
+              
+              <div className="mt-5 border-t border-border pt-5 space-y-1">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-heading text-3xl font-bold text-foreground">Custom</span>
+                  <span className="text-xs text-muted-foreground">/month</span>
+                </div>
+                <p className="text-xs font-semibold text-foreground">
+                  + {enterprisePlan.perLead} <span className="font-normal text-muted-foreground">per Verified Lead</span>
+                </p>
+                
+                {/* Enterprise Tooltip */}
+                <div className="text-[11px] text-muted-foreground flex items-center gap-1">
+                  <span>Setup setup costs apply</span>
+                  <div className="relative group/tooltip inline-flex cursor-help">
+                    <span className="material-symbols-outlined text-[13px] text-muted-foreground/60 hover:text-foreground">info</span>
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-xs rounded-xl py-2 px-3 shadow-lg border border-border w-52 z-50 text-center font-normal leading-normal">
+                      <span className="font-bold text-foreground">Setup &amp; Onboarding</span>
+                      <div className="mt-1 text-accent font-semibold">{enterprisePlan.setup}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 border-t border-border pt-6 flex-grow">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80">
+                  {enterprisePlan.featureHeading}
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {enterprisePlan.features.slice(0, 3).map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-xs text-foreground">
+                      <span className="material-symbols-outlined text-sm text-energy-emerald">check_circle</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                  <li className="text-xs text-muted-foreground italic pl-6">And more custom developer integrations...</li>
+                </ul>
+              </div>
+
+              <div className="mt-6 pt-2">
+                <Link
+                  href="/contact"
+                  className="block rounded-xl py-3 text-center text-sm font-bold border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground transition-all duration-200"
+                >
+                  {enterprisePlan.cta}
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
 
