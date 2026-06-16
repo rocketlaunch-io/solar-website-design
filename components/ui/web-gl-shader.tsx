@@ -116,17 +116,24 @@ export function WebGLShader() {
       const parent = canvas.parentElement
       const width = parent ? parent.clientWidth : window.innerWidth
       const height = parent ? parent.clientHeight : window.innerHeight
+      if (width === 0 || height === 0) return
       refs.renderer.setSize(width, height, false)
       refs.uniforms.resolution.value = [width, height]
     }
 
     initScene()
     animate()
-    window.addEventListener("resize", handleResize)
+
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize()
+    })
+    if (canvas.parentElement) {
+      resizeObserver.observe(canvas.parentElement)
+    }
 
     return () => {
       if (refs.animationId) cancelAnimationFrame(refs.animationId)
-      window.removeEventListener("resize", handleResize)
+      resizeObserver.disconnect()
       if (refs.mesh) {
         refs.scene?.remove(refs.mesh)
         refs.mesh.geometry.dispose()
@@ -141,7 +148,7 @@ export function WebGLShader() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full block -z-10 pointer-events-none opacity-40"
+      className="absolute inset-0 w-full h-full block z-0 pointer-events-none opacity-80"
     />
   )
 }
