@@ -1,15 +1,12 @@
-import type { Metadata } from "next"
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { WebGLShader } from "@/components/ui/web-gl-shader"
-
-export const metadata: Metadata = {
-  title: "Support | Spark Solar",
-  description:
-    "Get onboarding, billing, platform, lead-routing, and technical support for the Spark Solar growth platform.",
-}
+import { SupportRequestModal } from "@/components/support-modal"
 
 const supportChannels = [
   {
@@ -92,6 +89,14 @@ const faqs = [
 ]
 
 export default function Support() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalCategory, setModalCategory] = useState("Platform Support")
+
+  const openSupportModal = (category: string) => {
+    setModalCategory(category)
+    setIsModalOpen(true)
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-surface">
       <Navbar />
@@ -110,13 +115,13 @@ export default function Support() {
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-lg bg-secondary px-7 py-3.5 text-base font-semibold text-secondary-foreground shadow-lg shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-solar-amber-bright"
+                <button
+                  onClick={() => openSupportModal("Platform Support")}
+                  className="inline-flex items-center gap-2 rounded-lg bg-secondary px-7 py-3.5 text-base font-semibold text-secondary-foreground shadow-lg shadow-secondary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-solar-amber-bright cursor-pointer"
                 >
                   Open Support Request
                   <span className="material-symbols-outlined text-lg">arrow_forward</span>
-                </Link>
+                </button>
                 <Link
                   href="/demo"
                   className="inline-flex items-center gap-2 rounded-lg border border-outline-variant/50 bg-surface-container-lowest px-7 py-3.5 text-base font-semibold text-foreground transition-all duration-300 hover:bg-surface-container"
@@ -211,10 +216,10 @@ export default function Support() {
 
             <div className="grid gap-5 lg:grid-cols-3">
               {supportChannels.map((channel) => (
-                <Link
+                <button
                   key={channel.title}
-                  href={channel.href}
-                  className="group rounded-2xl border border-outline-variant/35 bg-surface p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary/50 hover:shadow-xl"
+                  onClick={() => openSupportModal(channel.title)}
+                  className="group text-left rounded-2xl border border-outline-variant/35 bg-surface p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary/50 hover:shadow-xl cursor-pointer w-full"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/5 text-primary transition-colors group-hover:bg-secondary/15 group-hover:text-secondary">
@@ -232,7 +237,7 @@ export default function Support() {
                     Start request
                     <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
                   </div>
-                </Link>
+                </button>
               ))}
             </div>
           </div>
@@ -301,19 +306,25 @@ export default function Support() {
                   Share what is happening, where it is happening, and what changed. We will route it to the right Spark team and follow up with next steps.
                 </p>
               </div>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-secondary px-7 py-3.5 text-sm font-bold text-secondary-foreground shadow-lg shadow-secondary/20 transition-colors hover:bg-solar-amber-bright"
+              <button
+                onClick={() => openSupportModal("Engineering Ticket")}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-secondary px-7 py-3.5 text-sm font-bold text-secondary-foreground shadow-lg shadow-secondary/20 transition-colors hover:bg-solar-amber-bright cursor-pointer"
               >
                 Create Ticket
                 <span className="material-symbols-outlined text-base">bolt</span>
-              </Link>
+              </button>
             </div>
           </div>
         </section>
       </main>
 
       <Footer />
+
+      <SupportRequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        defaultCategory={modalCategory}
+      />
     </div>
   )
 }
