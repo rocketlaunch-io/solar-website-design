@@ -1,23 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog"
-import { platformFeaturesData, type PlatformFeature } from "@/lib/platform-features"
-import { FeatureDemo } from "@/components/feature-demos"
+import { platformFeaturesData } from "@/lib/platform-features"
 import { WebGLShader } from "@/components/ui/web-gl-shader"
 import { HeroVisualFrame } from "@/components/hero-visual-frame"
 
 export default function PlatformPage() {
-  const [selectedFeature, setSelectedFeature] = useState<PlatformFeature | null>(null)
 
   return (
     <div className="flex min-h-screen flex-col bg-surface">
@@ -93,10 +83,10 @@ export default function PlatformPage() {
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {platformFeaturesData.map((feature) => (
-                <button
+                <Link
                   key={feature.slug}
-                  onClick={() => setSelectedFeature(feature)}
-                  className="group relative p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 hover:border-secondary/60 transition-all duration-300 hover:shadow-xl text-left"
+                  href={`/platform/${feature.slug}`}
+                  className="group relative p-6 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 hover:border-secondary/60 transition-all duration-300 hover:shadow-xl text-left block"
                 >
                   <div className="w-14 h-14 rounded-xl bg-primary/5 flex items-center justify-center mb-5 group-hover:bg-secondary/10 transition-all duration-300">
                     <span
@@ -119,7 +109,7 @@ export default function PlatformPage() {
                     <span className="text-sm font-medium">Learn more</span>
                     <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </div>
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -151,88 +141,6 @@ export default function PlatformPage() {
       </main>
 
       <Footer />
-
-      {/* Feature Detail Modal */}
-      <Dialog open={!!selectedFeature} onOpenChange={() => setSelectedFeature(null)}>
-        {selectedFeature && (
-          <DialogContent onClose={() => setSelectedFeature(null)} className="max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <div className="flex items-start gap-4 mb-2">
-                <div className="w-16 h-16 rounded-2xl bg-edge-navy flex items-center justify-center flex-shrink-0">
-                  <span
-                    className="material-symbols-outlined text-secondary text-4xl"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    {selectedFeature.icon}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs font-semibold text-secondary uppercase tracking-wide">{selectedFeature.tagline}</span>
-                  <DialogTitle className="text-2xl mt-0.5 mb-1">{selectedFeature.title}</DialogTitle>
-                  <DialogDescription className="text-base">
-                    {selectedFeature.shortDescription}
-                  </DialogDescription>
-                </div>
-              </div>
-            </DialogHeader>
-
-            {/* Unique Interactive Demo */}
-            <FeatureDemo slug={selectedFeature.slug} />
-
-            {/* Full Description */}
-            <div className="mb-6">
-              <h4 className="font-heading font-semibold text-foreground mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>description</span>
-                What It Does
-              </h4>
-              <p className="text-muted-foreground leading-relaxed">
-                {selectedFeature.fullDescription}
-              </p>
-            </div>
-
-            {/* Key Benefit */}
-            <div className="mb-6 p-4 rounded-xl bg-secondary/10 border border-secondary/30">
-              <h4 className="font-heading font-semibold text-foreground mb-2 flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>emoji_objects</span>
-                Why It Matters
-              </h4>
-              <p className="text-muted-foreground leading-relaxed">{selectedFeature.benefit}</p>
-            </div>
-
-            {/* Detailed Benefits */}
-            <div className="mb-6">
-              <h4 className="font-heading font-semibold text-foreground mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>checklist</span>
-                What You Get
-              </h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {selectedFeature.detailedBenefits.map((b, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="material-symbols-outlined text-energy-emerald text-lg mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                    <span className="text-muted-foreground text-sm">{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href={`/platform/${selectedFeature.slug}`}
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-              >
-                View Full Page
-                <span className="material-symbols-outlined text-base">arrow_forward</span>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:bg-solar-amber-bright transition-colors"
-              >
-                Get Started
-              </Link>
-            </div>
-          </DialogContent>
-        )}
-      </Dialog>
     </div>
   )
 }
