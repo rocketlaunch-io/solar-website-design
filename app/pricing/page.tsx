@@ -19,7 +19,7 @@ const standardPlans = [
     architecture: "React 19 Custom Edge Core",
     audience: "Perfect for single-market dealers and installers seeking elite performance.",
     monthly: "$5,000",
-    perLead: "$20",
+    perLead: "$100",
     setup: "$5,000 (One-time)",
     cta: "Deploy Business",
     ctaNote: "Launch a world-class brand in under 7 days.",
@@ -38,7 +38,7 @@ const standardPlans = [
     architecture: "Full Growth Stack Ecosystem",
     audience: "Perfect for high-growth dealers seeking automated scale.",
     monthly: "$10,000",
-    perLead: "$15",
+    perLead: "$100",
     setup: "$10,000 (One-time)",
     popular: true,
     cta: "Ignite Scale",
@@ -60,7 +60,7 @@ const enterprisePlan = {
   architecture: "Unlimited React Architecture",
   audience: "Perfect for multi-state dealers and installers.",
   monthly: "Custom",
-  perLead: "$10",
+  perLead: "Custom",
   setup: "Starts at $20,000 (One-time)",
   cta: "Contact for Enterprise",
   ctaNote: "Custom integrations & dedicated SLA.",
@@ -189,7 +189,7 @@ export default function Pricing() {
               Flexible Plans Engineered to Scale
             </h2>
             <p className="text-pretty leading-relaxed text-muted-foreground">
-              Predictable baseline pricing engineered to align with your sales volume. As your volume scales, your per-lead costs decrease.
+              Predictable baseline pricing engineered to align with your sales volume, with verified lead pricing kept simple across standard plans.
             </p>
           </div>
 
@@ -344,7 +344,7 @@ export default function Pricing() {
                   <span className="text-xs text-muted-foreground">/month</span>
                 </div>
                 <p className="text-xs font-semibold text-foreground">
-                  + {enterprisePlan.perLead} <span className="font-normal text-muted-foreground">per Verified Lead</span>
+                  Custom <span className="font-normal text-muted-foreground">verified lead pricing</span>
                 </p>
                 
                 {/* Enterprise Tooltip */}

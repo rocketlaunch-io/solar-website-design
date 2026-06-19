@@ -11,7 +11,6 @@ function SuccessPageContent() {
   const plan = searchParams.get('plan') || 'Business'
   const method = searchParams.get('method') || 'card'
   const sessionId = searchParams.get('session_id') || 'subscription pending'
-  const promo = searchParams.get('promo') || ''
 
   const [logs, setLogs] = useState<string[]>([])
   const [logIndex, setLogIndex] = useState(0)
@@ -31,11 +30,8 @@ function SuccessPageContent() {
       : 'Payment authorization received.',
     'Subscription details confirmed.',
     `Subscription reference: ${sessionId}`,
-    promo
-      ? `Promotion "${promo}" applied to the setup fee.`
-      : '',
-    '30-day platform trial activated.',
-    `Monthly platform billing starts on ${formattedDate}.`,
+    'First monthly platform subscription activated.',
+    `Next monthly renewal scheduled for ${formattedDate}.`,
     'Creating your onboarding workspace.',
     'Preparing CRM and lead-routing setup.',
     'Preparing analytics and reporting configuration.',
@@ -73,7 +69,7 @@ function SuccessPageContent() {
           Ecosystem Activated
         </h1>
         <p className="text-muted-foreground text-sm leading-relaxed">
-          Welcome to the elite class of solar growth. We have processed your setup transaction and are provisioning your performance-first edge workspace with 30 days of free platform access.
+          Welcome to the elite class of solar growth. We have processed your setup and first monthly subscription payment, and are provisioning your performance-first edge workspace.
         </p>
       </div>
 
@@ -112,14 +108,8 @@ function SuccessPageContent() {
           <div className="space-y-3">
             <div className="flex justify-between md:block">
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Plan Name</div>
-              <div className="text-sm font-bold text-foreground mt-0.5">{plan} (30-day Free Trial)</div>
+              <div className="text-sm font-bold text-foreground mt-0.5">{plan}</div>
             </div>
-            {promo && (
-              <div className="flex justify-between md:block">
-                <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Coupon Code</div>
-                <div className="text-xs font-bold text-energy-emerald mt-0.5 font-mono">{promo} Applied</div>
-              </div>
-            )}
             <div className="flex justify-between md:block">
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Payment Status</div>
               <div className="text-xs font-semibold text-energy-emerald flex items-center gap-1 mt-0.5">
@@ -145,7 +135,7 @@ function SuccessPageContent() {
             </div>
             <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
               <ShieldCheck className="h-4.5 w-4.5 text-energy-emerald shrink-0" />
-              <span>Zero platform fees billed for the first 30 days.</span>
+              <span>Your first month is active and the next renewal is scheduled above.</span>
             </div>
           </div>
 

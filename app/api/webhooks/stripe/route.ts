@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         const stripeStatus = subscription.status
 
         // Map Stripe status to simplified database status
-        // active, trialing -> active
+        // active -> active
         // past_due, unpaid, suspended -> paused
         // canceled, incomplete, incomplete_expired -> cancelled
         let simplifiedStatus = 'active'

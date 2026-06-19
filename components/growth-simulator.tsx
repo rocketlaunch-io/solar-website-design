@@ -4,9 +4,9 @@ import { useMemo, useState } from "react"
 
 // Per-tier economics used to recommend a plan and project ROI.
 const TIERS = [
-  { name: "Foundation", monthly: 5000, perLead: 20, max: 40 },
-  { name: "Velocity", monthly: 10000, perLead: 15, max: 150 },
-  { name: "Enterprise", monthly: 10000, perLead: 10, max: 400 },
+  { name: "Foundation", monthly: 5000, perLead: 100, max: 40 },
+  { name: "Velocity", monthly: 10000, perLead: 100, max: 150 },
+  { name: "Enterprise", monthly: 10000, perLead: 100, max: 400 },
 ]
 
 // Average revenue an installer earns per closed install, and a conservative

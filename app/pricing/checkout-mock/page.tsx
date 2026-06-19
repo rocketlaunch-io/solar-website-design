@@ -18,14 +18,14 @@ function MockCheckoutContent() {
       ? {
           monthly: 10000,
           setup: 10000,
-          perLead: 15,
+          perLead: 100,
           description:
             'Spark AI, local programmatic SEO engine, conversational voice agents.',
         }
       : {
           monthly: 5000,
           setup: 5000,
-          perLead: 20,
+          perLead: 100,
           description:
             'Edge Architecture custom core edge, CRM Salesforce bridge, Quote Wizard.',
         }
@@ -46,13 +46,6 @@ function MockCheckoutContent() {
   const [routingNumber, setRoutingNumber] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
 
-  // Promo Code States
-  const [promoInput, setPromoInput] = useState('')
-  const [appliedPromo, setAppliedPromo] = useState('')
-  const [promoDiscount, setPromoDiscount] = useState(0) // 0 to 1
-  const [promoError, setPromoError] = useState('')
-  const [showPromoInput, setShowPromoInput] = useState(false)
-
   // Payment States
   const [paymentStep, setPaymentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -63,7 +56,7 @@ function MockCheckoutContent() {
       ? 'Connecting bank account authorization...'
       : 'Authorizing payment details...',
     'Encrypting payment information...',
-    'Creating recurring subscription with 30-day trial...',
+    'Creating recurring subscription...',
     paymentMethod === 'ach'
       ? 'Authorizing ACH direct debit mandate...'
       : 'Confirming your Spark subscription...',
@@ -75,31 +68,6 @@ function MockCheckoutContent() {
     setPaymentStep(1)
   }
 
-  const handleApplyPromo = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setPromoError('')
-    const code = promoInput.trim().toUpperCase()
-
-    if (code === 'WELCOME50') {
-      setPromoDiscount(0.5)
-      setAppliedPromo('WELCOME50')
-      setPromoInput('')
-    } else if (code === 'SPARKFREE') {
-      setPromoDiscount(1)
-      setAppliedPromo('SPARKFREE')
-      setPromoInput('')
-    } else {
-      setPromoError('Promotion code could not be applied.')
-    }
-  }
-
-  const handleRemovePromo = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setPromoDiscount(0)
-    setAppliedPromo('')
-    setPromoError('')
-  }
-
   useEffect(() => {
     if (paymentStep > 0 && paymentStep <= steps.length) {
       const timer = setTimeout(() => {
@@ -108,18 +76,15 @@ function MockCheckoutContent() {
       return () => clearTimeout(timer)
     } else if (paymentStep > steps.length) {
       const timer = setTimeout(() => {
-        const promoQS = appliedPromo ? `&promo=${appliedPromo}` : ''
         router.push(
-          `/pricing/success?plan=${plan}&method=${paymentMethod}${promoQS}`
+          `/pricing/success?plan=${plan}&method=${paymentMethod}`
         )
       }, 800)
       return () => clearTimeout(timer)
     }
-  }, [paymentStep, plan, router, steps.length, paymentMethod, appliedPromo])
+  }, [paymentStep, plan, router, steps.length, paymentMethod])
 
-  // Recalculated due-today amount based on setup fee minus promo discounts
-  const setupDiscountAmount = planDetails.setup * promoDiscount
-  const totalDueToday = planDetails.setup - setupDiscountAmount
+  const totalDueToday = planDetails.setup + planDetails.monthly
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
@@ -230,7 +195,7 @@ function MockCheckoutContent() {
             Complete Your Spark Registration
           </h1>
           <p className="text-sm text-muted-foreground max-w-xl">
-            Start your Spark platform subscription with a secure payment method. Your first 30 days of platform access are included before monthly billing begins.
+            Start your Spark platform subscription with a secure payment method. Your setup fee and first monthly platform subscription are due today.
           </p>
         </div>
 
@@ -243,7 +208,7 @@ function MockCheckoutContent() {
               Secure payment processing
             </h4>
             <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-              Your payment details are encrypted, and your recurring platform subscription starts after the 30-day trial period.
+              Your payment details are encrypted, and your recurring platform subscription starts immediately.
             </p>
           </div>
         </div>
@@ -496,22 +461,17 @@ function MockCheckoutContent() {
           <div className="space-y-3 pt-2">
             <div className="flex justify-between items-center text-sm border-b border-dashed border-border pb-2.5">
               <span className="text-muted-foreground flex items-center gap-1.5">
-                Platform Subscription (1st Month Free)
+                Platform Subscription
                 <span className="relative group/tooltip inline-flex cursor-help">
                   <Info className="h-3.5 w-3.5 text-muted-foreground/60 hover:text-foreground" />
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-[10px] rounded-lg py-1.5 px-2.5 border border-border w-44 z-50 text-center font-normal leading-normal shadow-md">
-                    First 30 days are 100% free. Regular billing is monthly.
+                    First monthly platform subscription is due today. Regular billing is monthly.
                   </div>
                 </span>
               </span>
-              <div className="text-right">
-                <span className="font-bold text-foreground line-through text-xs text-muted-foreground mr-1.5">
-                  ${planDetails.monthly.toLocaleString()}
-                </span>
-                <span className="font-bold text-energy-emerald bg-energy-emerald/10 border border-energy-emerald/20 px-2 py-0.5 rounded text-xs uppercase font-semibold">
-                  $0.00
-                </span>
-              </div>
+              <span className="font-bold text-foreground">
+                ${planDetails.monthly.toLocaleString()}/month
+              </span>
             </div>
 
             <div className="flex justify-between items-center text-sm border-b border-dashed border-border pb-2.5">
@@ -529,19 +489,6 @@ function MockCheckoutContent() {
               </span>
             </div>
 
-            {/* Promo Code Discount */}
-            {promoDiscount > 0 && (
-              <div className="flex justify-between items-center text-sm border-b border-dashed border-border pb-2.5 text-energy-emerald">
-                <span className="flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm font-bold animate-pulse">local_offer</span>
-                  Setup Fee Discount ({appliedPromo})
-                </span>
-                <span className="font-bold font-mono">
-                  -${(planDetails.setup * promoDiscount).toLocaleString()}
-                </span>
-              </div>
-            )}
-
             <div className="flex justify-between items-center text-sm border-b border-dashed border-border pb-2.5">
               <span className="text-muted-foreground flex items-center gap-1.5">
                 Verified Lead Fee
@@ -558,76 +505,16 @@ function MockCheckoutContent() {
             </div>
           </div>
 
-          {/* Promo code link/input */}
-          <div className="pt-1 border-t border-border/60">
-            {!appliedPromo ? (
-              <div className="space-y-2">
-                {!showPromoInput ? (
-                  <button
-                    type="button"
-                    onClick={() => setShowPromoInput(true)}
-                    className="text-xs font-bold text-accent hover:underline cursor-pointer flex items-center gap-1"
-                  >
-                    <span className="material-symbols-outlined text-[15px]">local_offer</span>
-                    Have a promo code?
-                  </button>
-                ) : (
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Enter code"
-                      value={promoInput}
-                      onChange={(e) => setPromoInput(e.target.value)}
-                      className="flex-grow bg-background border border-border/80 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-accent text-foreground uppercase font-mono"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleApplyPromo}
-                      className="bg-primary text-primary-foreground text-xs font-extrabold px-3 py-2 rounded-xl hover:opacity-90 cursor-pointer uppercase tracking-wider"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                )}
-                {promoError && (
-                  <p className="text-[10px] text-destructive font-semibold mt-1">
-                    {promoError}
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="flex items-center justify-between bg-energy-emerald/5 border border-energy-emerald/20 p-2.5 rounded-xl text-xs">
-                <span className="text-energy-emerald font-semibold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[15px] font-bold">local_offer</span>
-                  Code <strong className="font-mono">{appliedPromo}</strong> Applied
-                </span>
-                <button
-                  type="button"
-                  onClick={handleRemovePromo}
-                  className="text-muted-foreground hover:text-foreground text-[10px] font-bold cursor-pointer"
-                >
-                  Remove
-                </button>
-              </div>
-            )}
-          </div>
-
           {/* Totals */}
           <div className="bg-surface-container-low border border-outline-variant/20 rounded-2xl p-4.5 space-y-2">
             <div className="flex justify-between items-center text-xs text-muted-foreground">
-              <span>Platform Trial recurring</span>
-              <span className="text-energy-emerald font-semibold">$0.00 / 30 days</span>
+              <span>First month platform subscription</span>
+              <span>${planDetails.monthly.toLocaleString()}</span>
             </div>
             <div className="flex justify-between items-center text-xs text-muted-foreground">
-              <span>One-time subtotal due</span>
+              <span>One-time setup fee</span>
               <span>${planDetails.setup.toLocaleString()}</span>
             </div>
-            {promoDiscount > 0 && (
-              <div className="flex justify-between items-center text-xs text-energy-emerald font-medium">
-                <span>Setup coupon discount</span>
-                <span>-${setupDiscountAmount.toLocaleString()}</span>
-              </div>
-            )}
             <div className="h-px bg-border my-1" />
             <div className="flex justify-between items-end">
               <span className="text-sm font-semibold text-foreground">
@@ -638,7 +525,7 @@ function MockCheckoutContent() {
                   ${totalDueToday.toLocaleString()}
                 </span>
                 <span className="text-[10px] text-muted-foreground block font-medium">
-                  platform trial active
+                  billed today
                 </span>
               </div>
             </div>
@@ -652,7 +539,7 @@ function MockCheckoutContent() {
               >
                 check
               </span>
-              30-Day Platform Free Trial: Recurring base monthly fee begins at the end of the trial period.
+              Monthly Platform Subscription: Your first month is billed today, and recurring billing continues monthly.
             </p>
             <p className="flex gap-2">
               <span

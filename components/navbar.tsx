@@ -43,6 +43,7 @@ const solutionTypes = [
 
 const resources = [
   { name: 'Spark AI', href: '/ai', desc: 'The brain behind growth' },
+  { name: 'Support', href: '/support', desc: 'Launch, billing & platform help' },
   { name: 'Comparison', href: '/comparison', desc: 'Spark vs. WordPress & DIY' },
   { name: 'Solutions Overview', href: '/solutions', desc: 'All solar solutions' },
 ]
@@ -181,6 +182,12 @@ export function Navbar() {
             className="text-foreground/80 font-medium text-sm hover:text-foreground transition-colors"
           >
             Pricing
+          </Link>
+          <Link
+            href="/support"
+            className="text-foreground/80 font-medium text-sm hover:text-foreground transition-colors"
+          >
+            Support
           </Link>
         </nav>
 
@@ -352,6 +359,14 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Pricing
+            </Link>
+
+            <Link
+              href="/support"
+              className="text-base font-bold py-3 border-b border-outline-variant/30 hover:text-secondary transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Support
             </Link>
 
             {/* Mobile Actions */}

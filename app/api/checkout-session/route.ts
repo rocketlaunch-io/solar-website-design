@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     // Run in mock mode if keys or prices are missing
     const isMock =
-      !secretKey || !publishableKey || !monthlyPriceId || !setupPriceId
+      !secretKey || !publishableKey || !monthlyPriceId || !setupPriceId || !leadPriceId
 
     if (isMock) {
       console.log(
@@ -66,21 +66,14 @@ export async function POST(request: Request) {
       },
     ]
 
-    // Include the metered per-lead price if configured
-    if (leadPriceId) {
-      lineItems.push({
-        price: leadPriceId,
-      })
-    }
+    lineItems.push({
+      price: leadPriceId,
+    })
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card', 'us_bank_account'],
       line_items: lineItems,
-      subscription_data: {
-        trial_period_days: 30,
-      },
-      allow_promotion_codes: true,
       success_url: `${appUrl}/pricing/success?plan=${planName}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/pricing/cancel?plan=${planName}`,
       metadata: {

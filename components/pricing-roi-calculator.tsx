@@ -9,7 +9,7 @@ export function PricingRoiCalculator() {
   const isScale = leads >= 30
   const planName = isScale ? 'Scale' : 'Business'
   const platformFee = isScale ? 10000 : 5000
-  const perLeadFee = isScale ? 15 : 20
+  const perLeadFee = 100
   const monthlyLeadCost = leads * perLeadFee
   const totalCost = platformFee + monthlyLeadCost
 

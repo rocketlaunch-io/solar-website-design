@@ -93,14 +93,15 @@ async function main() {
   let businessMonthlyPrice = businessPrices.data.find(
     (p) =>
       p.recurring?.interval === 'month' &&
-      p.recurring?.usage_type === 'licensed'
+      p.recurring?.usage_type === 'licensed' &&
+      p.unit_amount === 500000
   )
   if (!businessMonthlyPrice) {
-    console.log('Creating Business Monthly Price ($1,000/mo)...')
+    console.log('Creating Business Monthly Price ($5,000/mo)...')
     businessMonthlyPrice = await stripe.prices.create({
       product: businessProduct.id,
       currency: 'usd',
-      unit_amount: 100000, // $1000.00
+      unit_amount: 500000, // $5000.00
       recurring: {
         interval: 'month',
         usage_type: 'licensed',
@@ -124,14 +125,15 @@ async function main() {
     (p) =>
       p.recurring?.interval === 'month' &&
       p.recurring?.usage_type === 'metered' &&
-      p.recurring?.meter === leadMeter!.id
+      p.recurring?.meter === leadMeter!.id &&
+      p.unit_amount === 10000
   )
   if (!businessLeadPrice) {
-    console.log('Creating Business Per-Lead Metered Price ($20/lead)...')
+    console.log('Creating Business Per-Lead Metered Price ($100/lead)...')
     businessLeadPrice = await stripe.prices.create({
       product: businessProduct.id,
       currency: 'usd',
-      unit_amount: 2000, // $20.00
+      unit_amount: 10000, // $100.00
       recurring: {
         interval: 'month',
         usage_type: 'metered',
@@ -164,14 +166,15 @@ async function main() {
   let scaleMonthlyPrice = scalePrices.data.find(
     (p) =>
       p.recurring?.interval === 'month' &&
-      p.recurring?.usage_type === 'licensed'
+      p.recurring?.usage_type === 'licensed' &&
+      p.unit_amount === 1000000
   )
   if (!scaleMonthlyPrice) {
-    console.log('Creating Scale Monthly Price ($5,000/mo)...')
+    console.log('Creating Scale Monthly Price ($10,000/mo)...')
     scaleMonthlyPrice = await stripe.prices.create({
       product: scaleProduct.id,
       currency: 'usd',
-      unit_amount: 500000, // $5000.00
+      unit_amount: 1000000, // $10000.00
       recurring: {
         interval: 'month',
         usage_type: 'licensed',
@@ -195,14 +198,15 @@ async function main() {
     (p) =>
       p.recurring?.interval === 'month' &&
       p.recurring?.usage_type === 'metered' &&
-      p.recurring?.meter === leadMeter!.id
+      p.recurring?.meter === leadMeter!.id &&
+      p.unit_amount === 10000
   )
   if (!scaleLeadPrice) {
-    console.log('Creating Scale Per-Lead Metered Price ($15/lead)...')
+    console.log('Creating Scale Per-Lead Metered Price ($100/lead)...')
     scaleLeadPrice = await stripe.prices.create({
       product: scaleProduct.id,
       currency: 'usd',
-      unit_amount: 1500, // $15.00
+      unit_amount: 10000, // $100.00
       recurring: {
         interval: 'month',
         usage_type: 'metered',
