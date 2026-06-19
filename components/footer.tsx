@@ -19,6 +19,7 @@ const footerColumns = [
       { name: 'AI-First SEO', href: '/platform/ai-seo' },
       { name: 'CRM Bridge', href: '/platform/crm-bridge' },
       { name: 'Call Tracking', href: '/platform/call-tracking' },
+      { name: 'Real-time Reviews', href: '/platform/real-time-reviews' },
     ],
   },
   {

@@ -993,6 +993,226 @@ function CallTrackingHero() {
   )
 }
 
+/* ---------- 14. Real-time Reviews — interactive reply console ---------- */
+
+const HERO_REVIEWS = [
+  {
+    id: 1,
+    source: "Google",
+    icon: "star",
+    author: "Robert H.",
+    rating: 5,
+    date: "2 hours ago",
+    comment: "The installation crew from Spark Solar was incredibly professional. Completed the full 12kW system in Scottsdale in just one day. Cleaned up everything! Strongly recommend them.",
+    reply: "Hi Robert! Thank you for the awesome feedback. We are thrilled that our Scottsdale installation crew met your expectations. Enjoy the solar savings!"
+  },
+  {
+    id: 2,
+    source: "Facebook",
+    icon: "thumb_up",
+    author: "Elena G.",
+    rating: 5,
+    date: "1 day ago",
+    comment: "Already seeing a massive drop in my electricity bill! The online savings calculator was spot on. Highly recommend going solar with this dealership.",
+    reply: "Thank you Elena! It is wonderful to hear that your utility bill has already decreased. We aim to make our calculator projections as accurate as possible!"
+  },
+  {
+    id: 3,
+    source: "Yelp",
+    icon: "chat_bubble",
+    author: "Tim B.",
+    rating: 4,
+    date: "3 days ago",
+    comment: "Process was super simple. Salesforce integration worked perfectly so I received all scheduling updates via SMS. Dropped one star because scheduling was delayed by two days due to weather.",
+    reply: "Thanks for the feedback, Tim. We apologize for the weather delay but are glad you loved the real-time CRM updates. We appreciate your business!"
+  }
+]
+
+function ReviewsHero() {
+  const [selectedSource, setSelectedSource] = useState<string>("All")
+  const [activeReviewId, setActiveReviewId] = useState<number>(1)
+  const [aiResponse, setAiResponse] = useState<string>("")
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [isPublished, setIsPublished] = useState<boolean>(false)
+
+  const activeReview = HERO_REVIEWS.find((r) => r.id === activeReviewId) || HERO_REVIEWS[0]
+
+  const filteredReviews = HERO_REVIEWS.filter(
+    (r) => selectedSource === "All" || r.source === selectedSource
+  )
+
+  const handleGenerateReply = () => {
+    setIsGenerating(true)
+    setIsPublished(false)
+    setAiResponse("")
+    setTimeout(() => {
+      setAiResponse(activeReview.reply)
+      setIsGenerating(false)
+    }, 850)
+  }
+
+  const handlePublish = () => {
+    setIsPublished(true)
+    setTimeout(() => {
+      setIsPublished(false)
+      setAiResponse("")
+    }, 2500)
+  }
+
+  // Handle active review change
+  const handleSelectReview = (id: number) => {
+    setActiveReviewId(id)
+    setAiResponse("")
+    setIsPublished(false)
+  }
+
+  return (
+    <HeroShell label="Social Proof & AI Reply Dashboard">
+      <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.8fr] gap-5 items-stretch min-h-[380px]">
+        {/* Review List & Source Filters */}
+        <div className="flex flex-col gap-3">
+          {/* Source filters */}
+          <div className="flex gap-1 bg-surface-container p-1 rounded-lg border border-outline-variant/30">
+            {["All", "Google", "Facebook", "Yelp"].map((source) => (
+              <button
+                key={source}
+                onClick={() => setSelectedSource(source)}
+                className={`flex-1 text-[10px] font-bold py-1 rounded transition-all ${
+                  selectedSource === source
+                    ? "bg-edge-navy text-white shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {source}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-2.5 overflow-y-auto max-h-[320px] pr-1">
+            {filteredReviews.map((rev) => {
+              const isSelected = rev.id === activeReviewId
+              return (
+                <button
+                  key={rev.id}
+                  onClick={() => handleSelectReview(rev.id)}
+                  className={`w-full text-left p-3 rounded-xl border transition-all duration-300 flex flex-col justify-between ${
+                    isSelected
+                      ? "bg-edge-navy text-white border-white/5 shadow-md scale-[1.01]"
+                      : "bg-surface-container border-outline-variant/40 hover:bg-surface-container-low hover:border-outline-variant/60"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full mb-1">
+                    <span className="font-semibold text-xs leading-none">{rev.author}</span>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
+                      rev.source === "Google" ? "bg-primary/20 text-primary-foreground" :
+                      rev.source === "Facebook" ? "bg-energy-emerald/10 text-energy-emerald" :
+                      "bg-secondary/15 text-secondary"
+                    } ${isSelected ? "!text-white !bg-white/10" : ""}`}>
+                      <span className="material-symbols-outlined text-[10px]">{rev.icon}</span>
+                      {rev.source}
+                    </span>
+                  </div>
+                  <div className="flex text-secondary mb-1">
+                    {Array.from({ length: rev.rating }).map((_, i) => (
+                      <span key={i} className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    ))}
+                  </div>
+                  <p className={`text-[10px] leading-relaxed line-clamp-2 ${isSelected ? "text-white/70" : "text-muted-foreground"}`}>
+                    {rev.comment}
+                  </p>
+                </button>
+              )
+            })}
+            {filteredReviews.length === 0 && (
+              <p className="text-center text-xs text-muted-foreground mt-8">No reviews from this channel.</p>
+            )}
+          </div>
+        </div>
+
+        {/* AI Reply Builder Console */}
+        <div className="flex flex-col justify-between rounded-xl bg-surface-container-low border border-outline-variant/30 p-4 md:p-5 relative overflow-hidden">
+          <div className="absolute -right-16 -top-16 w-36 h-36 rounded-full bg-energy-emerald/5 blur-2xl pointer-events-none" />
+
+          {/* Top Review Stats */}
+          <div className="grid grid-cols-3 gap-2 border-b border-outline-variant/30 pb-3 mb-4 text-center">
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Rating</p>
+              <p className="font-heading text-xs font-bold text-foreground mt-0.5 flex items-center justify-center gap-1">
+                4.9
+                <span className="material-symbols-outlined text-[11px] text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+              </p>
+            </div>
+            <div className="border-x border-outline-variant/30">
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Reviews</p>
+              <p className="font-heading text-xs font-bold text-foreground mt-0.5">842 Total</p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Sentiment</p>
+              <p className="font-heading text-xs font-bold text-energy-emerald mt-0.5">96.4% Pos</p>
+            </div>
+          </div>
+
+          {/* Active Review Copy */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[10px] font-bold text-foreground">{activeReview.author}</span>
+              <span className="text-[9px] text-muted-foreground">{activeReview.date}</span>
+            </div>
+            <p className="text-[11px] leading-relaxed text-muted-foreground bg-surface-container-lowest p-2.5 rounded-lg border border-outline-variant/20 italic">
+              &ldquo;{activeReview.comment}&rdquo;
+            </p>
+          </div>
+
+          {/* AI Respond Editor */}
+          <div className="flex-1 flex flex-col justify-end gap-3">
+            <div>
+              <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1 block">AI Response Draft</span>
+              <div className="min-h-[72px] rounded-lg bg-surface border border-outline-variant/30 p-2.5 text-[11px] leading-relaxed relative">
+                {isGenerating ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-surface/80 rounded-lg">
+                    <span className="material-symbols-outlined text-base animate-spin text-secondary">progress_activity</span>
+                    <span className="text-xs text-muted-foreground ml-2">Drafting response...</span>
+                  </div>
+                ) : isPublished ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-energy-emerald/10 border border-energy-emerald/30 text-energy-emerald rounded-lg p-2 text-center animate-in fade-in zoom-in-95 duration-200">
+                    <span className="material-symbols-outlined text-lg leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    <span className="text-[11px] font-bold mt-1">Reply published successfully to {activeReview.source}!</span>
+                  </div>
+                ) : aiResponse ? (
+                  <p className="text-foreground">{aiResponse}</p>
+                ) : (
+                  <p className="text-muted-foreground/60 italic">Click the draft button below to generate a tailored SEO response.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Actions Panel */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleGenerateReply}
+                disabled={isGenerating || isPublished}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 bg-surface-container text-foreground px-3 py-2 rounded-lg text-xs font-semibold hover:bg-surface-container-high transition-colors border border-outline-variant/30 disabled:opacity-40"
+              >
+                <span className="material-symbols-outlined text-xs">autorenew</span>
+                Draft AI Reply
+              </button>
+              <button
+                onClick={handlePublish}
+                disabled={!aiResponse || isPublished}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 bg-secondary text-secondary-foreground px-3 py-2 rounded-lg text-xs font-semibold hover:bg-solar-amber-bright transition-colors disabled:opacity-40"
+              >
+                <span className="material-symbols-outlined text-xs">send</span>
+                Publish Reply
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </HeroShell>
+  )
+}
+
 /* ---------- router ---------- */
 
 export function FeatureHeroDemo({ slug }: { slug: string }) {
@@ -1019,6 +1239,8 @@ export function FeatureHeroDemo({ slug }: { slug: string }) {
       return <AnalyticsHero />
     case "call-tracking":
       return <CallTrackingHero />
+    case "real-time-reviews":
+      return <ReviewsHero />
     case "bespoke-design":
       return <BespokeDesignHero />
     case "developer-api":

@@ -523,4 +523,43 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "Does the system record and transcribe automatically?", answer: "Yes, all calls can be transcribed and analyzed for sentiment in real time, with full compliance call-disclosure voice prompts enabled by default." },
     ],
   },
+  {
+    slug: "real-time-reviews",
+    icon: "rate_review",
+    title: "Real-time Reviews",
+    tagline: "Social Proof Syndication",
+    shortDescription: "Syndicate verified homeowner reviews dynamically across your landing pages to lift conversions.",
+    fullDescription:
+      "Spark Real-time Reviews automates the collection, moderation, and syndication of homeowner reviews. Pull reviews instantly from Google, Yelp, and Facebook, and display them on your solar landing pages using high-conversion review widgets.",
+    benefit:
+      "Displaying real-time customer success stories builds immediate local trust. By automating review syndication, your sales reps close more deals with homeowners who have already read positive feedback from their own neighbors.",
+    detailedBenefits: [
+      "Automatic review collection from Google, Yelp, & Facebook",
+      "High-converting dynamic review badges and sliders",
+      "Auto-moderation using AI sentiment filtering",
+      "Automated AI reply builder for fast responses",
+      "Schema.json markup generation for Google Search snippets",
+    ],
+    roiMetric: {
+      value: "+22%",
+      label: "Conversion Rate Lift",
+    },
+    process: [
+      { step: "01", title: "API Connection", description: "Securely connect your Google Business Profile, Facebook Page, and Yelp profiles." },
+      { step: "02", title: "AI Moderation", description: "Our filters parse incoming reviews for spam, profanity, and positive sentiment scoring." },
+      { step: "03", title: "Widget Syndication", description: "Reviews are dynamically loaded onto your landing pages via lightweight edge widgets." },
+      { step: "04", title: "Automated Reply", description: "Generate personalized, SEO-friendly replies to review submissions instantly using AI." },
+    ],
+    specs: [
+      { label: "Widget Type", value: "Edge-rendered React components" },
+      { label: "Review Integrations", value: "Google Business, Facebook API, Yelp API" },
+      { label: "Schema Support", value: "LocalBusiness & AggregateRating Schema.org" },
+      { label: "Update Frequency", value: "Real-time webhook sync" },
+    ],
+    faqs: [
+      { question: "Can we filter out negative reviews?", answer: "Yes. You can configure approval thresholds in your dashboard (e.g. only auto-publish 4 and 5-star reviews) while managing lower ratings privately through your support pipeline." },
+      { question: "Does this affect page load speed?", answer: "No. Our widgets are statically pre-rendered at the Edge, ensuring zero layout shifts (CLS) and sub-second load times." },
+      { question: "How does the AI reply generator work?", answer: "The AI analyzes the review text and drafts a personalized, professional response, incorporating local keywords to help boost your local SEO rankings." },
+    ],
+  },
 ]

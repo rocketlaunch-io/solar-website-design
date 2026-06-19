@@ -16,6 +16,7 @@ export const platformFeatures = [
   { name: 'Spark CRM', href: '/platform/spark-crm', icon: 'contacts', desc: 'Lead ingestion & scoring' },
   { name: 'Performance Analytics', href: '/platform/analytics', icon: 'monitoring', desc: 'Full-funnel attribution' },
   { name: 'Call Tracking', href: '/platform/call-tracking', icon: 'phone_in_talk', desc: 'Dynamic session attribution' },
+  { name: 'Real-time Reviews', href: '/platform/real-time-reviews', icon: 'rate_review', desc: 'Social proof syndication' },
   { name: 'Bespoke Design', href: '/platform/bespoke-design', icon: 'palette', desc: 'Conversion-first UI' },
   { name: 'Spark API', href: '/platform/developer-api', icon: 'code', desc: 'Universal adapter' },
 ]
