@@ -23,9 +23,9 @@ const footerColumns = [
   {
     heading: 'Pricing',
     links: [
-      { name: 'Foundation', href: '/pricing' },
-      { name: 'Velocity', href: '/pricing' },
-      { name: 'Enterprise', href: '/pricing' },
+      { name: 'Business', href: '/pricing' },
+      { name: 'Scale', href: '/pricing' },
+      { name: 'Enterprise Scale', href: '/pricing' },
     ],
   },
   {
