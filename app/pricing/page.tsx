@@ -349,7 +349,7 @@ export default function Pricing() {
                 
                 {/* Enterprise Tooltip */}
                 <div className="text-[11px] text-muted-foreground flex items-center gap-1">
-                  <span>Setup setup costs apply</span>
+                  <span>Setup costs apply</span>
                   <div className="relative group/tooltip inline-flex cursor-help">
                     <span className="material-symbols-outlined text-[13px] text-muted-foreground/60 hover:text-foreground">info</span>
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:block bg-popover text-popover-foreground text-xs rounded-xl py-2 px-3 shadow-lg border border-border w-52 z-50 text-center font-normal leading-normal">
