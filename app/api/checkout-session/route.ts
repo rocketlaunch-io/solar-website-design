@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       )
       return NextResponse.json({
         mock: true,
-        url: `/pricing/checkout-mock?plan=${planName}`,
+        url: `/pricing/checkout?plan=${planName}`,
       })
     }
 

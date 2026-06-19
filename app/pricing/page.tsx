@@ -182,7 +182,7 @@ export default function Pricing() {
         </section>
 
         {/* Plans */}
-        <section className="mx-auto max-w-5xl px-6 py-24">
+        <section id="plans" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24">
           <div className="mx-auto max-w-2xl text-center space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full">Scale Your Revenue</span>
             <h2 className="text-balance font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
@@ -392,7 +392,7 @@ export default function Pricing() {
                       </li>
                     )
                   })}
-                  <li className="text-xs text-muted-foreground italic pl-6">And more custom developer integrations...</li>
+                  <li className="text-xs text-muted-foreground italic pl-6">And more custom platform integrations...</li>
                 </ul>
               </div>
 

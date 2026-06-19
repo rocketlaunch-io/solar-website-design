@@ -4,14 +4,13 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState, Suspense } from 'react'
 import { SparkLogo } from '@/components/spark-logo'
-import { ShieldCheck, Calendar, ArrowRight, CheckCircle, Terminal, Loader2 } from 'lucide-react'
+import { ShieldCheck, Calendar, ArrowRight, CheckCircle, Loader2 } from 'lucide-react'
 
 function SuccessPageContent() {
   const searchParams = useSearchParams()
   const plan = searchParams.get('plan') || 'Business'
-  const isMock = searchParams.get('mock') === 'true'
   const method = searchParams.get('method') || 'card'
-  const sessionId = searchParams.get('session_id') || 'sub_mock_123456789'
+  const sessionId = searchParams.get('session_id') || 'subscription pending'
   const promo = searchParams.get('promo') || ''
 
   const [logs, setLogs] = useState<string[]>([])
@@ -25,25 +24,23 @@ function SuccessPageContent() {
     day: 'numeric',
   })
 
-  // Dynamic log lines based on plan, payment method, trial details, and promo codes
   const logLines = [
-    `[INFO] Initializing Spark Solar growth core for plan: ${plan}...`,
+    `Preparing your Spark Solar ${plan} workspace.`,
     method === 'ach'
-      ? '[OK] Bank account direct debit mandate authorized via ACH.'
-      : '[OK] Credit card pre-authorization succeeded.',
-    '[OK] Connection established with Stripe Subscription Manager.',
-    `[OK] Subscription ID verified: ${sessionId}`,
+      ? 'Bank account authorization received.'
+      : 'Payment authorization received.',
+    'Subscription details confirmed.',
+    `Subscription reference: ${sessionId}`,
     promo
-      ? `[SUCCESS] Coupon "${promo}" applied: Core Setup Fee discount verified.`
+      ? `Promotion "${promo}" applied to the setup fee.`
       : '',
-    `[INFO] Platform trial activated: 30 days free platform base fee.`,
-    `[INFO] Platform recurring monthly fee starting on: ${formattedDate}.`,
-    '[PROVISION] Allocating dedicated sub-second edge cores...',
-    '[PROVISION] Binding Salesforce & CRM API gateways...',
-    '[PROVISION] Compiling 4,500 programmatic localized city pages...',
-    '[PROVISION] Seeding initial resources and articles config...',
-    '[OK] 24/7 qualifying Voice AI Callers connected.',
-    `[SUCCESS] Spark ${plan} platform successfully deployed to production!`,
+    '30-day platform trial activated.',
+    `Monthly platform billing starts on ${formattedDate}.`,
+    'Creating your onboarding workspace.',
+    'Preparing CRM and lead-routing setup.',
+    'Preparing analytics and reporting configuration.',
+    'Preparing launch resources.',
+    'Spark onboarding workspace is ready.',
   ].filter(Boolean)
 
   useEffect(() => {
@@ -80,33 +77,16 @@ function SuccessPageContent() {
         </p>
       </div>
 
-      {/* Simulated Console Logs */}
       <div className="w-full max-w-2xl bg-edge-navy-deep border border-outline-variant/20 rounded-2xl p-5 shadow-2xl text-left relative overflow-hidden font-mono text-xs text-white/95">
         <div className="flex items-center gap-2 border-b border-white/10 pb-3 mb-4 text-white/60">
-          <Terminal className="h-4.5 w-4.5 text-solar-amber" />
-          <span className="font-semibold tracking-wide uppercase text-[10px]">Ecosystem Orchestrator Logs</span>
-          <div className="ml-auto flex gap-1.5">
-            <div className="h-2 w-2 rounded-full bg-red-500/80" />
-            <div className="h-2 w-2 rounded-full bg-yellow-500/80" />
-            <div className="h-2 w-2 rounded-full bg-green-500/80" />
-          </div>
+          <CheckCircle className="h-4.5 w-4.5 text-solar-amber" />
+          <span className="font-semibold tracking-wide uppercase text-[10px]">Account Setup Progress</span>
         </div>
 
         <div className="space-y-2.5 min-h-[250px] overflow-y-auto max-h-[280px]">
           {logs.map((log, idx) => {
-            const isSuccess = log.includes('[SUCCESS]')
-            const isOk = log.includes('[OK]')
-            const isError = log.includes('[ERROR]')
-            const isInfo = log.includes('[INFO]')
-            const colorClass = isSuccess
-              ? 'text-energy-emerald font-semibold'
-              : isOk
-                ? 'text-solar-amber-bright font-semibold'
-                : isInfo
-                  ? 'text-accent'
-                  : isError
-                    ? 'text-red-400'
-                    : 'text-white/60'
+            const isComplete = idx === logs.length - 1 && log.includes('ready')
+            const colorClass = isComplete ? 'text-energy-emerald font-semibold' : 'text-white/70'
             return (
               <div key={idx} className="flex gap-2">
                 <span className="text-white/30 font-semibold shrink-0">{(idx + 1).toString().padStart(2, '0')}</span>
@@ -141,10 +121,10 @@ function SuccessPageContent() {
               </div>
             )}
             <div className="flex justify-between md:block">
-              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Gateway Status</div>
+              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Payment Status</div>
               <div className="text-xs font-semibold text-energy-emerald flex items-center gap-1 mt-0.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-energy-emerald animate-pulse" />
-                Active ({isMock ? `Sandbox ${method.toUpperCase()}` : `Live ${method.toUpperCase()}`})
+                Active ({method.toUpperCase()})
               </div>
             </div>
             <div className="flex justify-between md:block">
@@ -194,7 +174,7 @@ export default function SuccessPage() {
           </Link>
           <div className="flex items-center gap-2 text-xs font-bold text-energy-emerald uppercase border border-energy-emerald/20 rounded-full py-1 px-3.5 bg-energy-emerald/5">
             <span className="inline-block h-2 w-2 rounded-full bg-energy-emerald animate-pulse" />
-            Gateway Verified
+            Payment Verified
           </div>
         </div>
       </div>

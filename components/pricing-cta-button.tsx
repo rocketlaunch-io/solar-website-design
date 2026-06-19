@@ -58,7 +58,7 @@ export function PricingCtaButton({
         {isLoading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin text-current" />
-            <span>Deploying...</span>
+            <span>Starting checkout...</span>
           </>
         ) : (
           children

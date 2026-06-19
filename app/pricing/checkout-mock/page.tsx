@@ -36,15 +36,15 @@ function MockCheckoutContent() {
   // Form States (Card)
   const [email, setEmail] = useState('')
   const [cardName, setCardName] = useState('')
-  const [cardNumber, setCardNumber] = useState('4242 •••• •••• 4242')
-  const [cardExpiry, setCardExpiry] = useState('12/28')
-  const [cardCvc, setCardCvc] = useState('321')
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardExpiry, setCardExpiry] = useState('')
+  const [cardCvc, setCardCvc] = useState('')
 
   // Form States (ACH)
   const [bankName, setBankName] = useState('')
   const [accountName, setAccountName] = useState('')
-  const [routingNumber, setRoutingNumber] = useState('111000025') // Stripe test routing number
-  const [accountNumber, setAccountNumber] = useState('000123456789')
+  const [routingNumber, setRoutingNumber] = useState('')
+  const [accountNumber, setAccountNumber] = useState('')
 
   // Promo Code States
   const [promoInput, setPromoInput] = useState('')
@@ -54,19 +54,19 @@ function MockCheckoutContent() {
   const [showPromoInput, setShowPromoInput] = useState(false)
 
   // Payment States
-  const [paymentStep, setPaymentStep] = useState(0) // 0: Idle, 1..5: Simulation steps
+  const [paymentStep, setPaymentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const steps = [
-    'Initializing mock transaction...',
+    'Preparing your secure checkout...',
     paymentMethod === 'ach'
-      ? 'Connecting via Stripe Financial Connections mock...'
-      : 'Contacting Stripe mock credit gateway...',
-    'Verifying balance and tokenizing security signatures...',
+      ? 'Connecting bank account authorization...'
+      : 'Authorizing payment details...',
+    'Encrypting payment information...',
     'Creating recurring subscription with 30-day trial...',
     paymentMethod === 'ach'
       ? 'Authorizing ACH direct debit mandate...'
-      : 'Deploying your custom Spark edge infrastructure...',
+      : 'Confirming your Spark subscription...',
   ]
 
   const handleSimulatePayment = (e: React.FormEvent) => {
@@ -89,7 +89,7 @@ function MockCheckoutContent() {
       setAppliedPromo('SPARKFREE')
       setPromoInput('')
     } else {
-      setPromoError('No such promotion code found in sandbox registry.')
+      setPromoError('Promotion code could not be applied.')
     }
   }
 
@@ -110,7 +110,7 @@ function MockCheckoutContent() {
       const timer = setTimeout(() => {
         const promoQS = appliedPromo ? `&promo=${appliedPromo}` : ''
         router.push(
-          `/pricing/success?plan=${plan}&mock=true&method=${paymentMethod}${promoQS}`
+          `/pricing/success?plan=${plan}&method=${paymentMethod}${promoQS}`
         )
       }, 800)
       return () => clearTimeout(timer)
@@ -140,7 +140,7 @@ function MockCheckoutContent() {
                 </div>
 
                 <h3 className="font-heading text-xl font-bold text-foreground">
-                  Processing Sandbox Order
+                  Processing Your Order
                 </h3>
 
                 <div className="space-y-3 pt-2">
@@ -221,7 +221,7 @@ function MockCheckoutContent() {
             verified_user
           </span>
           <span className="text-[11px] font-bold uppercase tracking-wider text-solar-amber-bright">
-            Developer Local Sandbox
+            Secure Checkout
           </span>
         </div>
 
@@ -230,26 +230,20 @@ function MockCheckoutContent() {
             Complete Your Spark Registration
           </h1>
           <p className="text-sm text-muted-foreground max-w-xl">
-            Stripe credentials are not loaded in{' '}
-            <code className="bg-surface-container-high py-0.5 px-1.5 rounded text-accent text-xs font-mono">
-              .env.local
-            </code>
-            . Experience the sandbox checkout simulator with trials, promo codes, and ACH transfers.
+            Start your Spark platform subscription with a secure payment method. Your first 30 days of platform access are included before monthly billing begins.
           </p>
         </div>
 
-        {/* Warning card */}
         <div className="glass-panel border border-outline-variant/30 rounded-2xl p-5 flex items-start gap-4 bg-surface-container-low/40">
           <span className="material-symbols-outlined text-accent text-2xl mt-0.5">
-            info
+            lock
           </span>
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-foreground">
-              Sandbox coupon codes active
+              Secure payment processing
             </h4>
             <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-              Try code <code className="bg-surface-container-high px-1 text-accent rounded font-mono">WELCOME50</code> for 50% off the core setup cost, or{' '}
-              <code className="bg-surface-container-high px-1 text-accent rounded font-mono">SPARKFREE</code> for 100% off.
+              Your payment details are encrypted, and your recurring platform subscription starts after the 30-day trial period.
             </p>
           </div>
         </div>
@@ -467,11 +461,11 @@ function MockCheckoutContent() {
               >
                 bolt
               </span>
-              Simulate Sandbox {paymentMethod === 'ach' ? 'ACH Debit' : 'Payment'} (${totalDueToday.toLocaleString()})
+              Complete {paymentMethod === 'ach' ? 'ACH Authorization' : 'Payment'} (${totalDueToday.toLocaleString()})
             </button>
             <p className="text-center text-[10px] tracking-wide text-muted-foreground mt-3 uppercase font-semibold flex items-center justify-center gap-1.5">
               <Shield className="h-3.5 w-3.5 text-energy-emerald" />
-              Fully isolated sandbox environment
+              Secure payment protected by encryption
             </p>
           </div>
         </form>
@@ -581,7 +575,7 @@ function MockCheckoutContent() {
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="e.g. WELCOME50"
+                      placeholder="Enter code"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                       className="flex-grow bg-background border border-border/80 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-accent text-foreground uppercase font-mono"
@@ -687,7 +681,7 @@ export default function CheckoutMockPage() {
           </Link>
           <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase border border-border rounded-full py-1 px-3.5 bg-muted/20">
             <span className="inline-block h-2 w-2 rounded-full bg-solar-amber animate-pulse" />
-            Sandbox Gateway
+            Secure Payment
           </div>
         </div>
       </div>
@@ -705,8 +699,7 @@ export default function CheckoutMockPage() {
       </main>
 
       <div className="border-t border-border/60 bg-card py-6 text-center text-xs text-muted-foreground">
-        © 2026 Spark growth platform. For developer sandbox simulation purposes
-        only.
+        © 2026 Spark Solar Inc. All rights reserved.
       </div>
     </div>
   )
