@@ -119,13 +119,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeMobileAccordion, setActiveMobileAccordion] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
-  const [phoneNumber, setPhoneNumber] = useState('(888) 555-0199')
-
-  useEffect(() => {
-    const exchange = Math.floor(200 + Math.random() * 800)
-    const line = Math.floor(1000 + Math.random() * 9000)
-    setPhoneNumber(`(888) ${exchange}-${line}`)
-  }, [])
+  const phoneNumber = '(909) 747-9582'
 
   useEffect(() => {
     const handleScroll = () => {
