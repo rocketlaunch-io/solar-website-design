@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { WebGLShader } from "@/components/ui/web-gl-shader"
 import { PricingRoiCalculator } from "@/components/pricing-roi-calculator"
+import { PricingCtaButton } from "@/components/pricing-cta-button"
 
 export const metadata: Metadata = {
   title: "Pricing | Spark Website",
@@ -17,7 +18,7 @@ const standardPlans = [
     name: "Business",
     architecture: "React 19 Custom Edge Core",
     audience: "Perfect for single-market dealers and installers seeking elite performance.",
-    monthly: "$1,000",
+    monthly: "$5,000",
     perLead: "$20",
     setup: "$5,000 (One-time)",
     cta: "Deploy Business",
@@ -36,7 +37,7 @@ const standardPlans = [
     name: "Scale",
     architecture: "Full Growth Stack Ecosystem",
     audience: "Perfect for high-growth dealers seeking automated scale.",
-    monthly: "$5,000",
+    monthly: "$10,000",
     perLead: "$15",
     setup: "$10,000 (One-time)",
     popular: true,
@@ -281,16 +282,16 @@ export default function Pricing() {
                 </div>
 
                 <div className="mt-8 pt-4">
-                  <Link
-                    href="/contact"
-                    className={`block rounded-xl py-3.5 text-center text-sm font-bold tracking-wide transition-all duration-200 ${
+                  <PricingCtaButton
+                    planName={plan.name as 'Business' | 'Scale'}
+                    className={
                       plan.popular
-                        ? "bg-accent text-accent-foreground hover:bg-accent/95 shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/20"
-                        : "border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground"
-                    }`}
+                        ? "bg-accent text-accent-foreground hover:bg-accent/95 shadow-md shadow-accent/10 hover:shadow-lg hover:shadow-accent/20 rounded-xl py-3.5 text-center text-sm font-bold tracking-wide"
+                        : "border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-xl py-3.5 text-center text-sm font-bold tracking-wide"
+                    }
                   >
                     {plan.cta}
-                  </Link>
+                  </PricingCtaButton>
                   <p className="mt-3 text-center text-[10px] tracking-wide text-muted-foreground">{plan.ctaNote}</p>
                 </div>
               </div>
@@ -401,6 +402,54 @@ export default function Pricing() {
                   className="block rounded-xl py-3 text-center text-sm font-bold border border-border text-foreground hover:bg-secondary hover:text-secondary-foreground transition-all duration-200"
                 >
                   {enterprisePlan.cta}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 max-w-4xl mx-auto overflow-hidden rounded-3xl border border-solar-amber/30 bg-edge-navy text-white shadow-2xl shadow-primary/10">
+            <div className="grid gap-8 p-8 md:grid-cols-[1.15fr_0.85fr] md:p-10">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-solar-amber text-edge-navy">
+                    <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>
+                  </span>
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-solar-amber-bright">
+                    Startup & Early-Stage Program
+                  </p>
+                </div>
+
+                <h3 className="mt-5 font-heading text-3xl font-extrabold tracking-tight md:text-4xl">
+                  Spark Solar Accelerator Program
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:text-base">
+                  Early-stage solar teams can apply for discounted access to the entire Spark platform, including the website engine, lead systems, AI tooling, CRM workflows, analytics, and launch support.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  {["Full platform access", "Discounted partner rate", "Application required"].map((item) => (
+                    <span key={item} className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/80">
+                      <span className="material-symbols-outlined text-sm text-energy-emerald" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-white/45">Best Fit</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/75">
+                    New and growing solar companies with a defined market, active sales motion, and the ambition to scale without rebuilding their digital foundation later.
+                  </p>
+                </div>
+
+                <Link
+                  href="/accelerator"
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-secondary px-5 py-3.5 text-sm font-bold text-secondary-foreground shadow-lg shadow-secondary/20 transition-all duration-200 hover:bg-solar-amber-bright hover:-translate-y-0.5"
+                >
+                  Apply to the Program
+                  <span className="material-symbols-outlined text-base">arrow_forward</span>
                 </Link>
               </div>
             </div>

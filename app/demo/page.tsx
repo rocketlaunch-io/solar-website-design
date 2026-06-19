@@ -33,7 +33,7 @@ export default function DemoPage() {
         <section className="pb-24 px-4 md:px-16 max-w-[1000px] mx-auto">
           <div className="bg-white rounded-3xl border border-outline-variant/60 shadow-2xl p-4 sm:p-6 overflow-hidden min-h-[700px]">
             <Cal
-              calLink="rocketlaunch/free-strategy-call"
+              calLink="sparksolar/website"
               style={{ width: '100%', height: '100%', minHeight: '650px', overflow: 'scroll' }}
               config={{ layout: 'month_view' }}
             />

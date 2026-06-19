@@ -1,0 +1,75 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/client"
+}
+
+// Spark customer (the solar dealer/installer subscribing to Spark)
+model Customer {
+  id                  String   @id @default(cuid())
+  stripeCustomerId    String   @unique
+  companyName         String
+  email               String
+  planTier            String   // "business" | "scale"
+  subscriptionId      String?  // Stripe subscription ID
+  subscriptionItemId  String?  // Metered subscription item ID (for legacy) or null for meters
+  status              String   @default("active") // active | paused | cancelled
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  leads               Lead[]
+}
+
+// Individual lead captured through a Spark website for a Customer
+model Lead {
+  id                String   @id @default(cuid())
+  customerId        String
+  customer          Customer @relation(fields: [customerId], references: [id])
+  
+  // Lead contact data
+  firstName         String
+  lastName          String
+  email             String
+  phone             String
+  address           String?
+  city              String?
+  state             String?
+  zipCode           String
+  
+  // Solar-specific data
+  roofType          String?
+  monthlyBill       Float?
+  primaryGoal       String?
+  
+  // Verification pipeline
+  status            String   @default("pending") // pending | verifying | verified | rejected
+  verificationScore Int      @default(0)        // 0-100 composite score
+  
+  // Individual verification checks
+  formatValid       Boolean  @default(false)
+  tcpaConsent       Boolean  @default(false)
+  tcpaConsentAt     DateTime?
+  tcpaIpAddress     String?
+  addressValid      Boolean  @default(false)
+  isDuplicate       Boolean  @default(false)
+  
+  // Stripe billing
+  meterEventId      String?  // Stripe meter event ID (proof of billing)
+  billedAt          DateTime?
+  
+  // Rejection reason (if rejected)
+  rejectionReason   String?
+  
+  // Metadata
+  sourceUrl         String?  // Which page the lead came from
+  userAgent         String?
+  ipAddress         String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([email, customerId])
+  @@index([status])
+}

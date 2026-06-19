@@ -8,7 +8,7 @@ export function PricingRoiCalculator() {
   // Pricing Logic
   const isScale = leads >= 30
   const planName = isScale ? 'Scale' : 'Business'
-  const platformFee = isScale ? 5000 : 1000
+  const platformFee = isScale ? 10000 : 5000
   const perLeadFee = isScale ? 15 : 20
   const monthlyLeadCost = leads * perLeadFee
   const totalCost = platformFee + monthlyLeadCost

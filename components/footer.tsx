@@ -74,9 +74,14 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-12 pt-8 border-t border-white/10">
-          <p className="text-sm text-white/50">
-            © 2025 Spark Website — Solar-Tech Premium. All rights reserved.
-          </p>
+          <div className="text-center md:text-left">
+            <p className="text-sm text-white/50">
+              © 2026 Spark Solar Inc. All rights reserved.
+            </p>
+            <p className="mt-1 text-xs text-white/40">
+              1209 N. Orange Street, Wilmington, DE 19801
+            </p>
+          </div>
           <div className="flex items-center gap-2 text-xs text-white/50">
             <span className="w-2 h-2 rounded-full bg-energy-emerald animate-pulse" />
             99.9% Uptime — Edge Network Active

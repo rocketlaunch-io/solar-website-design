@@ -545,7 +545,7 @@ export function SolarSavingsCalculator({
     const encodedEmail = encodeURIComponent(formData.email);
     const encodedPhone = encodeURIComponent(formData.phone);
     
-    return `https://cal.com/rocketlaunch/free-strategy-call?name=${encodedName}&email=${encodedEmail}&phone=${encodedPhone}`;
+    return `https://cal.com/sparksolar/website?name=${encodedName}&email=${encodedEmail}&phone=${encodedPhone}`;
   };
 
   // Rendering isometric SVG layout based on panels
@@ -1831,7 +1831,7 @@ export function SolarSavingsCalculator({
                 </div>
 
                 <div className="max-w-[85%] bg-[#26262a] rounded-2xl py-2.5 px-3.5 text-white/90 self-start leading-relaxed shadow-sm font-medium">
-                  Click here to schedule a consultation: <span className="text-blue-400 underline">cal.com/rocketlaunch/strategy-call</span>
+                  Click here to schedule a consultation: <span className="text-blue-400 underline">cal.com/sparksolar/website</span>
                 </div>
               </div>
 

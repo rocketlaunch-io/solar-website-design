@@ -16,7 +16,7 @@ function VoiceWidgetInner() {
   const startConversation = async () => {
     try {
       await conversation.startSession({
-        agentId: "agent_1501kd6cs78jfv7r8p6t43rjcpv5",
+        agentId: "agent_8001k25bc7sdfwj8gphfvhdw1cxd",
         connectionType: "webrtc",
       })
       setIsOpen(true)

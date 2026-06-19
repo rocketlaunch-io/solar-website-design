@@ -3,9 +3,15 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import { SparkLeadWizard } from "@/components/spark-lead-wizard"
 
 export default function Contact() {
+  const [isAcceleratorApplication, setIsAcceleratorApplication] = useState(false)
+
+  useEffect(() => {
+    setIsAcceleratorApplication(new URLSearchParams(window.location.search).get("program") === "accelerator")
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col bg-surface">
@@ -20,16 +26,29 @@ export default function Contact() {
                 className="material-symbols-outlined text-primary text-sm" 
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
-                handshake
+                {isAcceleratorApplication ? "rocket_launch" : "handshake"}
               </span>
-              <span className="text-xs font-semibold text-primary tracking-wide">Begin Partnership</span>
+              <span className="text-xs font-semibold text-primary tracking-wide">
+                {isAcceleratorApplication ? "Accelerator Application" : "Begin Partnership"}
+              </span>
             </div>
             <h1 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-6 text-balance">
-              {"Let's Architect Your "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Future</span>
+              {isAcceleratorApplication ? (
+                <>
+                  Apply to the{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Accelerator</span>
+                </>
+              ) : (
+                <>
+                  {"Let's Architect Your "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Future</span>
+                </>
+              )}
             </h1>
             <p className="mx-auto max-w-2xl text-base text-muted-foreground leading-relaxed">
-              Have questions about our platform? Ready to scale your solar business? We are here to guide you through every step.
+              {isAcceleratorApplication
+                ? "Tell us about your solar company, market, traction, and growth goals. We use this application to evaluate fit for discounted Spark platform access."
+                : "Have questions about our platform? Ready to scale your solar business? We are here to guide you through every step."}
             </p>
           </div>
         </section>
@@ -50,10 +69,12 @@ export default function Contact() {
                     <span className="material-symbols-outlined text-primary text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_month</span>
                   </div>
                   <h2 className="font-heading text-2xl font-semibold text-foreground">
-                    Schedule Your Demo
+                    {isAcceleratorApplication ? "Prefer to Talk First?" : "Schedule Your Demo"}
                   </h2>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    Book a complimentary 1-on-1 walkthrough with our engineers. We will show you how Spark Website’s high-performance edge platform can multiply your conversion rate.
+                    {isAcceleratorApplication
+                      ? "If you want to discuss fit before applying, book a short walkthrough with our team and we will help determine whether the Accelerator is the right path."
+                      : "Book a complimentary 1-on-1 walkthrough with our engineers. We will show you how Spark Website’s high-performance edge platform can multiply your conversion rate."}
                   </p>
                   <Link 
                     href="/demo"
