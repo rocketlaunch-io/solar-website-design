@@ -562,4 +562,43 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "How does the AI reply generator work?", answer: "The AI analyzes the review text and drafts a personalized, professional response, incorporating local keywords to help boost your local SEO rankings." },
     ],
   },
+  {
+    slug: "referrals",
+    icon: "group_add",
+    title: "Referrals",
+    tagline: "Customer-Led Growth",
+    shortDescription: "Turn satisfied homeowners into your highest-performing sales force with automated tracking and payouts.",
+    fullDescription:
+      "Spark Referrals automates the lifecycle of customer word-of-mouth. Provide every homeowner with a branded personal referral portal where they can generate custom links, track audit progress, and receive automated payout checks upon panel installation.",
+    benefit:
+      "Self-generated referrals convert 4x faster and cost 80% less than digital ads. By automating tracking and reward incentives, you motivate your customer base to actively recruit neighbors, creating an organic local referral loop.",
+    detailedBenefits: [
+      "Personalized homeowner referral tracking portals",
+      "SMS & Email link sharing widgets",
+      "Automated reward payouts via Stripe Connect",
+      "Real-time pipeline transparency for referrers",
+      "Co-branded landing pages for referred prospects",
+    ],
+    roiMetric: {
+      value: "4.1x",
+      label: "Referral Lead Close Rate",
+    },
+    process: [
+      { step: "01", title: "Portal Provisioning", description: "Automatically generate a co-branded sharing portal for homeowners post-sale." },
+      { step: "02", title: "Link Sharing", description: "Homeowners share tracked referral links via text, email, or social media." },
+      { step: "03", title: "Pipeline Tracking", description: "Referred friends undergo automated property validation and engineering audit tracking." },
+      { step: "04", title: "Payout Automation", description: "Stripe Connect triggers cash payouts directly to the referrer's bank account on panel install." },
+    ],
+    specs: [
+      { label: "Portal Framework", value: "Serverless React client portals" },
+      { label: "Payout Gateway", value: "Stripe Connect / Direct ACH Transfers" },
+      { label: "Tracking Cookies", value: "180-day visitor session persistence" },
+      { label: "CRM Synchronization", value: "Instant contact lead creation" },
+    ],
+    faqs: [
+      { question: "How are referrers paid?", answer: "We integrate with Stripe Connect to allow direct deposit bank transfers (ACH), debit card push-payouts, or digital gift cards (Visa/Amazon) once installation goes green." },
+      { question: "Can homeowners track their referred friends' progress?", answer: "Yes, referrers can log into their secure portal to view their friends' milestone milestones (e.g. Audit Scheduled, Permit Approved, Installed) without exposing private details." },
+      { question: "Can we customize the payout rules?", answer: "Yes. You can customize reward tiers, such as offering $500 for the first referral, $1,000 for the second, or providing tier incentives (e.g. $50 for scheduling a free site audit, and $1,000 upon system install)." },
+    ],
+  },
 ]

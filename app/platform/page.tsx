@@ -58,7 +58,7 @@ export default function PlatformPage() {
                   <span className="text-sm font-medium text-foreground ml-1">4.9/5 rating</span>
                 </div>
                 <div className="h-4 w-px bg-outline-variant/50" />
-                <span className="text-sm text-muted-foreground">14 pre-integrated modules</span>
+                <span className="text-sm text-muted-foreground">15 pre-integrated modules</span>
               </div>
             </div>
 
@@ -68,7 +68,7 @@ export default function PlatformPage() {
               altText="Unified Solar Operating System Diagram Showcase"
               badgeText="Connected"
               statsTitle="Modules Active"
-              statsValue="14 Modules"
+              statsValue="15 Modules"
               toastIcon="hub"
               toastTitle="Ecosystem Synced"
               toastBody="All core modules deployed on edge nodes"

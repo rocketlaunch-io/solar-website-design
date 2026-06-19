@@ -1213,6 +1213,145 @@ function ReviewsHero() {
   )
 }
 
+/* ---------- 15. Referrals — customer-led growth portal ---------- */
+
+const HERO_REFERRALS = [
+  { name: "Sarah Jenkins", status: "Installed", date: "June 14, 2026", reward: "$1,000", color: "text-energy-emerald bg-energy-emerald/10 border-energy-emerald/30" },
+  { name: "David Miller", status: "Permit Approved", date: "June 18, 2026", reward: "Pending", color: "text-secondary bg-secondary/10 border-secondary/30" },
+  { name: "Priya Sharma", status: "Audit Scheduled", date: "June 19, 2026", reward: "Pending", color: "text-primary bg-primary/10 border-primary/30" },
+]
+
+function ReferralsHero() {
+  const [copied, setCopied] = useState<boolean>(false)
+  const [referredCount, setReferredCount] = useState<number>(3)
+  const reward = referredCount * 1000
+
+  const handleCopy = () => {
+    setCopied(true)
+    navigator.clipboard?.writeText("https://spark.dealer/ref/marcus-t")
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <HeroShell label="Customer Referral & Payout Dashboard">
+      <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.8fr] gap-5 items-stretch min-h-[380px]">
+        
+        {/* Left Column: Link Copy & Calculator */}
+        <div className="flex flex-col justify-between rounded-xl bg-surface-container border border-outline-variant/40 p-4 md:p-5 relative overflow-hidden">
+          <div className="absolute -left-16 -top-16 w-36 h-36 rounded-full bg-secondary/5 blur-2xl pointer-events-none" />
+
+          {/* Link Sharing Box */}
+          <div>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1.5 block">Your Sharing Link</span>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                readOnly
+                value="https://spark.dealer/ref/marcus-t"
+                className="flex-1 rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-2 text-[10px] font-mono text-muted-foreground select-all outline-none"
+                aria-label="Referral link"
+              />
+              <button
+                onClick={handleCopy}
+                className="inline-flex items-center justify-center bg-secondary text-secondary-foreground w-8 h-8 rounded-lg hover:bg-solar-amber-bright transition-colors shrink-0 shadow-sm"
+                aria-label="Copy link"
+              >
+                <span className="material-symbols-outlined text-base">
+                  {copied ? "check" : "content_copy"}
+                </span>
+              </button>
+            </div>
+            {copied && (
+              <span className="text-[9px] text-energy-emerald font-bold mt-1 block animate-in fade-in slide-in-from-top-1">
+                Link copied to clipboard!
+              </span>
+            )}
+          </div>
+
+          {/* Reward Calculator */}
+          <div className="border-t border-outline-variant/30 pt-4 mt-4">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1 block">Payout Calculator</span>
+            <div className="bg-secondary/5 border border-secondary/15 rounded-xl p-3.5 mb-4 text-center">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Estimated Payout</p>
+              <p className="font-heading text-2xl font-bold text-foreground">
+                ${reward.toLocaleString()} <span className="text-xs text-muted-foreground font-sans font-medium">({referredCount} installs)</span>
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-1.5">
+              <div className="flex justify-between items-center text-[9px] text-muted-foreground">
+                <span>1 referral</span>
+                <span>10 referrals</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={10}
+                step={1}
+                value={referredCount}
+                onChange={(e) => setReferredCount(Number(e.target.value))}
+                className="w-full accent-secondary"
+                aria-label="Referred installs count"
+              />
+            </div>
+            <p className="text-center text-[9px] text-muted-foreground/60 mt-2">Drag to estimate referral earnings ($1,000 / install)</p>
+          </div>
+
+        </div>
+
+        {/* Right Column: Live Referral Pipeline */}
+        <div className="flex flex-col justify-between rounded-xl bg-surface-container-low border border-outline-variant/30 p-4 md:p-5 relative overflow-hidden">
+          
+          {/* Header Stats */}
+          <div className="grid grid-cols-3 gap-2 border-b border-outline-variant/30 pb-3 mb-4 text-center">
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Total Referred</p>
+              <p className="font-heading text-xs font-bold text-foreground mt-0.5">3 Friends</p>
+            </div>
+            <div className="border-x border-outline-variant/30">
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Installs</p>
+              <p className="font-heading text-xs font-bold text-energy-emerald mt-0.5">1 Complete</p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Total Paid</p>
+              <p className="font-heading text-xs font-bold text-secondary mt-0.5">$1,000</p>
+            </div>
+          </div>
+
+          {/* Referral Pipeline Queue */}
+          <div className="flex-1 flex flex-col gap-3 justify-center">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1 block">Active Referrals Pipeline</span>
+            {HERO_REFERRALS.map((ref, idx) => (
+              <div
+                key={idx}
+                className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-3 flex justify-between items-center transition-all hover:border-secondary/40"
+              >
+                <div>
+                  <p className="text-xs font-semibold text-foreground leading-none">{ref.name}</p>
+                  <p className="text-[9px] text-muted-foreground mt-1">{ref.date}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${ref.color}`}>
+                    {ref.status}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-foreground">{ref.reward}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t border-outline-variant/30 pt-3 mt-4 text-center flex items-center justify-center gap-1.5 text-[10px] text-energy-emerald font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-energy-emerald animate-pulse" />
+            Payout system synced with Stripe Connect
+          </div>
+
+        </div>
+
+      </div>
+    </HeroShell>
+  )
+}
+
 /* ---------- router ---------- */
 
 export function FeatureHeroDemo({ slug }: { slug: string }) {
@@ -1241,6 +1380,8 @@ export function FeatureHeroDemo({ slug }: { slug: string }) {
       return <CallTrackingHero />
     case "real-time-reviews":
       return <ReviewsHero />
+    case "referrals":
+      return <ReferralsHero />
     case "bespoke-design":
       return <BespokeDesignHero />
     case "developer-api":
