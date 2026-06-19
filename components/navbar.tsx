@@ -15,6 +15,7 @@ export const platformFeatures = [
   { name: 'Voice Agents', href: '/platform/voice-agents', icon: 'support_agent', desc: '24/7 AI sales force' },
   { name: 'Spark CRM', href: '/platform/spark-crm', icon: 'contacts', desc: 'Lead ingestion & scoring' },
   { name: 'Performance Analytics', href: '/platform/analytics', icon: 'monitoring', desc: 'Full-funnel attribution' },
+  { name: 'Call Tracking', href: '/platform/call-tracking', icon: 'phone_in_talk', desc: 'Dynamic session attribution' },
   { name: 'Bespoke Design', href: '/platform/bespoke-design', icon: 'palette', desc: 'Conversion-first UI' },
   { name: 'Spark API', href: '/platform/developer-api', icon: 'code', desc: 'Universal adapter' },
 ]

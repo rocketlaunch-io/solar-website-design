@@ -783,6 +783,216 @@ function ApiHero() {
   )
 }
 
+/* ---------- 13. Call Tracking — interactive attribution console ---------- */
+
+const HERO_CALLS = [
+  {
+    id: 1,
+    phone: "(909) 747-9582",
+    caller: "Marcus T.",
+    source: "Google Ads",
+    keyword: "solar panels phoenix az",
+    duration: "4m 12s",
+    sentiment: "High Intent",
+    score: 94,
+    transcription: [
+      { speaker: "Rep", text: "Thanks for calling Spark Solar. How can I help you today?" },
+      { speaker: "Marcus", text: "Hi, I was looking at your solar savings calculator. It estimated about $48,000 in savings over 25 years. I wanted to verify if that includes the 30% federal tax credit?" },
+      { speaker: "Rep", text: "Yes, Marcus! It absolutely does. I can set up a quick site audit to verify your roof tilt and shading to lock in that exact projection. What day works?" },
+      { speaker: "Marcus", text: "Thursday afternoon at 2 PM works best for me." }
+    ],
+    summary: "Homeowner verified $48k calculator savings estimate. Confirmed roof tilt compatibility. Scheduled site audit for Thursday at 2 PM."
+  },
+  {
+    id: 2,
+    phone: "(602) 555-1234",
+    caller: "Priya S.",
+    source: "Organic Local SEO",
+    keyword: "best solar installer Scottsdale",
+    duration: "2m 45s",
+    sentiment: "Warm Interest",
+    score: 82,
+    transcription: [
+      { speaker: "Rep", text: "Spark Solar, this is Sarah. How can I assist you?" },
+      { speaker: "Priya", text: "Hello! I saw your Scottsdale project gallery. Do you install Tesla Powerwalls? We experience a lot of peak rate pricing here." },
+      { speaker: "Rep", text: "We do! We are a certified Tesla Powerwall installer. I can run an offset model for your specific home to see if one battery or two is best." },
+      { speaker: "Priya", text: "Great, let's schedule that. I want to make sure we're covered." }
+    ],
+    summary: "Inquired about Scottsdale local install gallery and Tesla Powerwall battery backup pricing. Wants offset model. Scheduled sales consultation."
+  },
+  {
+    id: 3,
+    phone: "(512) 555-9876",
+    caller: "Facebook Campaign",
+    keyword: "solar backup Scottsdale",
+    duration: "1m 30s",
+    sentiment: "Low Intent",
+    score: 31,
+    transcription: [
+      { speaker: "Rep", text: "Thanks for calling Spark Solar. How can I help you?" },
+      { speaker: "Dana", text: "Yes, I saw an ad saying solar is free? Is that true?" },
+      { speaker: "Rep", text: "Our solar systems are $0 down financing, which means no upfront costs, but it is not completely free. You replace your utility bill with a lower solar payment." },
+      { speaker: "Dana", text: "Oh, I see. I don't want another monthly payment. Thanks anyway." }
+    ],
+    summary: "Called regarding $0 down ad copy. Disliked concept of replacing utility bill with solar loan payment. Not interested in scheduling audit."
+  }
+]
+
+function CallTrackingHero() {
+  const [selectedId, setSelectedId] = useState(1)
+  const [playing, setPlaying] = useState(false)
+  const [progress, setProgress] = useState(0)
+
+  const activeCall = HERO_CALLS.find((c) => c.id === selectedId) || HERO_CALLS[0]
+
+  useInterval(
+    () => {
+      setProgress((p) => {
+        if (p >= 100) {
+          setPlaying(false)
+          return 0
+        }
+        return p + 1.5
+      })
+    },
+    playing ? 100 : null
+  )
+
+  useEffect(() => {
+    setProgress(0)
+    setPlaying(false)
+  }, [selectedId])
+
+  const ringColor = activeCall.score >= 80 ? "text-energy-emerald" : activeCall.score >= 50 ? "text-secondary" : "text-destructive"
+  const bgRingColor = activeCall.score >= 80 ? "bg-energy-emerald/10 border-energy-emerald/30" : activeCall.score >= 50 ? "bg-secondary/10 border-secondary/30" : "bg-destructive/10 border-destructive/30"
+
+  return (
+    <HeroShell label="Live Call Intelligence Dashboard">
+      <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.8fr] gap-5 items-stretch min-h-[360px]">
+        {/* Call Queue Column */}
+        <div className="flex flex-col gap-2.5">
+          <p className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground px-1">Inbound Call Stream</p>
+          {HERO_CALLS.map((call) => {
+            const isSelected = call.id === selectedId
+            return (
+              <button
+                key={call.id}
+                onClick={() => setSelectedId(call.id)}
+                className={`w-full text-left p-3.5 rounded-xl border transition-all duration-300 flex flex-col justify-between ${
+                  isSelected
+                    ? "bg-edge-navy text-white border-white/5 shadow-md scale-[1.01]"
+                    : "bg-surface-container border-outline-variant/40 hover:bg-surface-container-low hover:border-outline-variant/60"
+                }`}
+              >
+                <div className="flex items-center justify-between w-full mb-2">
+                  <span className="font-mono text-xs font-bold leading-none">{call.phone}</span>
+                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                    call.source === "Google Ads" ? "bg-primary/20 text-primary-foreground border border-primary/20" :
+                    call.source === "Organic Local SEO" ? "bg-energy-emerald/10 text-energy-emerald border border-energy-emerald/20" :
+                    "bg-secondary/15 text-secondary border border-secondary/20"
+                  } ${isSelected ? "!text-white !bg-white/10 !border-white/10" : ""}`}>
+                    {call.source}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between w-full">
+                  <span className={`text-[11px] font-semibold ${isSelected ? "text-white/70" : "text-muted-foreground"}`}>{call.caller}</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-energy-emerald animate-pulse" />
+                    <span className={`text-[10px] font-bold font-mono ${isSelected ? "text-secondary" : "text-primary"}`}>{call.score}</span>
+                  </div>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Audio Player & Transcription Details */}
+        <div className="flex flex-col justify-between rounded-xl bg-surface-container-low border border-outline-variant/30 p-4 md:p-5 relative overflow-hidden">
+          <div className="absolute -right-16 -top-16 w-36 h-36 rounded-full bg-secondary/5 blur-2xl pointer-events-none" />
+
+          {/* Header Metadata */}
+          <div className="flex items-center justify-between border-b border-outline-variant/30 pb-3 mb-4">
+            <div>
+              <p className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground leading-none">Attributed Keyword</p>
+              <p className="font-heading text-xs font-extrabold text-foreground mt-1 flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-secondary">tag</span>
+                {activeCall.keyword}
+              </p>
+            </div>
+            <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border ${bgRingColor} ${ringColor}`}>
+              <span className="material-symbols-outlined text-xs">sentiment_satisfied</span>
+              {activeCall.sentiment}
+            </div>
+          </div>
+
+          {/* Transcription Area */}
+          <div className="flex-grow flex flex-col justify-start gap-3 overflow-y-auto max-h-[140px] mb-4 pr-1 scrollbar-thin">
+            {activeCall.transcription.map((t, idx) => (
+              <div key={idx} className={`flex flex-col ${t.speaker === "Rep" ? "items-start" : "items-end"}`}>
+                <span className="text-[9px] uppercase tracking-wide text-muted-foreground mb-0.5">{t.speaker}</span>
+                <p className={`text-[11px] leading-relaxed p-2.5 rounded-xl max-w-[85%] ${
+                  t.speaker === "Rep"
+                    ? "bg-surface-container-lowest text-foreground border border-outline-variant/30 rounded-tl-none"
+                    : "bg-edge-navy text-white rounded-tr-none"
+                }`}>
+                  {t.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* AI Summary Block */}
+          <div className="bg-secondary/5 border border-secondary/15 rounded-xl p-3 mb-4">
+            <div className="flex items-center gap-1.5 text-secondary text-[10px] font-bold uppercase tracking-wider mb-1">
+              <span className="material-symbols-outlined text-[13px]" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
+              Spark AI Call Summary
+            </div>
+            <p className="text-[11px] leading-normal text-muted-foreground">{activeCall.summary}</p>
+          </div>
+
+          {/* Call Waveform & Audio Scrubber */}
+          <div className="border-t border-outline-variant/30 pt-3 flex items-center gap-3">
+            <button
+              onClick={() => setPlaying((p) => !p)}
+              className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center hover:bg-solar-amber-bright transition-colors shrink-0 shadow-sm"
+              aria-label={playing ? "Pause" : "Play"}
+            >
+              <span className="material-symbols-outlined text-lg leading-none">
+                {playing ? "pause" : "play_arrow"}
+              </span>
+            </button>
+            <div className="flex-1 flex flex-col gap-1.5">
+              {/* Mock Waveform bars */}
+              <div className="flex items-end justify-between h-5 gap-[2px] px-1 overflow-hidden">
+                {Array.from({ length: 48 }).map((_, i) => {
+                  const h = Math.abs(Math.sin((i / 4.8) * Math.PI) * Math.cos((i / 9.6) * Math.PI)) * 16 + 2
+                  const isActive = (i / 48) * 100 <= progress
+                  return (
+                    <div
+                      key={i}
+                      className={`w-[3px] rounded-full transition-all duration-300 ${
+                        isActive ? "bg-secondary" : "bg-outline-variant/30"
+                      }`}
+                      style={{
+                        height: `${h}px`,
+                      }}
+                    />
+                  )
+                })}
+              </div>
+              <div className="flex justify-between items-center text-[9px] font-mono text-muted-foreground leading-none">
+                <span>{playing ? `0:0${Math.floor((progress / 100) * 4)}` : "0:00"}</span>
+                <span>{activeCall.duration}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </HeroShell>
+  )
+}
+
 /* ---------- router ---------- */
 
 export function FeatureHeroDemo({ slug }: { slug: string }) {
@@ -807,6 +1017,8 @@ export function FeatureHeroDemo({ slug }: { slug: string }) {
       return <SparkCrmHero />
     case "analytics":
       return <AnalyticsHero />
+    case "call-tracking":
+      return <CallTrackingHero />
     case "bespoke-design":
       return <BespokeDesignHero />
     case "developer-api":

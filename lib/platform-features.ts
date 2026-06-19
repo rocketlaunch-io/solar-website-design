@@ -484,4 +484,43 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "Does it support custom payload mapping?", answer: "Yes, our webhooks support custom JSON mapping to match any structure." },
     ],
   },
+  {
+    slug: "call-tracking",
+    icon: "phone_in_talk",
+    title: "Call Tracking",
+    tagline: "Dynamic Attribution",
+    shortDescription: "Correlate offline phone calls to online ad sources down to the exact keyword.",
+    fullDescription:
+      "Spark Call Tracking closes the loop on offline conversions. By dynamically inserting unique phone numbers (DNI) per visitor session, we attribute every inbound phone lead to the exact campaign, ad creative, and search keyword that triggered it.",
+    benefit:
+      "Stop guessing which marketing channels drive call-in leads. Link phone conversions directly to Google and Meta ad managers, allowing our AI to optimize your ad spend based on real phone revenue.",
+    detailedBenefits: [
+      "Dynamic Number Insertion (DNI) per visitor session",
+      "Keyword-level Google & Meta ad attribution",
+      "Automated AI call recording & transcription",
+      "Call sentiment analysis & intent scoring",
+      "Out-of-the-box CRM lead linking",
+    ],
+    roiMetric: {
+      value: "+31%",
+      label: "Attribution Accuracy Increase",
+    },
+    process: [
+      { step: "01", title: "Pool Provisioning", description: "We assign a dynamic block of local phone numbers dedicated to your site visitors." },
+      { step: "02", title: "Dynamic Replacement", description: "Our script automatically swaps your public phone number based on visitor source." },
+      { step: "03", title: "Real-Time Routing", description: "Calls are instantly routed to your sales desk while capturing tracking cookies." },
+      { step: "04", title: "AI Transcription", description: "Our engine records, transcribes, and analyzes customer intent, push-syncing to your CRM." },
+    ],
+    specs: [
+      { label: "Attribution Type", value: "Dynamic Number Insertion (DNI)" },
+      { label: "API Integrations", value: "Twilio, HubSpot, Salesforce, Google Ads" },
+      { label: "AI Model", value: "Whisper v3 Transcription + GPT Intent Classify" },
+      { label: "SLA Sync", value: "< 5 seconds after call completion" },
+    ],
+    faqs: [
+      { question: "Will dynamic numbers confuse return customers?", answer: "No. Visitor sessions are cookie-locked. If a customer returns to your site, they see the same number they originally called. Additionally, calls to any number in your dynamic pool route to your main line forever." },
+      { question: "Can you track Google Maps and offline flyers?", answer: "Yes. We provision static tracking numbers for Google Business Profile, direct mail, and print flyers, attributing call metrics to those specific off-site sources." },
+      { question: "Does the system record and transcribe automatically?", answer: "Yes, all calls can be transcribed and analyzed for sentiment in real time, with full compliance call-disclosure voice prompts enabled by default." },
+    ],
+  },
 ]
