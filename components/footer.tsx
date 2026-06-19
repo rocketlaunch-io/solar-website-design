@@ -33,7 +33,7 @@ const footerColumns = [
     links: [
       { name: 'Contact', href: '/contact' },
       { name: 'Support', href: '/support' },
-      { name: 'Security', href: '/privacy' },
+      { name: 'Security', href: '/security' },
       { name: 'Privacy', href: '/privacy' },
       { name: 'Terms', href: '/terms' },
     ],
