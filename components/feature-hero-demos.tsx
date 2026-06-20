@@ -1629,6 +1629,189 @@ function SocialFeedHero() {
   )
 }
 
+/* ---------- 17. Rep Pages — interactive sales enablement portal ---------- */
+
+interface ChatMessage {
+  sender: "user" | "rep"
+  text: string
+}
+
+function RepPagesHero() {
+  const [selectedUtm, setSelectedUtm] = useState<"Facebook" | "Door QR" | "SEO">("Facebook")
+  const [chatInput, setChatInput] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { sender: "user", text: "Hi Marcus, I just uploaded my utility bill. Do you have a second to look?" }
+  ])
+
+  // Stats mapped to UTM sources
+  const leadStats = {
+    Facebook: { count: 24, val: "$142,000", lead: "John D." },
+    "Door QR": { count: 18, val: "$96,000", lead: "Elena G." },
+    SEO: { count: 11, val: "$54,000", lead: "Tim B." }
+  }
+
+  const activeStats = leadStats[selectedUtm]
+
+  const handleSendChat = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!chatInput.trim()) return
+
+    const userMsg = chatInput
+    setMessages((prev) => [...prev, { sender: "user", text: userMsg }])
+    setChatInput("")
+    setIsTyping(true)
+
+    setTimeout(() => {
+      setIsTyping(false)
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "rep",
+          text: "Hey! Yes, I just received the Discord webhook alert. I see your Scottsdale bill was uploaded. Let me run a savings calculation for you right now."
+        }
+      ])
+    }, 1200)
+  }
+
+  return (
+    <HeroShell label="Rep Portal & Lead Attribution Dashboard">
+      <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.8fr] gap-5 items-stretch min-h-[380px]">
+        
+        {/* Left Column: Mobile Rep Page Simulator */}
+        <div className="rounded-xl bg-edge-navy border border-white/5 p-4 text-white flex flex-col justify-between relative overflow-hidden min-h-[360px]">
+          {/* Header */}
+          <div className="border-b border-white/10 pb-3 mb-3 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center font-bold text-sm">
+              MT
+            </div>
+            <div>
+              <p className="text-xs font-bold leading-none">Marcus Thompson</p>
+              <p className="text-[9px] text-white/50 mt-1 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-energy-emerald animate-pulse" />
+                Online on Discord
+              </p>
+            </div>
+          </div>
+
+          {/* Chat Stream Area */}
+          <div className="flex-1 flex flex-col gap-2 overflow-y-auto max-h-[160px] mb-3 pr-1 scrollbar-thin scrollbar-thumb-white/10">
+            {messages.map((m, idx) => (
+              <div key={idx} className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}>
+                <p className={`text-[10px] leading-relaxed p-2 rounded-lg max-w-[85%] ${
+                  m.sender === "user"
+                    ? "bg-white/10 text-white rounded-tr-none"
+                    : "bg-secondary text-secondary-foreground rounded-tl-none"
+                }`}>
+                  {m.text}
+                </p>
+              </div>
+            ))}
+            {isTyping && (
+              <div className="flex items-center gap-1.5 text-[9px] text-white/40 font-mono">
+                <span className="w-1 h-1 rounded-full bg-white animate-bounce" />
+                <span className="w-1 h-1 rounded-full bg-white animate-bounce delay-75" />
+                <span className="w-1 h-1 rounded-full bg-white animate-bounce delay-150" />
+                Marcus is typing...
+              </div>
+            )}
+          </div>
+
+          {/* Chat Form */}
+          <form onSubmit={handleSendChat} className="border-t border-white/10 pt-3 flex gap-2">
+            <input
+              type="text"
+              placeholder="Ask Marcus a question..."
+              value={chatInput}
+              disabled={isTyping}
+              onChange={(e) => setChatInput(e.target.value)}
+              className="flex-grow rounded-lg bg-white/5 border border-white/10 px-3 py-1.5 text-[10px] text-white outline-none focus:border-secondary transition-colors"
+              aria-label="Chat input"
+            />
+            <button
+              type="submit"
+              disabled={isTyping || !chatInput.trim()}
+              className="w-8 h-8 rounded-lg bg-secondary text-secondary-foreground flex items-center justify-center hover:bg-solar-amber-bright transition-colors shrink-0 disabled:opacity-40"
+              aria-label="Send message"
+            >
+              <span className="material-symbols-outlined text-sm">send</span>
+            </button>
+          </form>
+        </div>
+
+        {/* Right Column: Rep Attribution Dashboard */}
+        <div className="flex flex-col justify-between rounded-xl bg-surface-container-low border border-outline-variant/30 p-4 md:p-5 relative overflow-hidden">
+          
+          {/* Tracking Links Filter */}
+          <div>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-2 block">UTM Source Links</span>
+            <div className="flex gap-1.5 bg-surface-container p-1 rounded-lg border border-outline-variant/30 mb-3.5">
+              {["Facebook", "Door QR", "SEO"].map((src) => (
+                <button
+                  key={src}
+                  onClick={() => setSelectedUtm(src as any)}
+                  className={`flex-1 text-[10px] font-bold py-1.5 rounded transition-all ${
+                    selectedUtm === src
+                      ? "bg-edge-navy text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {src}
+                </button>
+              ))}
+            </div>
+            {/* Dynamic URL Copy Output */}
+            <input
+              type="text"
+              readOnly
+              value={`https://spark.dealer/rep/marcus-t?utm_source=${selectedUtm.toLowerCase().replace(" ", "-")}`}
+              className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-2 text-[9px] font-mono text-muted-foreground select-all outline-none mb-4"
+              aria-label="UTM tracking link"
+            />
+          </div>
+
+          {/* Rep Lead Stats */}
+          <div className="grid grid-cols-3 gap-2 border-y border-outline-variant/30 py-3 mb-4 text-center">
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Self-Gen Leads</p>
+              <p className="font-heading text-sm font-bold text-foreground mt-0.5">{activeStats.count} Leads</p>
+            </div>
+            <div className="border-x border-outline-variant/30">
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Closed Value</p>
+              <p className="font-heading text-sm font-bold text-energy-emerald mt-0.5">{activeStats.val}</p>
+            </div>
+            <div>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Active Pipelines</p>
+              <p className="font-heading text-sm font-bold text-secondary mt-0.5">8 Deals</p>
+            </div>
+          </div>
+
+          {/* Recent Leads Attributions list */}
+          <div>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-2 block">Active Lead Feed</span>
+            <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-3 flex justify-between items-center transition-all hover:border-secondary/40">
+              <div>
+                <p className="text-xs font-semibold text-foreground leading-none">{activeStats.lead}</p>
+                <p className="text-[9px] text-muted-foreground mt-1">Attributed to Rep Link ({selectedUtm})</p>
+              </div>
+              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border text-energy-emerald bg-energy-emerald/10 border-energy-emerald/30 font-mono">
+                92% AI Score
+              </span>
+            </div>
+          </div>
+
+          <div className="border-t border-outline-variant/30 pt-3 mt-4 text-center flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
+            <span className="material-symbols-outlined text-[13px] text-secondary">insights</span>
+            Self-gen campaign lead tracking enabled.
+          </div>
+
+        </div>
+
+      </div>
+    </HeroShell>
+  )
+}
+
 /* ---------- router ---------- */
 
 export function FeatureHeroDemo({ slug }: { slug: string }) {
@@ -1661,6 +1844,8 @@ export function FeatureHeroDemo({ slug }: { slug: string }) {
       return <ReferralsHero />
     case "social-feed":
       return <SocialFeedHero />
+    case "rep-pages":
+      return <RepPagesHero />
     case "bespoke-design":
       return <BespokeDesignHero />
     case "developer-api":

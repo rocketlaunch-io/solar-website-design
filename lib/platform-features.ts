@@ -640,4 +640,43 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "Can we reward customers for sharing video stories?", answer: "Yes. You can link the story collector to our Referral Engine to automatically trigger reward payouts or gift cards once a verified video story is submitted." },
     ],
   },
+  {
+    slug: "rep-pages",
+    icon: "badge",
+    title: "Rep Pages",
+    tagline: "Sales Enablement",
+    shortDescription: "Equip your sales reps with co-branded, individualized lead portals with dynamic link tracking.",
+    fullDescription:
+      "Spark Rep Pages provides each of your field sales representatives with a personalized, high-converting digital gateway. Homeowners can check rep credibility, submit utility bills securely, and chat live with reps via Discord integrations while all lead submissions route to your CRM with correct attribution.",
+    benefit:
+      "Empower your reps to generate, track, and attribute their own self-generated leads. Replacing generic sales decks with co-branded digital portals builds immediate trust and speeds up homeowner decisions, lifting self-gen close rates.",
+    detailedBenefits: [
+      "Individualized rep lead capture URLs",
+      "Live chat routing via Discord/Slack integrations",
+      "Self-gen lead stats dashboard per sales rep",
+      "Automated UTM & link tracking attribution",
+      "Co-branded homeowner proposals and calculators",
+    ],
+    roiMetric: {
+      value: "+35%",
+      label: "Self-Gen Lead Close Rate Lift",
+    },
+    process: [
+      { step: "01", title: "Rep Scaffolding", description: "Instantly deploy co-branded lead portals for new reps via the admin directory." },
+      { step: "02", title: "Portal Customization", description: "Reps customize bio text, headshot avatars, and connect their live chat IDs." },
+      { step: "03", title: "Link Sharing", description: "Reps share dynamic URLs with UTM parameters for door-knocking, social, or local ads." },
+      { step: "04", title: "Attribution Sync", description: "Inbound submissions link directly to the rep's CRM account with automated AI scoring." },
+    ],
+    specs: [
+      { label: "Deployment Time", value: "Instant via Admin console" },
+      { label: "Chat Integration", value: "Discord webhooks & Slack routing" },
+      { label: "Tracking Capabilities", value: "UTM variables, visitor duration, page views" },
+      { label: "Security Standards", value: "SSL encrypted inputs & secure file uploads" },
+    ],
+    faqs: [
+      { question: "Can reps connect their own chat widgets?", answer: "Yes. Reps can paste their Discord or Slack webhook URL directly into their profile settings, routing customer chat notifications straight to their personal mobile app." },
+      { question: "How does the link tracking work?", answer: "Every page generates rep-specific UTM query links. When a homeowner fills out a form on spark.dealer/rep/marcus, our CRM Bridge records Marcus as the primary lead owner." },
+      { question: "Can homeowners upload utility bills on Rep Pages?", answer: "Yes. Rep Pages include secure document upload widgets allowing homeowners to drop PDF or image files of their utility bills directly into the rep's pipeline." },
+    ],
+  },
 ]

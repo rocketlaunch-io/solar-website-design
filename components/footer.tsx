@@ -22,6 +22,7 @@ const footerColumns = [
       { name: 'Real-time Reviews', href: '/platform/real-time-reviews' },
       { name: 'Referral Engine', href: '/platform/referrals' },
       { name: 'Social Feed', href: '/platform/social-feed' },
+      { name: 'Rep Pages', href: '/platform/rep-pages' },
     ],
   },
   {
