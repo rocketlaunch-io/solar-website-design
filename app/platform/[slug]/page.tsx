@@ -5,7 +5,7 @@ import Image from "next/image"
 import { FeatureHeroDemo } from "@/components/feature-hero-demos"
 import { platformFeaturesData } from "@/lib/platform-features"
 import { CalculatorTourWrapper } from "@/components/calculator-tour-wrapper"
-import { ProcessFlow, FaqAccordion } from "@/components/feature-interactive-sections"
+import { ProcessFlow, FaqAccordion, DigitalCardSpotlight } from "@/components/feature-interactive-sections"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 
@@ -172,6 +172,9 @@ export default async function PlatformFeaturePage({
             </div>
           </div>
         </section>
+
+        {/* Spotlight Section (Conditional for Rep Pages) */}
+        {slug === "rep-pages" && <DigitalCardSpotlight />}
 
         {/* How It Works (Process Flow) */}
         {slug !== "solar-savings-calculator" && (
