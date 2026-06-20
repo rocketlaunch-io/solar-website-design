@@ -1643,6 +1643,13 @@ function RepPagesHero() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { sender: "user", text: "Hi Marcus, I just uploaded my utility bill. Do you have a second to look?" }
   ])
+  const [showCardModal, setShowCardModal] = useState(false)
+  const [vCardSuccess, setVCardSuccess] = useState(false)
+
+  const handleDownloadVCard = () => {
+    setVCardSuccess(true)
+    setTimeout(() => setVCardSuccess(false), 2000)
+  }
 
   // Stats mapped to UTM sources
   const leadStats = {
@@ -1681,18 +1688,137 @@ function RepPagesHero() {
         {/* Left Column: Mobile Rep Page Simulator */}
         <div className="rounded-xl bg-edge-navy border border-white/5 p-4 text-white flex flex-col justify-between relative overflow-hidden min-h-[360px]">
           {/* Header */}
-          <div className="border-b border-white/10 pb-3 mb-3 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center font-bold text-sm">
-              MT
+          <div className="border-b border-white/10 pb-3 mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-secondary text-secondary-foreground flex flex-shrink-0 items-center justify-center font-bold text-sm">
+                MT
+              </div>
+              <div>
+                <p className="text-xs font-bold leading-none">Marcus Thompson</p>
+                <p className="text-[9px] text-white/50 mt-1 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-energy-emerald animate-pulse" />
+                  Online on Discord
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-bold leading-none">Marcus Thompson</p>
-              <p className="text-[9px] text-white/50 mt-1 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-energy-emerald animate-pulse" />
-                Online on Discord
-              </p>
-            </div>
+            {/* Digital Business Card Trigger */}
+            <button
+              onClick={() => setShowCardModal(true)}
+              className="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white border border-white/10 px-2 py-1 rounded text-[10px] font-semibold transition-all shrink-0"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[12px] text-secondary">qr_code_2</span>
+              <span>Card</span>
+            </button>
           </div>
+
+          {/* Digital Solar Business Card Modal Overlay */}
+          {showCardModal && (
+            <div className="absolute inset-0 bg-edge-navy/95 backdrop-blur-md z-20 p-4 flex flex-col justify-between items-center text-center">
+              <div className="w-full flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+                <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">Digital Solar Business Card</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCardModal(false)
+                    setVCardSuccess(false)
+                  }}
+                  className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all"
+                  aria-label="Close Business Card"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center items-center gap-2">
+                {/* QR Code Container with nice glow */}
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-secondary to-solar-amber-bright opacity-30 blur group-hover:opacity-50 transition-all duration-500" />
+                  <div className="relative bg-white p-2 rounded-xl border border-white/10">
+                    <svg viewBox="0 0 100 100" className="w-20 h-20 text-edge-navy" aria-hidden="true">
+                      {/* Finder patterns */}
+                      <rect x="0" y="0" width="30" height="30" fill="currentColor" rx="4" />
+                      <rect x="5" y="5" width="20" height="20" fill="white" rx="2" />
+                      <rect x="10" y="10" width="10" height="10" fill="currentColor" rx="1" />
+
+                      <rect x="70" y="0" width="30" height="30" fill="currentColor" rx="4" />
+                      <rect x="75" y="5" width="20" height="20" fill="white" rx="2" />
+                      <rect x="80" y="10" width="10" height="10" fill="currentColor" rx="1" />
+
+                      <rect x="0" y="70" width="30" height="30" fill="currentColor" rx="4" />
+                      <rect x="5" y="75" width="20" height="20" fill="white" rx="2" />
+                      <rect x="10" y="80" width="10" height="10" fill="currentColor" rx="1" />
+
+                      {/* Mock QR details */}
+                      <rect x="35" y="5" width="5" height="10" fill="currentColor" rx="1" />
+                      <rect x="45" y="0" width="10" height="5" fill="currentColor" rx="1" />
+                      <rect x="60" y="10" width="5" height="15" fill="currentColor" rx="1" />
+                      <rect x="35" y="20" width="15" height="5" fill="currentColor" rx="1" />
+                      
+                      <rect x="5" y="35" width="10" height="5" fill="currentColor" rx="1" />
+                      <rect x="0" y="45" width="5" height="10" fill="currentColor" rx="1" />
+                      <rect x="10" y="55" width="15" height="5" fill="currentColor" rx="1" />
+
+                      <rect x="35" y="35" width="30" height="30" fill="currentColor" rx="4" />
+                      <rect x="40" y="40" width="20" height="20" fill="white" rx="2" />
+                      <circle cx="50" cy="50" r="5" fill="#F59E0B" /> {/* Spark center dot */}
+
+                      <rect x="75" y="35" width="5" height="15" fill="currentColor" rx="1" />
+                      <rect x="85" y="45" width="15" height="5" fill="currentColor" rx="1" />
+                      <rect x="90" y="55" width="10" height="10" fill="currentColor" rx="1" />
+
+                      <rect x="35" y="75" width="10" height="5" fill="currentColor" rx="1" />
+                      <rect x="40" y="85" width="15" height="10" fill="currentColor" rx="1" />
+                      <rect x="60" y="80" width="5" height="15" fill="currentColor" rx="1" />
+
+                      <rect x="75" y="75" width="10" height="5" fill="currentColor" rx="1" />
+                      <rect x="85" y="80" width="5" height="10" fill="currentColor" rx="1" />
+                      <rect x="70" y="90" width="15" height="5" fill="currentColor" rx="1" />
+                      <rect x="90" y="90" width="10" height="10" fill="currentColor" rx="1" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="mt-0.5">
+                  <h4 className="text-xs font-extrabold text-white">Marcus Thompson</h4>
+                  <p className="text-[9px] text-white/60">Senior Solar Advisor</p>
+                  <p className="text-[9px] text-secondary font-mono mt-0.5">ID: REP-8840</p>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-lg p-2 max-w-[200px] text-left w-full">
+                  <div className="flex items-center gap-1.5 text-[9px] text-white/80">
+                    <span className="material-symbols-outlined text-[11px] text-secondary">phone</span>
+                    <span>(602) 555-0199</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[9px] text-white/80 mt-1">
+                    <span className="material-symbols-outlined text-[11px] text-secondary">mail</span>
+                    <span>marcus.t@spark.dealer</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="w-full mt-2 flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleDownloadVCard}
+                  className={`w-full py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center gap-1 ${
+                    vCardSuccess
+                      ? "bg-energy-emerald text-white"
+                      : "bg-secondary text-secondary-foreground hover:bg-solar-amber-bright"
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[12px]">
+                    {vCardSuccess ? "check_circle" : "contact_phone"}
+                  </span>
+                  <span>{vCardSuccess ? "Contact Saved!" : "Add to Contacts"}</span>
+                </button>
+                <p className="text-[8px] text-white/40">
+                  Scan QR code in field to attribute leads instantly.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Chat Stream Area */}
           <div className="flex-1 flex flex-col gap-2 overflow-y-auto max-h-[160px] mb-3 pr-1 scrollbar-thin scrollbar-thumb-white/10">

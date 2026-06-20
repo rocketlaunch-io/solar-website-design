@@ -652,6 +652,7 @@ export const platformFeaturesData: PlatformFeature[] = [
       "Empower your reps to generate, track, and attribute their own self-generated leads. Replacing generic sales decks with co-branded digital portals builds immediate trust and speeds up homeowner decisions, lifting self-gen close rates.",
     detailedBenefits: [
       "Individualized rep lead capture URLs",
+      "Digital Solar Business Card with unique QR code",
       "Live chat routing via Discord/Slack integrations",
       "Self-gen lead stats dashboard per sales rep",
       "Automated UTM & link tracking attribution",
@@ -677,6 +678,7 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "Can reps connect their own chat widgets?", answer: "Yes. Reps can paste their Discord or Slack webhook URL directly into their profile settings, routing customer chat notifications straight to their personal mobile app." },
       { question: "How does the link tracking work?", answer: "Every page generates rep-specific UTM query links. When a homeowner fills out a form on spark.dealer/rep/marcus, our CRM Bridge records Marcus as the primary lead owner." },
       { question: "Can homeowners upload utility bills on Rep Pages?", answer: "Yes. Rep Pages include secure document upload widgets allowing homeowners to drop PDF or image files of their utility bills directly into the rep's pipeline." },
+      { question: "What is the Digital Solar Business Card feature?", answer: "It is a mobile-ready, scan-to-save contact card overlay with a unique QR code. Reps can pull up their business card instantly on their mobile device during door-knocking or event marketing, allowing homeowners to scan the code, save contact info, and load the rep's personalized portal with attribution tracked." },
     ],
   },
 ]
