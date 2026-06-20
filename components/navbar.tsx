@@ -18,6 +18,7 @@ export const platformFeatures = [
   { name: 'Call Tracking', href: '/platform/call-tracking', icon: 'phone_in_talk', desc: 'Dynamic session attribution' },
   { name: 'Real-time Reviews', href: '/platform/real-time-reviews', icon: 'rate_review', desc: 'Social proof syndication' },
   { name: 'Referral Engine', href: '/platform/referrals', icon: 'group_add', desc: 'Customer-led growth portal' },
+  { name: 'Stories & Social Feed', href: '/platform/social-feed', icon: 'auto_stories', desc: 'Video & text UGC widgets' },
   { name: 'Bespoke Design', href: '/platform/bespoke-design', icon: 'palette', desc: 'Conversion-first UI' },
   { name: 'Spark API', href: '/platform/developer-api', icon: 'code', desc: 'Universal adapter' },
 ]

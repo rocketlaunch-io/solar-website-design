@@ -601,4 +601,43 @@ export const platformFeaturesData: PlatformFeature[] = [
       { question: "Can we customize the payout rules?", answer: "Yes. You can customize reward tiers, such as offering $500 for the first referral, $1,000 for the second, or providing tier incentives (e.g. $50 for scheduling a free site audit, and $1,000 upon system install)." },
     ],
   },
+  {
+    slug: "social-feed",
+    icon: "auto_stories",
+    title: "Stories & Social Feed",
+    tagline: "User Generated Content",
+    shortDescription: "Collect and display authentic customer video stories and text reviews in a dynamic Wall of Love.",
+    fullDescription:
+      "Spark Stories & Social Feed automates the capture and syndication of customer-generated content. Provide homeowners with a simple mobile interface to record video testimonials or write text reviews, then publish them instantly to a sleek, conversion-boosting Wall of Love widget on your website.",
+    benefit:
+      "Authentic user-generated video stories bypass customer skepticism. Displaying real homeowner stories directly alongside utility offset stats creates massive social proof that elevates landing page conversions by up to 28%.",
+    detailedBenefits: [
+      "One-click mobile text and video review capture",
+      "Dynamic masonry Wall of Love widget layouts",
+      "Optimized Edge-based video hosting & streaming",
+      "AI sentiment filtering & moderation dashboard",
+      "Automated social sharing formats for Instagram/Meta",
+    ],
+    roiMetric: {
+      value: "+28%",
+      label: "Conversion Rate Lift",
+    },
+    process: [
+      { step: "01", title: "Collector Trigger", description: "Send an automated SMS request post-install linking to our zero-install story collector." },
+      { step: "02", title: "Media Recording", description: "Homeowners record video clips or draft text reviews directly from their mobile browser." },
+      { step: "03", title: "AI Verification", description: "Our engine processes audio transcripts to score positive sentiment and filter noise." },
+      { step: "04", title: "Widget Publishing", description: "Approved stories publish immediately to your website's Wall of Love widget." },
+    ],
+    specs: [
+      { label: "Video Standard", value: "WebM / MP4 optimized edge streaming" },
+      { label: "Widget Integration", value: "Asynchronous, zero-latency React embed" },
+      { label: "Review Collection", value: "Browser-based direct video API (no app needed)" },
+      { label: "Moderation SLA", value: "Automated instant score + admin approval queue" },
+    ],
+    faqs: [
+      { question: "Do homeowners need to download an app to record video?", answer: "No. Our recording widget uses the browser's native camera API. Homeowners simply tap a link on their smartphone, record their story, and hit upload instantly." },
+      { question: "Does hosting video affect our site performance?", answer: "Not at all. Video stories are optimized and hosted on our global media CDN, serving compressed, adaptive bitrate streams that load instantly without clogging page speeds." },
+      { question: "Can we reward customers for sharing video stories?", answer: "Yes. You can link the story collector to our Referral Engine to automatically trigger reward payouts or gift cards once a verified video story is submitted." },
+    ],
+  },
 ]

@@ -1352,6 +1352,283 @@ function ReferralsHero() {
   )
 }
 
+/* ---------- 16. Stories & Social Feed — interactive Wall of Love ---------- */
+
+interface UserStory {
+  id: number
+  type: "video" | "text"
+  author: string
+  city: string
+  rating: number
+  quote: string
+  avatar: string
+  videoDuration?: string
+}
+
+const INITIAL_STORIES: UserStory[] = [
+  {
+    id: 1,
+    type: "video",
+    author: "Marcus T.",
+    city: "Phoenix, AZ",
+    rating: 5,
+    quote: "Watch my drone solar story! Saving $310/mo with my 12kW system.",
+    avatar: "MT",
+    videoDuration: "1:24",
+  },
+  {
+    id: 2,
+    type: "text",
+    author: "Sarah K.",
+    city: "Scottsdale, AZ",
+    rating: 5,
+    quote: "The installer team completed our solar panels in 5 hours. Unbelievable customer service!",
+    avatar: "SK",
+  },
+  {
+    id: 3,
+    type: "video",
+    author: "Priya S.",
+    city: "Austin, TX",
+    rating: 5,
+    quote: "We survived the storm last night with 100% backup battery power. Here is our setup!",
+    avatar: "PS",
+    videoDuration: "0:45",
+  }
+]
+
+function SocialFeedHero() {
+  const [filter, setFilter] = useState<"all" | "video" | "text">("all")
+  const [playingId, setPlayingId] = useState<number | null>(null)
+  
+  // Submit Form States
+  const [name, setName] = useState("")
+  const [city, setCity] = useState("")
+  const [type, setType] = useState<"video" | "text">("text")
+  const [text, setText] = useState("")
+  const [stories, setStories] = useState<UserStory[]>(INITIAL_STORIES)
+  const [successMsg, setSuccessMsg] = useState(false)
+
+  const filteredStories = stories.filter(
+    (s) => filter === "all" || s.type === filter
+  )
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name || !text) return
+
+    const newStory: UserStory = {
+      id: Date.now(),
+      type,
+      author: name,
+      city: city || "USA",
+      rating: 5,
+      quote: text,
+      avatar: name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2),
+      ...(type === "video" ? { videoDuration: "0:30" } : {})
+    }
+
+    setStories([newStory, ...stories])
+    setSuccessMsg(true)
+    
+    // Reset form
+    setName("")
+    setCity("")
+    setText("")
+    
+    setTimeout(() => setSuccessMsg(false), 3000)
+  }
+
+  return (
+    <HeroShell label="Wall of Love & UGC Syndication">
+      <div className="grid grid-cols-1 md:grid-cols-[1.8fr_1.2fr] gap-5 items-stretch min-h-[380px]">
+        
+        {/* Left Column: Wall of Love Feed */}
+        <div className="flex flex-col gap-3">
+          {/* Feed Filter row */}
+          <div className="flex gap-2 pb-1 border-b border-outline-variant/30">
+            {[
+              { id: "all", label: "All Stories" },
+              { id: "video", label: "Video Clips" },
+              { id: "text", label: "Written Reviews" }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setFilter(tab.id as "all" | "video" | "text")
+                  setPlayingId(null)
+                }}
+                className={`text-[10px] font-bold px-3 py-1.5 rounded-full transition-all border ${
+                  filter === tab.id
+                    ? "bg-secondary text-secondary-foreground border-secondary shadow-sm"
+                    : "bg-surface-container border-outline-variant/40 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Stories masonry/stack */}
+          <div className="flex flex-col gap-3 overflow-y-auto max-h-[300px] pr-1">
+            {filteredStories.map((story) => {
+              const isPlaying = playingId === story.id
+              return (
+                <div
+                  key={story.id}
+                  className="bg-surface-container-low border border-outline-variant/30 rounded-xl p-4 flex flex-col gap-3 transition-all hover:border-secondary/40 relative overflow-hidden"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-edge-navy border border-white/10 flex items-center justify-center text-[10px] font-bold text-secondary">
+                        {story.avatar}
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-foreground leading-none">{story.author}</p>
+                        <p className="text-[9px] text-muted-foreground mt-1">{story.city}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      {story.type === "video" && (
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20 flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[10px]">videocam</span>
+                          Video
+                        </span>
+                      )}
+                      <div className="flex text-secondary">
+                        {Array.from({ length: story.rating }).map((_, i) => (
+                          <span key={i} className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {story.type === "video" ? (
+                    <div className="flex flex-col gap-2">
+                      <p className="text-xs text-foreground leading-relaxed italic">&ldquo;{story.quote}&rdquo;</p>
+                      {/* Video Player Mock */}
+                      <button
+                        onClick={() => setPlayingId(isPlaying ? null : story.id)}
+                        className={`w-full aspect-video rounded-lg relative overflow-hidden border flex items-center justify-center transition-all ${
+                          isPlaying
+                            ? "bg-black border-energy-emerald shadow-lg shadow-energy-emerald/10"
+                            : "bg-gradient-to-br from-edge-navy to-surface-container-high border-outline-variant/30"
+                        }`}
+                      >
+                        {isPlaying ? (
+                          <div className="flex flex-col items-center gap-2 text-energy-emerald animate-pulse">
+                            <span className="material-symbols-outlined text-3xl">pause_circle</span>
+                            <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Streaming Video Clip...</span>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 text-white">
+                            <span className="material-symbols-outlined text-4xl text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                            <span className="text-[9px] font-mono uppercase bg-black/45 px-2 py-0.5 rounded-full">Play story ({story.videoDuration})</span>
+                          </div>
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-foreground leading-relaxed italic">&ldquo;{story.quote}&rdquo;</p>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Right Column: UGC Submit Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-between rounded-xl bg-surface-container border border-outline-variant/40 p-4 md:p-5 relative overflow-hidden text-left"
+        >
+          <div className="absolute -right-16 -bottom-16 w-36 h-36 rounded-full bg-secondary/5 blur-2xl pointer-events-none" />
+
+          <div className="flex flex-col gap-3">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground border-b border-outline-variant/30 pb-2">
+              Submit Your Story
+            </span>
+
+            {successMsg ? (
+              <div className="bg-energy-emerald/10 border border-energy-emerald/30 text-energy-emerald rounded-xl p-4 text-center my-4 animate-in fade-in zoom-in-95 duration-200">
+                <span className="material-symbols-outlined text-2xl leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                <p className="text-xs font-bold mt-2">UGC Story Submitted!</p>
+                <p className="text-[10px] mt-1 text-energy-emerald/75">Your review is live on the Wall of Love stream.</p>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label htmlFor="ugc-name" className="text-[9px] uppercase font-bold tracking-wider text-muted-foreground mb-1 block">Full Name</label>
+                  <input
+                    id="ugc-name"
+                    type="text"
+                    required
+                    placeholder="Marcus Aurelius"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-1.5 text-xs text-foreground outline-none focus:border-secondary transition-colors"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label htmlFor="ugc-city" className="text-[9px] uppercase font-bold tracking-wider text-muted-foreground mb-1 block">City, State</label>
+                    <input
+                      id="ugc-city"
+                      type="text"
+                      placeholder="Phoenix, AZ"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-1.5 text-xs text-foreground outline-none focus:border-secondary transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="ugc-type" className="text-[9px] uppercase font-bold tracking-wider text-muted-foreground mb-1 block">Story Format</label>
+                    <select
+                      id="ugc-type"
+                      value={type}
+                      onChange={(e) => setType(e.target.value as "video" | "text")}
+                      className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-secondary transition-colors"
+                    >
+                      <option value="text">Written Review</option>
+                      <option value="video">Video Clip</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="ugc-text" className="text-[9px] uppercase font-bold tracking-wider text-muted-foreground mb-1 block">Your Story</label>
+                  <textarea
+                    id="ugc-text"
+                    required
+                    rows={3}
+                    placeholder="We loved the transition to solar..."
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-1.5 text-xs text-foreground outline-none focus:border-secondary transition-colors resize-none"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+
+          {!successMsg && (
+            <button
+              type="submit"
+              className="w-full inline-flex items-center justify-center gap-1.5 bg-secondary text-secondary-foreground py-2.5 rounded-lg text-xs font-semibold hover:bg-solar-amber-bright transition-colors shadow-sm"
+            >
+              <span className="material-symbols-outlined text-xs">add_box</span>
+              Post to Wall of Love
+            </button>
+          )}
+
+        </form>
+      </div>
+    </HeroShell>
+  )
+}
+
 /* ---------- router ---------- */
 
 export function FeatureHeroDemo({ slug }: { slug: string }) {
@@ -1382,6 +1659,8 @@ export function FeatureHeroDemo({ slug }: { slug: string }) {
       return <ReviewsHero />
     case "referrals":
       return <ReferralsHero />
+    case "social-feed":
+      return <SocialFeedHero />
     case "bespoke-design":
       return <BespokeDesignHero />
     case "developer-api":
