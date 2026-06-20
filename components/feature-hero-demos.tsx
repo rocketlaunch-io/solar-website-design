@@ -1645,6 +1645,8 @@ function RepPagesHero() {
   ])
   const [showCardModal, setShowCardModal] = useState(false)
   const [vCardSuccess, setVCardSuccess] = useState(false)
+  const [highlight, setHighlight] = useState(false)
+  const [uploadState, setUploadState] = useState<"idle" | "uploading" | "completed">("idle")
 
   const handleDownloadVCard = () => {
     setVCardSuccess(true)
@@ -1659,6 +1661,12 @@ function RepPagesHero() {
   }
 
   const activeStats = leadStats[selectedUtm]
+
+  const handleSelectUtm = (utm: "Facebook" | "Door QR" | "SEO") => {
+    setSelectedUtm(utm)
+    setHighlight(true)
+    setTimeout(() => setHighlight(false), 600)
+  }
 
   const handleSendChat = (e: React.FormEvent) => {
     e.preventDefault()
@@ -1681,8 +1689,56 @@ function RepPagesHero() {
     }, 1200)
   }
 
+  const handleUploadBill = () => {
+    if (uploadState !== "idle") return
+    setUploadState("uploading")
+    setTimeout(() => {
+      setUploadState("completed")
+      setTimeout(() => {
+        setUploadState("idle")
+        setMessages((prev) => [...prev, { sender: "user", text: "📎 Uploaded Scottsdale_Bill.pdf (Attributed)" }])
+        setIsTyping(true)
+        setTimeout(() => {
+          setIsTyping(false)
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "rep",
+              text: "Got it! The Scottsdale bill PDF is in. System shows 840 kWh avg usage. Generating your net-metering solar design now."
+            }
+          ])
+        }, 1200)
+      }, 800)
+    }, 1200)
+  }
+
   return (
     <HeroShell label="Rep Portal & Lead Attribution Dashboard">
+      {/* Styles for micro-animations */}
+      <style>{`
+        @keyframes msg-slide-up {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-msg {
+          animation: msg-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes highlight-flash {
+          0%, 100% { border-color: rgba(255, 193, 7, 0); box-shadow: 0 0 0 rgba(255, 193, 7, 0); }
+          50% { border-color: rgba(255, 193, 7, 0.6); box-shadow: 0 0 12px rgba(255, 193, 7, 0.2); background-color: rgba(255, 193, 7, 0.05); }
+        }
+        .animate-highlight {
+          animation: highlight-flash 0.6s ease-out;
+        }
+        @keyframes progress-fill {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+        .animate-progress {
+          animation: progress-fill 1.2s linear forwards;
+        }
+      `}</style>
+
       <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.8fr] gap-5 items-stretch min-h-[380px]">
         
         {/* Left Column: Mobile Rep Page Simulator */}
@@ -1704,7 +1760,7 @@ function RepPagesHero() {
             {/* Digital Business Card Trigger */}
             <button
               onClick={() => setShowCardModal(true)}
-              className="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white border border-white/10 px-2 py-1 rounded text-[10px] font-semibold transition-all shrink-0"
+              className="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white border border-white/10 px-2 py-1 rounded text-[10px] font-semibold transition-all shrink-0 cursor-pointer"
               type="button"
             >
               <span className="material-symbols-outlined text-[12px] text-secondary">qr_code_2</span>
@@ -1723,7 +1779,7 @@ function RepPagesHero() {
                     setShowCardModal(false)
                     setVCardSuccess(false)
                   }}
-                  className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all"
+                  className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all cursor-pointer"
                   aria-label="Close Business Card"
                 >
                   <span className="material-symbols-outlined text-sm">close</span>
@@ -1802,7 +1858,7 @@ function RepPagesHero() {
                 <button
                   type="button"
                   onClick={handleDownloadVCard}
-                  className={`w-full py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center gap-1 ${
+                  className={`w-full py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center gap-1 cursor-pointer ${
                     vCardSuccess
                       ? "bg-energy-emerald text-white"
                       : "bg-secondary text-secondary-foreground hover:bg-solar-amber-bright"
@@ -1820,10 +1876,34 @@ function RepPagesHero() {
             </div>
           )}
 
+          {/* Document Upload Progress Overlay */}
+          {uploadState !== "idle" && (
+            <div className="absolute inset-x-4 bottom-14 top-14 bg-edge-navy/95 border border-white/10 rounded-xl z-10 p-4 flex flex-col justify-center items-center text-center backdrop-blur-sm animate-msg">
+              {uploadState === "uploading" ? (
+                <div className="w-full max-w-[150px] flex flex-col items-center">
+                  <span className="material-symbols-outlined text-3xl text-secondary animate-bounce">cloud_upload</span>
+                  <p className="text-[9px] font-bold mt-2 text-white">Uploading Scottsdale_Bill.pdf</p>
+                  
+                  {/* Progress bar container */}
+                  <div className="w-full bg-white/10 h-1 rounded-full mt-3 overflow-hidden">
+                    <div className="bg-secondary h-full rounded-full animate-progress" />
+                  </div>
+                  <span className="text-[7px] text-white/50 mt-1 font-mono">1.4 MB of 1.4 MB</span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <span className="material-symbols-outlined text-3xl text-energy-emerald">check_circle</span>
+                  <p className="text-[9px] font-bold mt-2 text-energy-emerald">Scottsdale_Bill.pdf uploaded!</p>
+                  <span className="text-[7px] text-white/40 mt-1">Routing to CRM (Attribution Linked)</span>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Chat Stream Area */}
-          <div className="flex-1 flex flex-col gap-2 overflow-y-auto max-h-[160px] mb-3 pr-1 scrollbar-thin scrollbar-thumb-white/10">
+          <div className="flex-grow flex flex-col gap-2 overflow-y-auto max-h-[160px] mb-3 pr-1 scrollbar-thin scrollbar-thumb-white/10">
             {messages.map((m, idx) => (
-              <div key={idx} className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}>
+              <div key={idx} className={`flex flex-col animate-msg ${m.sender === "user" ? "items-end" : "items-start"}`}>
                 <p className={`text-[10px] leading-relaxed p-2 rounded-lg max-w-[85%] ${
                   m.sender === "user"
                     ? "bg-white/10 text-white rounded-tr-none"
@@ -1834,7 +1914,7 @@ function RepPagesHero() {
               </div>
             ))}
             {isTyping && (
-              <div className="flex items-center gap-1.5 text-[9px] text-white/40 font-mono">
+              <div className="flex items-center gap-1.5 text-[9px] text-white/40 font-mono pl-1">
                 <span className="w-1 h-1 rounded-full bg-white animate-bounce" />
                 <span className="w-1 h-1 rounded-full bg-white animate-bounce delay-75" />
                 <span className="w-1 h-1 rounded-full bg-white animate-bounce delay-150" />
@@ -1844,20 +1924,30 @@ function RepPagesHero() {
           </div>
 
           {/* Chat Form */}
-          <form onSubmit={handleSendChat} className="border-t border-white/10 pt-3 flex gap-2">
+          <form onSubmit={handleSendChat} className="border-t border-white/10 pt-3 flex gap-2 items-center">
+            {/* Attachment Button */}
+            <button
+              type="button"
+              onClick={handleUploadBill}
+              disabled={isTyping || uploadState !== "idle"}
+              className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-secondary transition-colors shrink-0 disabled:opacity-40 cursor-pointer"
+              title="Upload utility bill"
+            >
+              <span className="material-symbols-outlined text-sm text-secondary">upload_file</span>
+            </button>
             <input
               type="text"
               placeholder="Ask Marcus a question..."
               value={chatInput}
-              disabled={isTyping}
+              disabled={isTyping || uploadState !== "idle"}
               onChange={(e) => setChatInput(e.target.value)}
               className="flex-grow rounded-lg bg-white/5 border border-white/10 px-3 py-1.5 text-[10px] text-white outline-none focus:border-secondary transition-colors"
               aria-label="Chat input"
             />
             <button
               type="submit"
-              disabled={isTyping || !chatInput.trim()}
-              className="w-8 h-8 rounded-lg bg-secondary text-secondary-foreground flex items-center justify-center hover:bg-solar-amber-bright transition-colors shrink-0 disabled:opacity-40"
+              disabled={isTyping || !chatInput.trim() || uploadState !== "idle"}
+              className="w-8 h-8 rounded-lg bg-secondary text-secondary-foreground flex items-center justify-center hover:bg-solar-amber-bright transition-colors shrink-0 disabled:opacity-40 cursor-pointer"
               aria-label="Send message"
             >
               <span className="material-symbols-outlined text-sm">send</span>
@@ -1875,8 +1965,8 @@ function RepPagesHero() {
               {["Facebook", "Door QR", "SEO"].map((src) => (
                 <button
                   key={src}
-                  onClick={() => setSelectedUtm(src as any)}
-                  className={`flex-1 text-[10px] font-bold py-1.5 rounded transition-all ${
+                  onClick={() => handleSelectUtm(src as any)}
+                  className={`flex-1 text-[10px] font-bold py-1.5 rounded transition-all cursor-pointer ${
                     selectedUtm === src
                       ? "bg-edge-navy text-white shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
@@ -1891,15 +1981,17 @@ function RepPagesHero() {
               type="text"
               readOnly
               value={`https://spark.dealer/rep/marcus-t?utm_source=${selectedUtm.toLowerCase().replace(" ", "-")}`}
-              className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-2 text-[9px] font-mono text-muted-foreground select-all outline-none mb-4"
+              className="w-full rounded-lg bg-surface-container-lowest border border-outline-variant/40 px-3 py-2 text-[9px] font-mono text-muted-foreground select-all outline-none mb-4 transition-all duration-300"
               aria-label="UTM tracking link"
             />
           </div>
 
           {/* Rep Lead Stats */}
-          <div className="grid grid-cols-3 gap-2 border-y border-outline-variant/30 py-3 mb-4 text-center">
+          <div className={`grid grid-cols-3 gap-2 border-y border-outline-variant/30 py-3 mb-4 text-center rounded-lg transition-all duration-500 ${
+            highlight ? "animate-highlight" : ""
+          }`}>
             <div>
-              <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Self-Gen Leads</p>
+              <p className="text-[9px] uppercase tracking-wider text-muted-foreground animate-msg">Self-Gen Leads</p>
               <p className="font-heading text-sm font-bold text-foreground mt-0.5">{activeStats.count} Leads</p>
             </div>
             <div className="border-x border-outline-variant/30">
@@ -1913,9 +2005,9 @@ function RepPagesHero() {
           </div>
 
           {/* Recent Leads Attributions list */}
-          <div>
+          <div className={`transition-all duration-500 ${highlight ? "scale-[0.98] opacity-60" : ""}`}>
             <span className="text-[9px] uppercase tracking-wider text-muted-foreground mb-2 block">Active Lead Feed</span>
-            <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-3 flex justify-between items-center transition-all hover:border-secondary/40">
+            <div className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-3 flex justify-between items-center transition-all hover:border-secondary/40 hover:shadow-sm">
               <div>
                 <p className="text-xs font-semibold text-foreground leading-none">{activeStats.lead}</p>
                 <p className="text-[9px] text-muted-foreground mt-1">Attributed to Rep Link ({selectedUtm})</p>
