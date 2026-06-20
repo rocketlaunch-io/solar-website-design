@@ -64,7 +64,7 @@ interface MegaMenu {
   label: string
   href: string
   links: MenuLink[]
-  featured: {
+  featured?: {
     title: string
     desc: string
     href: string
@@ -77,12 +77,6 @@ const MENU_DATA: Record<string, MegaMenu> = {
     label: 'Platform',
     href: '/platform',
     links: platformFeatures,
-    featured: {
-      title: 'Spark AI Platform',
-      desc: 'The next-generation intelligence layer powering your automated solar growth engine.',
-      href: '/platform',
-      image: '/images/solar-hero.png',
-    }
   },
   'Spark Grow': {
     label: 'Spark Grow',
@@ -235,7 +229,9 @@ export function Navbar() {
         >
           <div className="max-w-[1400px] mx-auto px-12 py-8 grid grid-cols-3 gap-8">
             {/* Columns grid for links */}
-            <div className="col-span-2 grid grid-cols-2 gap-x-8 gap-y-4">
+            <div className={`${
+              MENU_DATA[activeMenu].featured ? 'col-span-2 grid grid-cols-2' : 'col-span-3 grid grid-cols-3'
+            } gap-x-8 gap-y-3`}>
               {MENU_DATA[activeMenu].links.map((link) => (
                 <Link
                   key={link.name}
