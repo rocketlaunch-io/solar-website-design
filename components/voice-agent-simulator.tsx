@@ -204,7 +204,7 @@ export default function VoiceAgentSimulator() {
           </span>
         </div>
         <div className="flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded text-[10px] font-mono text-secondary">
-          <span>ElevenLabs WebRTC</span>
+          <span>Live WebRTC</span>
         </div>
       </div>
 

@@ -17,7 +17,7 @@ const detailedCapabilities = [
   {
     icon: "speed",
     title: "Sub-500ms Vocal Latency",
-    description: "Built on ElevenLabs Conversational WebRTC, our agents respond with natural breathing pauses, eliminating awkward voicebot delays."
+    description: "Built on Spark's managed real-time voice stack, our agents respond with natural breathing pauses, eliminating awkward voicebot delays."
   },
   {
     icon: "account_tree",
@@ -70,7 +70,7 @@ const processTimeline = [
 ]
 
 const technicalSpecs = [
-  { label: "Voice API Framework", value: "ElevenLabs Conversational API + WebRTC" },
+  { label: "Voice API Framework", value: "Managed conversational API + WebRTC" },
   { label: "Transcription Engine", value: "Whisper v3 (High-Fidelity Audio-to-Text)" },
   { label: "Objection Handling Scripting", value: "Custom Prompting + Vector Database Overlays" },
   { label: "Simultaneous Call Capacity", value: "Up to 100 concurrent streams per territory" },
@@ -296,7 +296,7 @@ export default function VoiceAgentsPage() {
                   Microphone access required
                 </p>
                 <p className="text-muted-foreground mt-1 leading-normal">
-                  The voice widget uses standard audio permissions to stream WebRTC bytes to ElevenLabs. Speak naturally, answer its qualification script, or test its tax credit objections.
+                  The voice widget uses standard audio permissions for real-time browser voice streaming. Speak naturally, answer its qualification script, or test its tax credit objections.
                 </p>
               </div>
             </div>

@@ -322,7 +322,7 @@ export const platformFeaturesData: PlatformFeature[] = [
       { step: "04", title: "Calendar Booking", description: "Books reps' schedules and logs notes in CRM." },
     ],
     specs: [
-      { label: "Voice API", value: "ElevenLabs Conversational API" },
+      { label: "Voice API", value: "Managed conversational voice stack" },
       { label: "System Latency", value: "< 500ms conversation response" },
       { label: "Maximum Capacity", value: "100 concurrent streams" },
       { label: "Objection Scripts", value: "Custom scripts and guardrails" },

@@ -8,9 +8,9 @@ function VoiceWidgetInner() {
   const [isOpen, setIsOpen] = useState(false)
 
   const conversation = useConversation({
-    onConnect: () => console.log("[v0] Connected to ElevenLabs"),
-    onDisconnect: () => console.log("[v0] Disconnected from ElevenLabs"),
-    onError: (error) => console.error("[v0] ElevenLabs error:", error),
+    onConnect: () => console.log("[v0] Connected to voice agent"),
+    onDisconnect: () => console.log("[v0] Disconnected from voice agent"),
+    onError: (error) => console.error("[v0] Voice agent error:", error),
   })
 
   const startConversation = async () => {
@@ -117,7 +117,7 @@ function VoiceWidgetInner() {
   )
 }
 
-export default function ElevenLabsVoiceWidget() {
+export default function VoiceAgentWidget() {
   return (
     <ConversationProvider>
       <VoiceWidgetInner />

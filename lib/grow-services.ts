@@ -397,7 +397,7 @@ export const growServicesData: GrowService[] = [
       { step: "04", title: "Optimization Loop", description: "Evaluate ad CTRs and auto-promote winning variables." },
     ],
     specs: [
-      { label: "Core Technology", value: "OpenAI API, Anthropic, ElevenLabs" },
+      { label: "Core Technology", value: "Private multi-model AI orchestration" },
       { label: "AI Applications", value: "Content generation, auto-replies, intent checks" },
       { label: "Integrations", value: "HubSpot, Salesforce, custom APIs" },
       { label: "SLA Response", value: "Under 10 seconds execution" },
