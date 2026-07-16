@@ -8,19 +8,19 @@ import ElevenLabsVoiceWidget from '@/components/elevenlabs-voice-widget'
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
-  display: 'swap',
+  display: 'block',
 })
 
 const geist = Geist({
   variable: '--font-geist',
   subsets: ['latin'],
-  display: 'swap',
+  display: 'block',
 })
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
-  display: 'swap',
+  display: 'block',
 })
 
 export const metadata: Metadata = {
@@ -37,6 +37,14 @@ export const metadata: Metadata = {
     'solar installer software',
     'AI solar SEO',
   ],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-light-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     title: 'Spark Website | The Engine of Your Solar Growth',
     description:

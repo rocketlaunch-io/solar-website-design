@@ -2,6 +2,39 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import {
+  Badge,
+  BarChart3,
+  Bolt,
+  Bot,
+  Brain,
+  Brush,
+  Calculator,
+  ChevronDown,
+  Code2,
+  FileText,
+  FormInput,
+  LayoutGrid,
+  MailCheck,
+  MapPinned,
+  Megaphone,
+  Menu,
+  Mic2,
+  Palette,
+  Phone,
+  PhoneCall,
+  RefreshCw,
+  Search,
+  Share2,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  ThumbsUp,
+  Users,
+  Video,
+  X,
+  type LucideIcon,
+} from 'lucide-react'
 import { SparkLogo } from './spark-logo'
 
 export const platformFeatures = [
@@ -13,7 +46,6 @@ export const platformFeatures = [
   { name: 'Local SEO Engine', href: '/platform/local-seo', icon: 'location_city', desc: 'Programmatic geo pages' },
   { name: 'CRM Bridge', href: '/platform/crm-bridge', icon: 'sync_alt', desc: 'Instant lead injection' },
   { name: 'Voice Agents', href: '/platform/voice-agents', icon: 'support_agent', desc: '24/7 AI sales force' },
-  { name: 'Spark CRM', href: '/platform/spark-crm', icon: 'contacts', desc: 'Lead ingestion & scoring' },
   { name: 'Performance Analytics', href: '/platform/analytics', icon: 'monitoring', desc: 'Full-funnel attribution' },
   { name: 'Call Tracking', href: '/platform/call-tracking', icon: 'phone_in_talk', desc: 'Dynamic session attribution' },
   { name: 'Real-time Reviews', href: '/platform/real-time-reviews', icon: 'rate_review', desc: 'Social proof syndication' },
@@ -113,6 +145,46 @@ const MENU_DATA: Record<string, MegaMenu> = {
   }
 }
 
+const iconMap: Record<string, LucideIcon> = {
+  ads_click: Megaphone,
+  auto_stories: FileText,
+  badge: Badge,
+  bolt: Bolt,
+  brush: Brush,
+  calculate: Calculator,
+  campaign: Megaphone,
+  code: Code2,
+  conversion_path: RefreshCw,
+  co_present: ShieldCheck,
+  draw: Brush,
+  dynamic_form: FormInput,
+  group_add: Users,
+  location_city: MapPinned,
+  mark_email_read: MailCheck,
+  monitoring: BarChart3,
+  movie: Video,
+  palette: Palette,
+  phone_in_talk: PhoneCall,
+  psychology: Brain,
+  rate_review: Star,
+  smart_toy: Bot,
+  support_agent: Mic2,
+  sync_alt: RefreshCw,
+  thumb_up: ThumbsUp,
+  travel_explore: Search,
+}
+
+function MenuItemIcon({
+  name,
+  className = 'h-4 w-4',
+}: {
+  name?: string
+  className?: string
+}) {
+  const Icon = name ? iconMap[name] ?? Sparkles : Sparkles
+  return <Icon aria-hidden="true" className={className} strokeWidth={2.2} />
+}
+
 export function Navbar() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -160,11 +232,9 @@ export function Navbar() {
                 aria-expanded={activeMenu === item}
               >
                 {item}
-                <span className={`material-symbols-outlined text-xs transition-transform duration-200 ${
+                <ChevronDown aria-hidden="true" className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 ${
                   activeMenu === item ? 'rotate-180' : ''
-                }`}>
-                  expand_more
-                </span>
+                }`} />
               </Link>
             </div>
           ))}
@@ -190,7 +260,7 @@ export function Navbar() {
             href={`tel:${phoneNumber.replace(/\D/g, '')}`} 
             className="flex items-center gap-1.5 text-foreground/80 font-medium text-sm hover:text-foreground transition-colors mr-2"
           >
-            <span className="material-symbols-outlined text-base">phone</span>
+            <Phone aria-hidden="true" className="h-4 w-4 shrink-0" />
             <span>{phoneNumber}</span>
           </a>
           <Link 
@@ -204,7 +274,7 @@ export function Navbar() {
             className="bg-secondary text-secondary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-solar-amber-bright transition-colors duration-300 shadow-sm shadow-secondary/30 inline-flex items-center gap-1.5"
           >
             Get Started
-            <span className="material-symbols-outlined text-base">bolt</span>
+            <Bolt aria-hidden="true" className="h-4 w-4 shrink-0 fill-current" />
           </Link>
         </div>
 
@@ -214,9 +284,11 @@ export function Navbar() {
           className="lg:hidden text-foreground p-2 focus:outline-none"
           aria-label="Toggle menu"
         >
-          <span className="material-symbols-outlined">
-            {mobileMenuOpen ? 'close' : 'menu'}
-          </span>
+          {mobileMenuOpen ? (
+            <X aria-hidden="true" className="h-6 w-6" />
+          ) : (
+            <Menu aria-hidden="true" className="h-6 w-6" />
+          )}
         </button>
       </div>
 
@@ -241,9 +313,7 @@ export function Navbar() {
                 >
                   <span className="font-semibold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
                     {link.icon && (
-                      <span className="material-symbols-outlined text-lg text-secondary group-hover:scale-105 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        {link.icon}
-                      </span>
+                      <MenuItemIcon name={link.icon} className="h-4.5 w-4.5 shrink-0 text-secondary transition-transform group-hover:scale-105" />
                     )}
                     {link.name}
                   </span>
@@ -307,11 +377,9 @@ export function Navbar() {
                     className="w-full flex justify-between items-center text-base font-bold py-3 text-left focus:outline-none"
                   >
                     <span>{category}</span>
-                    <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${
+                    <ChevronDown aria-hidden="true" className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
                       isAccordionOpen ? 'rotate-180 text-secondary' : ''
-                    }`}>
-                      expand_more
-                    </span>
+                    }`} />
                   </button>
 
                   {isAccordionOpen && (
@@ -321,9 +389,7 @@ export function Navbar() {
                         onClick={() => setMobileMenuOpen(false)}
                         className="py-2.5 text-sm font-semibold text-primary hover:text-secondary transition-colors flex items-center gap-2"
                       >
-                        <span className="material-symbols-outlined text-base text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          overview
-                        </span>
+                        <LayoutGrid aria-hidden="true" className="h-4 w-4 shrink-0 text-secondary" />
                         <span>{category} Overview</span>
                       </Link>
                       {MENU_DATA[category].links.map((link) => (
@@ -334,9 +400,7 @@ export function Navbar() {
                           className="py-2.5 text-sm text-foreground/80 hover:text-secondary transition-colors flex items-center gap-2"
                         >
                           {link.icon && (
-                            <span className="material-symbols-outlined text-base text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
-                              {link.icon}
-                            </span>
+                            <MenuItemIcon name={link.icon} className="h-4 w-4 shrink-0 text-secondary" />
                           )}
                           <span>{link.name}</span>
                         </Link>
@@ -370,7 +434,7 @@ export function Navbar() {
                 href={`tel:${phoneNumber.replace(/\D/g, '')}`} 
                 className="flex items-center gap-1.5 text-foreground/80 font-medium py-2 hover:text-secondary transition-colors"
               >
-                <span className="material-symbols-outlined text-base">phone</span>
+                <Phone aria-hidden="true" className="h-4 w-4 shrink-0" />
                 <span>{phoneNumber}</span>
               </a>
               <Link 
